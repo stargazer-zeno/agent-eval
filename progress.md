@@ -119,3 +119,42 @@
 - Step 3 比较 2D visual-state、HUD layout 与 temporal animation 三个候选，只选择一个 P0 Task。
 - 选择标准固定为 Multimodal Necessity、Agentic Depth、Evaluation Reliability、Model Discriminability 与低实现成本。
 - Step 3 仍不实现任务、评分器或 Harness；根据用户授权，阶段验收和推送通过后自动继续。
+
+## 2026-08-21 — Step 3
+
+### 当前阶段
+
+**Step 3：候选任务设计——已完成，按用户授权自动进入 Step 4。**
+
+本阶段只完成候选比较与 P0 选择，尚未编写 Godot 项目、Oracle、Harness 或模型实验。
+
+### 已完成内容
+
+- 设计并比较 `Signal Courier — Twin Tracker Calibration`、HUD safe-area/layout repair 与 animation/trail phase repair 三个候选任务。
+- 对每个候选逐项说明游戏场景、初始 Repository、Bug、视觉输入、视觉必要性、可编辑文件、运行需求、恢复机会、Ground Truth、自动评价、模型区分度和一天内风险。
+- 将五个维度统一为 1–5 分，`Implementation Cost` 采用反向评分，5 表示成本最低；预注册准入门槛后再比较总分。
+- 固定选择 Candidate A 作为 Task 001：两个 Tracker 共享正确方向算法，但使用原生朝向相反的素材，Objective profile 的 art-axis offset 配置错误。
+- 输出 `design/task_candidates.md`，并冻结 Candidate A 的淘汰条件；未根据任何模型结果调整选题。
+
+### 关键结论
+
+- Candidate A 的 runtime 空间关系能提供不可由题面唯一替代的故障证据，同时可用确定性的方向向量和语义像素 Oracle 评分。
+- HUD layout 候选实现成本可控，但视觉要求容易被文本化，且多种合理布局会削弱 Ground Truth 唯一性。
+- Animation/trail 候选具有较高 Agentic Depth 和区分度，但固定 replay、跨帧捕获与时序评分超过一天 P0 的风险预算。
+- P0 选择优先保证可重复运行、稳定评分和完整端到端链路，不以复杂度或宽泛 novelty 为目标。
+- Candidate A 仍须通过 Step 4/5 的 Godot preflight、文本泄漏审计、三次 Bug/Oracle 重复验证和 shortcut tests，才能进入模型实验。
+
+### 当前风险
+
+- PNG 的原生尖端方向、resource 字段名或可见测试若直接泄露正确 profile 值，会削弱 task-essential visual evidence。
+- 简单一行配置修复可能被模型猜中；需通过对称 profile 设计、无答案命名和隐藏多方向场景降低猜测成功的解释空间。
+- baseline 单帧可能被硬编码修复，需要多方向、双分辨率和资产哈希检查阻止表面作弊。
+- Headless 渲染、截图时机和纹理过滤尚未在本机验证。
+- 本轮仍只有 Codex 登录态，正式 Seed 与外部模型对比不在 pilot 范围内。
+
+### 下一阶段输入
+
+- 必读：`research/gap_analysis.md`、`design/task_candidates.md`、`progress.md`。
+- Step 4 只冻结 Task 001 Benchmark Specification，并执行 Godot 4.7.1 环境预检。
+- 必须在实现前固定 Prompt、Agent 可见内容、工具、预算、Oracle、评分规则、有效/无效运行标准与污染隔离。
+- Godot preflight 若经一次诊断复现仍失败，则记录 blocker、提交推送并停止，不自动切换引擎。
