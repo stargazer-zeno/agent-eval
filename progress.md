@@ -158,3 +158,41 @@
 - Step 4 只冻结 Task 001 Benchmark Specification，并执行 Godot 4.7.1 环境预检。
 - 必须在实现前固定 Prompt、Agent 可见内容、工具、预算、Oracle、评分规则、有效/无效运行标准与污染隔离。
 - Godot preflight 若经一次诊断复现仍失败，则记录 blocker、提交推送并停止，不自动切换引擎。
+
+## 2026-08-21 — Step 4（环境 Gate）
+
+### 当前阶段
+
+**Step 4：Benchmark Specification——环境 Gate 未通过，流程已按预注册规则停止。**
+
+本阶段没有冻结 `design/benchmark_spec.md`，也未进入 Step 5–9P。
+
+### 已完成内容
+
+- 从 Godot 官方 release 获取 Windows x86-64 standard 4.7.1 便携包，并以官方 `SHA512-SUMS.txt` 验证 archive 完整性。
+- 记录 Godot 精确版本、archive SHA-512、executable SHA-256、主机 OS 与 CPU；工具仅解压到被忽略的 `.cache/tools/`，未修改系统 PATH。
+- 构造独立的最小 clean-copy probe，验证严格 `--headless` import 成功。
+- 执行第一张非黑 runtime PNG Gate；失败后只进行一次预注册的诊断复现，没有继续第二、三次捕获或切换渲染方式。
+- 输出 `design/godot_preflight.md`，保留命令、结果、根因、未尝试替代方案和恢复条件。
+
+### 关键结论
+
+- Godot archive、版本和 clean import 均有效，阻塞不来自下载损坏或项目 parse error。
+- 当前 Windows official build 的严格 `--headless` 使用 headless display server 与 null rendering device；Viewport texture 读取落到 dummy backend，不能生成真实 runtime PNG。
+- 进程退出码为 0 不代表截图成功；必须以 PNG 存在、尺寸与非黑像素作为捕获 Gate。
+- 冻结方案依赖 Patch 后 fresh runtime screenshot，因此不能绕过视觉捕获继续实现或调用 Codex。
+- 该结果是环境/设计阻塞，不是模型失败，不得计入 pilot 分数。
+
+### 当前风险
+
+- 改为隐藏 windowed renderer、offscreen display、VM/Windows Sandbox 或 CPU 语义渲染都会改变已批准的环境与隔离假设。
+- 未经重新预检便实现 Task 001，可能在 Step 5/6 才暴露不可用的视觉闭环，浪费工期并污染实验设计。
+- 若允许 windowed capture，还需验证无人值守运行、窗口焦点、分辨率、截图时机、进程清理与 sandbox 可用性。
+- Seed 和外部模型凭据仍未配置；即使环境恢复，本轮也只能先完成 Codex-only pilot。
+
+### 下一阶段输入
+
+- 当前没有自动下一阶段；Step 5–9P 保持未开始。
+- 恢复所需输入：用户明确批准一种非严格-headless 的 Windows runtime capture 策略。
+- 恢复后必须新建 preflight revision，连续三次通过非黑 PNG 与语义像素稳定性检查，再创建 `design/benchmark_spec.md`。
+- 本 blocker 记录和 Git 历史必须保留，不得 amend、squash 或改写为成功结果。
