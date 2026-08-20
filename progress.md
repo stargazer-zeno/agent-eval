@@ -79,3 +79,43 @@
 - Step 2 仅基于已核验文献评估 Hypothesis A/B/C，确定 1 个主要 Research Question 和最多 2 个 Secondary Research Questions。
 - 优先审查候选组合的 novelty、面试价值和一天内可验证性；不得在 Step 2 编写 Benchmark 代码。
 - 在用户审查并明确进入 Step 2 前，不继续执行后续阶段。
+
+## 2026-08-21 — Step 2
+
+### 当前阶段
+
+**Step 2：Research Gap 与研究问题——已完成，按用户授权自动进入 Step 3。**
+
+本阶段只冻结研究边界与问题，不选择具体任务，不实现 Benchmark、Harness 或模型实验。
+
+### 已完成内容
+
+- 基于 `research/literature_review.md` 逐项复核 Hypothesis A、B、C 及五个候选 Gap 的已有覆盖、剩余证据边界、面试价值与一天内 P0 可行性。
+- 将 Hypothesis B 的 Patch 后 fresh runtime visual observation、验证与条件性恢复确定为主要 Research Question。
+- 将 Hypothesis C 的 `Perception → Localization → Editing → Verification → Recovery` 阶段级错误传播确定为唯一 Secondary Research Question。
+- 将 Hypothesis A 降为任务有效性 Gate；P0 不增加 no-image 因果消融，也不把单任务失败当作视觉必要性的证明。
+- 预注册阶段定义、可观察证据、`N/A` / `Ambiguous` 规则、反证条件和单任务 case-study 外推边界。
+- 输出 `research/gap_analysis.md`；本阶段未新增公共 API、Schema、Harness 或评测接口。
+
+### 关键结论
+
+- screenshot-driven editing、失败重试、视觉定位与 trajectory diagnosis 均有近邻工作，不能提出宽泛“首次”声明；本项目的价值是把它们组合到一个受控的现有游戏仓库视觉修复案例中。
+- Outcome 由预声明的功能、视觉与回归 Oracle 判断；trajectory 只解释能力差异，模型自述不能代替成功证据。
+- fresh observation 必须在当前 Patch 后由新运行进程生成并真实进入 Agent 上下文；只生成但未展示、复用旧图或只供 evaluator 使用均不构成视觉闭环。
+- Recovery 仅在已有失败或不完整验证证据、且 Agent 随后改变 hypothesis、定位或编辑时可评价；首轮成功时记为 `N/A`，不能人为制造失败。
+- 本轮 Codex-only pilot 只能验证链路可行性和单轨迹过程现象，不能回答 Seed 与外部模型谁更强。
+
+### 当前风险
+
+- 单任务、单次 pilot 不支持统计显著性、通用模型排名或跨任务能力结论。
+- Agent 可能首轮成功，使 Recovery 没有观察机会；Verification 仍可评价，但 Recovery 必须记为 `N/A`。
+- 若任务文本、文件名、资源命名或可见测试泄露唯一 Patch，Hypothesis A 的有效性 Gate 将失败。
+- 视觉通道、Harness 权限和运行环境若不一致，会混淆后续正式双模型比较。
+- VLM judge 可靠性不足，因此 P0 必须使用确定性功能、语义像素与回归 Oracle。
+
+### 下一阶段输入
+
+- 必读：`research/literature_review.md`、`research/gap_analysis.md`、`progress.md`。
+- Step 3 比较 2D visual-state、HUD layout 与 temporal animation 三个候选，只选择一个 P0 Task。
+- 选择标准固定为 Multimodal Necessity、Agentic Depth、Evaluation Reliability、Model Discriminability 与低实现成本。
+- Step 3 仍不实现任务、评分器或 Harness；根据用户授权，阶段验收和推送通过后自动继续。
