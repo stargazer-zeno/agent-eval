@@ -1,5 +1,7 @@
 # Codex 单模型 Pilot 实验协议（Step 6 暂停草案）
 
+> 2026-08-21 执行更新：原严格 Codex Harness 保留为 hardening 设计，但当前 Windows sandbox gate 未通过。为优先走通完整流程，本轮新增 `harness/run_api_eval.py` controller-mediated API Harness，统一评测 Qwen、Seed、GPT 和 Claude 配置；文件动作被限制在 public clean workspace，hidden evaluator 终止后执行。该 P0 放宽不等价于 VM/Windows Sandbox 隔离。真实结果与 validity 分类见 `results/scores.json`。
+
 > 状态：已保存为 tracked WIP；最新 Harness 修改尚未重新回归，真实模型 canary 未执行。恢复前必须先解决
 > [Harness 暂停检查点](../harness/CHECKPOINT.md) 中的阻塞项。本文件不是已冻结、可执行的正式实验协议。
 

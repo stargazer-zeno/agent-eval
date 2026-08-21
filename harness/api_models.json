@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "providers": {
+    "qwen": {
+      "model": "qwen3-vl-plus",
+      "api_key_env": "QWEN_API_KEY",
+      "base_url_env": "QWEN_BASE_URL"
+    },
+    "seed": {
+      "model": "doubao-seed-2-1-pro-260628",
+      "api_key_env": "Seed_API_KEY",
+      "base_url_env": "Seed_BASE_URL",
+      "request_timeout_seconds": 360
+    },
+    "gpt": {
+      "model": "gpt-5.6-sol",
+      "api_key_env": "GPT_API_KEY",
+      "base_url_env": "GPT_BASE_URL"
+    },
+    "claude": {
+      "model": "claude-sonnet-4-6",
+      "api_key_env": "CLAUDE_API_KEY",
+      "base_url_env": "CLAUDE_BASE_URL"
+    }
+  },
+  "protocol": {
+    "max_steps": 18,
+    "max_observations": 3,
+    "request_timeout_seconds": 180,
+    "run_timeout_seconds": 1500
+  }
+}
