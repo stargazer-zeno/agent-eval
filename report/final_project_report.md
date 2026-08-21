@@ -1,10 +1,10 @@
 # GameVisualFix 项目最终汇报
 
-> 面向 HR 与技术评审的项目总结。正式模型指标冻结于 `gamevisualfix_v2_1_seed_proxy_3x2`；本报告不包含任何新的模型实验。
+本文汇总 GameVisualFix 的调研、任务设计、评测流程和实验结果。正式模型指标来自 `gamevisualfix_v2_1_seed_proxy_3x2` 的六次有效运行。
 
 ## 1. 项目结论
 
-本项目完成了一条面向游戏开发视觉调试的 Coding Agent Evaluation 全链路：前期文献边界、原创 Godot 任务、公开/隐藏数据隔离、统一 Controller、runtime screenshot、隐藏自动评分、模型轨迹、失败分类和结果汇总。
+本项目围绕游戏视觉调试搭建了一套完整的 Coding Agent 评测流程，包括前期调研、原创 Godot 任务、公开与隐藏数据隔离、统一 Controller、运行截图、隐藏自动评分、模型轨迹、失败分类和结果汇总。
 
 最终 v2.1 矩阵包含三道任务和两个 Provider，共六次有效 canonical attempt：
 
@@ -15,17 +15,17 @@
 
 Seed 三题均完成补丁、fresh observation、运行检查、提交和隐藏评测。Local Codex 的 T002 是有效模型失败：它没有写入补丁，观察两次后直接提交，隐藏 18-case 全部保留原始 bug，因此 F/V/R 均为 0。六次结果全部为 `valid_canonical`；历史基础设施无效记录没有混入指标。
 
-这个结论只支持本轮小样本的描述性比较，不支持统计显著性、稳定性或广泛模型排名。
+由于样本量有限，这些结果用于描述本轮实验中的模型表现，不用于推断统计显著性、稳定性或广泛模型排名。
 
 ## 2. 背景与研究问题
 
-普通 Coding Agent 评测通常关注文本 issue、代码测试或最终 patch。GameVisualFix 关注更窄但更完整的闭环：
+现有 Coding Agent 评测通常关注文本 issue、代码测试或最终补丁。GameVisualFix 进一步观察模型如何利用游戏运行画面完成代码修复：
 
 `初始 runtime 画面 -> 仓库检索与定位 -> 代码修改 -> 新进程运行 -> fresh screenshot -> 验证或恢复 -> 隐藏评测`
 
-主问题是：Agent 是否能把 runtime visual evidence 用于 repository-level repair，而不是只根据文字或静态代码猜测。次问题是：Visual Perception、Code Localization、Editing、Runtime Verification 和 Recovery 的差异，能否通过可审计 trajectory 与确定性 Oracle 解释。
+核心问题是：Agent 能否根据运行时视觉证据完成仓库级修复，而不只依赖文字描述或静态代码。评测同时记录视觉识别、代码定位、编辑、运行验证和失败恢复等环节，以可审计轨迹和确定性 Oracle 解释结果差异。
 
-本项目不声称首次进行多模态 Coding Agent、首次游戏修复或首次截图驱动编辑。文献调研覆盖 GameDevBench、GameCraft-Bench、GameEngineBench、SWE-bench Multimodal、VisualAgentBench、GUIRepair、SVRepair、MM-IssueLoc、CodeV、FailureMem 和 CUADebug，详细来源见 [`research/literature_review.md`](../research/literature_review.md) 与 [`research/gap_analysis.md`](../research/gap_analysis.md)。本项目的具体价值是把 runtime visual evidence、现有游戏仓库修复、fresh observation、隐藏多条件 Oracle 和 recovery 证据链放入同一个受控小型实验。
+相关研究已经覆盖游戏开发 Agent、多模态软件修复和视觉交互评测。文献调研包括 GameDevBench、GameCraft-Bench、GameEngineBench、SWE-bench Multimodal、VisualAgentBench、GUIRepair、SVRepair、MM-IssueLoc、CodeV、FailureMem 和 CUADebug，详细来源见 [`research/literature_review.md`](../research/literature_review.md) 与 [`research/gap_analysis.md`](../research/gap_analysis.md)。在此基础上，GameVisualFix 将运行画面、现有游戏仓库修复、重新观察、隐藏多条件 Oracle 和恢复过程组织在同一条可复核流程中。
 
 ## 3. 数据集与任务设计
 
@@ -37,13 +37,22 @@ Seed 三题均完成补丁、fresh observation、运行检查、提交和隐藏�
 | T002 Orbit Relay | Medium | 修正 camera-space edge tracker，同时保持另一个 tracker 和普通 camera/player 行为。 | 3 个 camera rotation × 2 个 zoom × 3 个 viewport，目标方向、威胁可见性和干净 capture。 | 18 |
 | T003 Echo Dash | Hard | 在方向变化和 interruption 下让 temporal trail 始终位于正确一侧。 | 6 个 fixed-tick replay × 2 个 physics rate，每个 replay 生成固定帧 contact sheet。 | 12 |
 
+### 任务画面示例
+
+下图是三道任务提供给模型的初始运行证据。点击图片可查看原始尺寸。
+
+| T001 Signal Courier | T002 Orbit Relay | T003 Echo Dash |
+| --- | --- | --- |
+| [![T001 初始画面：目标指示方向错误](../benchmark/task_001/public/evidence/initial_bug.png)](../benchmark/task_001/public/evidence/initial_bug.png) | [![T002 初始画面：相机空间边缘指示错误](../benchmark/task_002/public/evidence/initial_bug.png)](../benchmark/task_002/public/evidence/initial_bug.png) | [![T003 初始画面：方向切换时轨迹位于错误一侧](../benchmark/task_003/public/evidence/initial_bug.png)](../benchmark/task_003/public/evidence/initial_bug.png) |
+| 右侧信标位于角色右方，但底部绿色目标指示器指向左侧。 | 黄色目标边缘指示器的朝向与相机空间中的目标关系不一致。 | 在第 4 帧发生方向切换时，紫色轨迹仍留在角色前侧。 |
+
 ### 为什么任务规模较小仍有价值
 
-任务规模小是刻意的 P0 设计，而不是把小补丁误称为完整游戏开发能力。小型项目可以减少资产、引擎和环境噪声，让评测清楚观察：模型是否看到了症状、是否找到决定性文件、是否写入合理补丁、是否请求新的运行证据，以及是否在验证失败后改变策略。
+任务规模小源于 P0 阶段的隔离变量设计。小型项目可以减少资产、引擎和环境噪声，让评测清楚观察：模型是否看到了症状、是否找到决定性文件、是否写入合理补丁、是否请求新的运行证据，以及是否在验证失败后改变策略。
 
 判别性来自隐藏条件而不是补丁行数：多方向、多分辨率、camera rotation、zoom、viewport、fixed-tick replay、动态目标、资源完整性和回归行为会阻止只修一个截图或硬编码一个方向。三题也覆盖了静态几何、camera-space 关系和时序 trail 三类不同机制。
 
-因此它不是大型排行榜 benchmark，而是一个低混杂、可复核、可在一天内完成的 end-to-end repair case。它适合展示评测设计能力和 trajectory case study，不能替代大规模任务集。
+该数据集定位于低混杂、可复核的端到端修复案例，适合分析评测设计和模型轨迹。它与覆盖大量项目和引擎的大规模排行榜任务集承担不同作用。
 
 ## 4. 评价指标与 Oracle
 
@@ -98,11 +107,18 @@ Token 和 wall time 是运行 telemetry，不等于最终账单。Seed 总耗时
 
 脱敏 action/observation hash-chain 位于 [`trajectories/v2_1_seed_proxy/`](../trajectories/v2_1_seed_proxy/)，receipt 不包含 provider reasoning、模型正文或文件正文。
 
+T002 是两种模型结果差异最明显的一题。下图使用相同的 BASELINE 场景：Seed 修改代码后的新观察中，黄色目标指示器已按相机空间关系校正；Local 的观察仍与初始故障画面一致。
+
+| Seed T002：修复后 | Local T002：未修复 |
+| --- | --- |
+| [![Seed T002 修复后的运行画面](../experiments/v2_1_seed_proxy/task_002/seed_evolving_20260821_run1/artifacts/observation_1.png)](../experiments/v2_1_seed_proxy/task_002/seed_evolving_20260821_run1/artifacts/observation_1.png) | [![Local T002 未修复的运行画面](../experiments/v2_1_seed_proxy/task_002/local_codex_20260821_run1/artifacts/observation_1.png)](../experiments/v2_1_seed_proxy/task_002/local_codex_20260821_run1/artifacts/observation_1.png) |
+| 完成代码修改、重新观察和公开检查，隐藏 18 个 case 全部通过。 | 两次观察均未伴随代码修改，隐藏 18 个 case 全部失败。 |
+
 ### Seed T002：完成闭环
 
 `write_file -> observe -> run_smoke -> submit`
 
-Seed 首先定位并修改 camera-space tracker，随后请求新的 BASELINE observation，运行 public smoke 并提交。隐藏 18-case 全部通过。该 run 的 adapter receipt 记录了 6 条 upstream stream，其中 2 条出现代理不负责猜测的 `function_call` item；代理对这两条流 fail closed，Codex 在同一 canonical attempt 内通过既有 stream retry 恢复，最终形成完整的 4-turn Controller trajectory。这不是额外实验，也不是 invalidation。
+Seed 首先定位并修改 camera-space tracker，随后请求新的 BASELINE observation，运行 public smoke 并提交。隐藏 18-case 全部通过。该 run 的 adapter receipt 记录了 6 条 upstream stream，其中 2 条包含无法可靠归一化的 `function_call` item；代理按协议中止这两条流，Codex 随后通过既有 stream retry 恢复，最终形成完整的 4-turn Controller trajectory。两次恢复均发生在同一个 canonical attempt 内，该结果仍按原协议记为一次 `valid_canonical` 运行。
 
 ### Local T002：有效模型失败
 
