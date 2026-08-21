@@ -1,0 +1,62 @@
+2026-08-21T04:14:38.568203Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+2026-08-21T04:14:38.579902Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-08-21T04:14:38.597598Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+{"type":"thread.started","thread_id":"01a02285-95f4-73b0-9c48-b63850bec402"}
+2026-08-21T04:14:38.628605Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+{"type":"item.completed","item":{"id":"item_0","type":"error","message":"`[features].web_search` is deprecated because web search is enabled by default. (Set `web_search` to `\"live\"`, `\"indexed\"`, `\"cached\"`, or `\"disabled\"` at the top level (or under a profile) in config.toml if you want to override it.)"}}
+{"type":"item.completed","item":{"id":"item_1","type":"error","message":"Model metadata for `doubao-seed-evolving` not found. Defaulting to fallback metadata; this can degrade performance and cause issues."}}
+2026-08-21T04:14:38.639598Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+{"type":"turn.started"}
+2026-08-21T04:14:41.030974Z ERROR codex_core::util: ReasoningSummaryPartAdded without active item
+2026-08-21T04:14:41.031048Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.115353Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.115390Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.115397Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.174089Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.174120Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.174127Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.174131Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.375180Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.375215Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.375220Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.375223Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.430577Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.430612Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.430618Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:41.430623Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.791858Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.791895Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.791901Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.791905Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.826537Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.826574Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.826580Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.826584Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.904484Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.906600Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.906613Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.906652Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.919836Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.919861Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.919866Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.919869Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.934812Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.934844Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.934853Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.934859Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.956067Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.956114Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.956120Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:42.956124Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+2026-08-21T04:14:43.015266Z ERROR codex_core::util: ReasoningSummaryDelta without active item
+{"type":"item.completed","item":{"id":"item_2","type":"reasoning","text":"Now the objective arrow points right (correct - objective beacon is to the right of player). \n\nThreat arrow is correct, both arrows align with target directions, I'll run smoke check then submit."}}
+2026-08-21T04:14:43.019046Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.031965Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.032003Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.032009Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.051115Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.051158Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.051164Z ERROR codex_core::util: OutputTextDelta without active item
+2026-08-21T04:14:43.051168Z ERROR codex_core::util: OutputTextDelta without active item
+{"type":"item.completed","item":{"id":"item_3","type":"agent_message","text":"{\"action\":\"run_smoke\"}"}}
+{"type":"turn.completed","usage":{"input_tokens":57991,"cached_input_tokens":43432,"cache_write_input_tokens":0,"output_tokens":4340,"reasoning_output_tokens":4158}}

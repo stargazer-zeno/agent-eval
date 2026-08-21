@@ -1,0 +1,11 @@
+2026-08-21T04:10:02.496214Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+2026-08-21T04:10:02.509179Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
+2026-08-21T04:10:02.526353Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+{"type":"thread.started","thread_id":"01a0227f-136d-7960-94c9-840ef0f0c331"}
+2026-08-21T04:10:02.563970Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+{"type":"item.completed","item":{"id":"item_0","type":"error","message":"`[features].web_search` is deprecated because web search is enabled by default. (Set `web_search` to `\"live\"`, `\"indexed\"`, `\"cached\"`, or `\"disabled\"` at the top level (or under a profile) in config.toml if you want to override it.)"}}
+{"type":"item.completed","item":{"id":"item_1","type":"error","message":"Model metadata for `doubao-seed-evolving` not found. Defaulting to fallback metadata; this can degrade performance and cause issues."}}
+2026-08-21T04:10:02.575340Z  WARN codex_models_manager::model_info: Unknown model doubao-seed-evolving is used. This will use fallback model metadata.
+{"type":"turn.started"}
+{"type":"error","message":"exceeded retry limit, last status: 429 Too Many Requests, request id: 02178728539503289d0c17fc196b3c940c12dd7ad5b500be21d9e"}
+{"type":"turn.failed","error":{"message":"exceeded retry limit, last status: 429 Too Many Requests, request id: 02178728539503289d0c17fc196b3c940c12dd7ad5b500be21d9e"}}
