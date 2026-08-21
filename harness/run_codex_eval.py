@@ -127,7 +127,14 @@ def main() -> int:
     trajectory = output / "trajectory.jsonl"
     for step in range(1, int(task["harness"]["action_budget"]) + 1):
         if time.monotonic() - started > int(task["harness"]["time_budget_seconds"]): valid=False; summary="run timeout"; break
-        if step == 1: cmd = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, *sum((["--image", str(x)] for x in initial if x.is_file()), []), "-C", str(workspace), "-"]
+        # `codex exec --image` is a variadic option (`--image <FILE>...`), not
+        # a repeatable one-file flag.  Group all initial public images behind a
+        # single option so third-party Responses providers see the same input
+        # shape as the documented CLI invocation.
+        if step == 1:
+            initial_images = [str(x) for x in initial if x.is_file()]
+            image_args = ["--image", *initial_images] if initial_images else []
+            cmd = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, *image_args, "-C", str(workspace), "-"]
         else: cmd = [str(executable), "exec", "resume", *common, *(["--image", str(pending_image)] if pending_image else []), str(thread), "-"]
         code, raw, timed = command(cmd, 240, workspace, env, prompt); (rawdir / f"turn_{step:02d}.jsonl").write_text(raw, encoding="utf-8")
         new_thread, message, usage = extract(raw); thread = thread or new_thread; event={"step":step,"exit_code":code,"timed_out":timed,"usage":usage,"model_text":message}

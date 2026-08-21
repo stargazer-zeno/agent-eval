@@ -654,3 +654,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 使用更新后的 feature-disabled Runner 分别复验 Seed Evolving 与 Local Codex 的无任务 image/schema/resume canary；通过后按 Task 001、002、003 的顺序各执行 Seed、Local Codex 一次。
+
+## 2026-08-21 — Seed Task 001 transport compatibility fix
+
+### 当前阶段
+
+**Seed Task 001 的首次 v2 attempt 已归档为 `invalid_infrastructure`；修复并验证多图 CLI 参数形状后，准备执行唯一一次全新 rerun。**
+
+### 已完成内容
+
+- 记录首次 attempt 未产生 `thread.started` 或 controller action，`valid_api=false`；未将 evaluator baseline 作为 Seed 分数。
+- 审计到 Codex CLI 将 `--image` 定义为 variadic `--image <FILE>...`。统一 Runner 已由重复的单图 flag 改为一个 `--image` 携带全部 public preload 图。
+- 对 Seed 执行无任务的三图 image/schema/explicit-resume canary，首轮与续轮均成功；无凭据、任务文本或 private artifact 进入 canary archive。
+
+### 关键结论
+
+- 首次失败只影响外部 Provider 的请求形状，和 Task 001、补丁、截图、Oracle 或 hidden evaluator 无关，符合一次基础设施 rerun 条件。
+- 该修复同时使调用符合 Codex CLI 的 `--image <FILE>...` 接口；正式 rerun 仍使用完全相同的任务输入、预算、评分与 suite ID。
+
+### 当前风险
+
+- 若修复后的 Seed rerun 仍无 thread/action，则已达到该 Provider/Task 的两次基础设施失败上限，必须停止 Seed 后续任务并单独报告 availability blocker。
+- 本地 Codex 尚未开始 Task 001；其 canary 已通过，且不受该外部 Provider 修复的能力结果影响。
+
+### 下一阶段输入
+
+- 使用 `harness/run_codex_eval.py` 与新的 output/workspace 运行 Seed Task 001 rerun；只在它有效完成后继续 Task 001 的 Local Codex 和后续任务。
