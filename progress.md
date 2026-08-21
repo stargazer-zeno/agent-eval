@@ -732,3 +732,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 对 Task 002 与 Task 003 在 clean public copy 上执行 smoke/capture adapter preflight；通过后从全新 workspace 启动 Local Codex Task 002 rerun。
+
+## 2026-08-21 — v2 Task 002 Local Codex canonical outcome
+
+### 当前阶段
+
+**Task 002 的 infrastructure rerun 已有效完成；准备在同一已验证 Controller 上执行 Task 003（Hard）的 Local Codex canonical attempt。**
+
+### 已完成内容
+
+- 在修正的 workspace-relative adapter manifest 下，Task 002 Local Codex run2 成功执行 source/target 同 camera-space 的修复，随后运行 public smoke、请求 fresh `BASELINE` observation 并提交。
+- Task 002 run2 private evaluator 为 Functional 45/45、Visual 35/35、Regression 20/20，总分 100/100，`task_success=true`；耗时 120.547 秒，使用 1 次 fresh observation。
+- run1 仍保留为 `invalid_infrastructure` lineage，不进入分数；run2 是该 Task 的唯一 valid canonical Local Codex result。
+
+### 关键结论
+
+- Medium task 的隐藏 18-case camera rotation × zoom × viewport 矩阵接受了相机空间等价实现，说明分数并非由固定 patch 文本获得。
+- 此次有效 trajectory 覆盖定位、编辑、public smoke、fresh observation 与提交；它不提供失败后的 Recovery 案例，正式 Case Study 应标为 `N/A`，不能虚构恢复。
+
+### 当前风险
+
+- 两个 Local Codex 成功结果仍可能揭示 Easy/Medium ceiling effect，不能据此宣称模型在 Hard temporal task 同样成功。
+- Seed provider 已停止，最终仅能形成 Local Codex 跨难度结果加 Seed availability diagnostics，而不是双模型能力对比。
+
+### 下一阶段输入
+
+- 使用已通过 preflight 的 Task 003 manifest，从全新 workspace 执行 Local Codex 的唯一 canonical attempt；随后汇总有效结果、invalid lineage 和可展示的轨迹/评分报告。

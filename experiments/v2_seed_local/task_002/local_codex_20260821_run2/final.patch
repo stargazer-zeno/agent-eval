@@ -1,0 +1,19 @@
+diff --git a/scripts/main.gd b/scripts/main.gd
+index c5b46f2..3f81625 100644
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -1,10 +1,10 @@
+ class_name OrbitRelayScene
+ extends Node2D
+ 
+-# A camera-space HUD indicator.  The Objective path is intentionally wrong in
+-# this seed: its source remains in world space while its target is camera-space.
++# A camera-space HUD indicator.  Both source and target are kept in camera
++# space so the Objective direction matches the world relationship through the camera.
+ const SAFE_MARGIN := 42.0
+-const OBJECTIVE_SPACE_MODE := "mixed" # Change to "camera" for a behavioral fix.
++const OBJECTIVE_SPACE_MODE := "camera"
+ const SCENARIOS := {
+ 	"BASELINE": [30.0, 1.25, Vector2(520, -170)],
+ 	"ROTATE_LEFT": [-55.0, 1.25, Vector2(520, -170)],
+warning: in the working copy of 'scripts/main.gd', LF will be replaced by CRLF the next time Git touches it
