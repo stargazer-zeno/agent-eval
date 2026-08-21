@@ -1,5 +1,18 @@
 # Task 001 Trajectory Case Study
 
+## 本地 Codex：成功轨迹
+
+| 阶段 | 判定 | 可观察证据 |
+| --- | --- | --- |
+| Perception | 成功 | 初始 runtime screenshot 与两张 public sprite 显示 Objective 箭头和场景关系相反、Threat 正常。 |
+| Localization | 成功 | 首个 action 直接写 `resources/profile_alpha.tres`，未动共享算法、Threat profile 或资产。 |
+| Editing | 成功 | 唯一语义变更为 Objective `art_forward_offset: PI → 0.0`。 |
+| Verification | 成功 | Patch 后请求 1 张 Controller fresh PNG；下一 turn 再运行 public smoke，退出码 0。 |
+| Recovery | N/A | 首次 patch 即通过，没有失败后改变 hypothesis 的机会。 |
+| Outcome | 成功 | hidden evaluator：45/45 + 35/35 + 20/20 = 100/100，`task_success=true`。 |
+
+轨迹只有 4 个 Controller actions，未使用模型自述或不可见 chain-of-thought 作为判定依据。历史 Codex direct-write run 因 Windows sandbox 阻断而 invalid；本次通过 read-only Codex + 白名单 Controller action 解决，两个 run 均保留，不能用成功 run 覆盖历史失败。
+
 ## Seed Evolving：成功轨迹
 
 | 阶段 | 判定 | 可观察证据 |
@@ -28,4 +41,4 @@
 
 关键错误传播链为：`Perception（局部正确） → Localization（范围正确、根因错误） → Editing（共享算法过修） → Verification（单画面看似改善） → Recovery（发生但仍过拟合）`。这说明仅记录最终 patch 会漏掉重要现象：模型确实利用了新视觉证据，也具备失败后恢复行为，但恢复方向没有回到正确的对象级配置根因。
 
-Codex 补充轨迹只能支持一个额外的 perception 观察：它正确描述 Objective 的 180°反向和 Threat 正常，但 Windows sandbox 拒绝全部 workspace 操作，因而 Localization 以后均记为 `N/A (infrastructure invalid)`，不能与 Qwen 评分比较。
+历史 Codex 补充轨迹只能支持一个额外的 perception 观察：它正确描述 Objective 的 180°反向和 Threat 正常，但 Windows sandbox 拒绝全部 workspace 操作，因而 Localization 以后均记为 `N/A (infrastructure invalid)`。该结论继续保留；新的 Controller run 是独立 clean workspace/session 的有效结果。

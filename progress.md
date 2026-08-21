@@ -431,3 +431,37 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 若继续做严格比较，为 Qwen 与 Seed Evolving统一 public preload 或批量读取协议，并分别从全新 workspace 只跑一次。
 - 增加 Codex custom model metadata/streaming timeout canary；保持当前两条运行与分数不可覆盖。
+
+## 2026-08-21 — Step 11：本地 Codex Controller 复测
+
+### 当前阶段
+
+**本地 Codex `gpt-5.6-sol` Task 001 复测、隐藏评价、轨迹分析与报告更新已完成。**
+
+### 已完成内容
+
+- 将本地 Codex CLI 从 0.142.5 升级；修复弃用的 web search 配置和 OpenAI strict Structured Outputs Schema。
+- 新增 `--local-login` Controller 模式：ChatGPT 登录、`ultra` reasoning、read-only sandbox；模型不直接执行 Windows 写命令，`.env` 不进入子进程。
+- 无任务 canary 通过；fixture Harness 回归覆盖版本/哈希、隔离 workspace、图像循环、JSONL、凭据扫描与单次基础设施重跑。
+- 从全新 public workspace 运行 `codex_local_gpt56_20260821_run1`，保留 raw JSONL、normalized hash-chain trajectory、fresh PNG、patch、manifest 和隐藏 evaluator 输出。
+- 运行 `summarize_results.py`，同步更新机器可读 scores、对比、Case Study、最终报告与 README。
+
+### 关键结论
+
+- 本地 Codex 以 4 actions 完成一行等价补丁、1 次 fresh visual verification、public smoke 和 submit；耗时 63.078 秒。
+- 自动评分为 Functional 45/45、Visual 35/35、Regression 20/20，总分 100/100，`task_success=true`。
+- 10 个方向/分辨率主 case、动态目标、Threat、WASD、Objective completion、布局、节点、资产与输入哈希均通过；最低视觉点积约 0.99923。
+- 历史 direct-write Codex invalid 继续保留；新结果证明 Controller action 可绕开 Windows `workspace-write` 阻断并正确评测模型。
+
+### 当前风险
+
+- 数据集仍只有 1 个合成任务，不能声称统计显著性或通用模型排名。
+- Local Codex 与 Seed 成功 run 使用 public preload；Qwen 使用逐步探索，三者 input packaging 不完全一致。
+- 实际任务运行使用 VS Code 扩展内 `codex-cli 0.149.0-alpha.4`；Harness 已在事后固定 npm native CLI 路径，但未为此重跑成功 attempt，以避免 best-of-n。
+- Controller 是进程级白名单隔离，不等价于 VM/Windows Sandbox 级恶意代码隔离。
+
+### 下一阶段输入
+
+- 若需更严格的模型比较，从全新 workspace 为各模型统一 public preload、Schema、预算与 CLI pin，并预注册后各跑一次。
+- 若需增强面试展示，新增 2–5 个同结构任务并报告 task-level success rate；现有 Task 001 和全部历史 run 不覆盖。
+- 复现本地 Codex 时先运行 `codex login status`，再使用 `harness/README.md` 中的 `--local-login --preload-public` 命令；`run.json` 必须记录 CLI 路径与 SHA-256。
