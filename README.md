@@ -4,6 +4,10 @@ GameVisualFix 是一个面向游戏开发场景的 Multimodal Coding Agent Evalu
 
 > 当前定位是待研究和实验验证的项目假设，不是已经由文献或实验支持的结论。
 
+## 当前状态（2026-08-21）
+
+端到端 Pilot 已完成：Task 001 数据集、10 个隐藏主 case、100 分制自动 evaluator、真实多 provider 调用、trajectory、结果对比和最终报告均已产出。唯一有效模型结果为 Qwen 42/100、任务失败；Seed 因 provider timeout、GPT/Claude 因 HTTP 403、Codex 登录态因 Windows sandbox/controller 阻断而无有效分数。因此流水线可展示，但 HR 正式 Seed vs external 双模型能力比较仍待 provider 可用性修复后续跑。详见 [`report/final_report.md`](report/final_report.md)。
+
 ## 要求基线
 
 ### HR 强制要求

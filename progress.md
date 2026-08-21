@@ -307,3 +307,97 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 - 以冻结的 `benchmark/task_001/public/`、`task.json` 和独立 evaluator 为输入，实现统一 API tool-loop Harness。
 - Harness 只从 `.env` 读取凭据，不记录 key 或完整鉴权请求；每个 provider 使用独立 clean workspace。
 - 完成确定性 fixture 与最小 API canary 后，依次运行 Seed、Qwen、GPT 和 Claude 配置，不重复 Task 001 验证。
+## 2026-08-21 — Step 6
+
+### 当前阶段
+
+**Step 6：统一多模型 Harness——已完成 P0；严格 Codex/Windows isolation hardening 未完成。**
+
+### 已完成内容
+
+- 新增 controller-mediated OpenAI-compatible API Harness、四 provider 配置、受限文件/测试/观察动作和 clean workspace。
+- 本地 fixture 通过 public smoke 与 fresh PNG capture；capture 后续补强为每次先 clean import。
+- `.env` 凭据只在进程内读取，未进入 tracked 配置、日志或报告。
+
+### 关键结论
+
+- API tool-loop 足以走通一天内 P0，但它不是 VM 级安全隔离；strict Codex Harness 继续保留为 hardening 分支。
+
+### 当前风险
+
+- Provider 的协议兼容、限流、thinking latency 与鉴权状态会影响 validity；Windows `workspace-write` 当前拒绝 Codex 的全部动作。
+
+### 下一阶段输入
+
+- 使用冻结 Task 001，对 Qwen、Seed、GPT、Claude 与 Codex 登录态各建立独立运行记录；无效运行不计模型分。
+
+## 2026-08-21 — Step 7
+
+### 当前阶段
+
+**Step 7：真实多 provider Pilot——已完成。**
+
+### 已完成内容
+
+- Qwen 完成 17 个 actions、两张成功 fresh screenshot 和 submit，隐藏评分 42/100。
+- Seed 保留两次 timeout 历史；GPT/Claude 保留 HTTP 403；Codex 保留 sandbox/controller invalid 轨迹。
+- 保存每次 workspace、patch、manifest、raw trajectory 与 hidden evaluation，并生成规范化 hash chain。
+
+### 关键结论
+
+- 仅 Qwen 是有效模型结果；其余 20/100 只是不修改 Bug baseline，不能冒充模型分数。
+
+### 当前风险
+
+- 有效模型数只有 1，HR 正式 Seed vs external 能力比较尚未完成。
+
+### 下一阶段输入
+
+- 只基于可观察事件分析 Qwen 的阶段错误传播；无效运行仅用于 infrastructure/availability 分析。
+
+## 2026-08-21 — Step 8
+
+### 当前阶段
+
+**Step 8：Trajectory Case Study——已完成。**
+
+### 已完成内容
+
+- 输出 `results/pilot_case_study.md` 与 `results/comparison.md`，分离 Perception、Localization、Editing、Verification、Recovery 和 Outcome。
+
+### 关键结论
+
+- Qwen 确实根据 smoke failure 和 fresh screenshot 发生 recovery，但错误根因导致共享算法过修并对单画面过拟合。
+
+### 当前风险
+
+- 单轨迹不能外推模型总体能力，也不能把模型自述当作成功证据。
+
+### 下一阶段输入
+
+- 汇总 dataset、Oracle、Harness、真实结果、限制和正式续跑条件，发布最终报告。
+
+## 2026-08-21 — Step 9P
+
+### 当前阶段
+
+**Step 9P：端到端多 provider Pilot 已完成；等待修复 Seed/GPT/Claude provider 后正式续跑。**
+
+### 已完成内容
+
+- 输出 `report/final_report.md`、机器可读 `results/scores.json`，并更新 README、实验协议和 Harness 状态。
+- 完成从研究问题、数据集、指标、任务验证、模型调用、自动评分、trajectory 到报告的完整演示链路。
+
+### 关键结论
+
+- Benchmark 与 evaluator 可展示、可复现；本轮真实有效结果为 Qwen 42/100、task failure。
+- HR 正式双模型比较仍不完整，因为 Seed 未形成有效提交；报告已明确标注而未伪造结论。
+
+### 当前风险
+
+- 数据集规模 1；严格 OS/VM 隔离、Seed 稳定响应和 GPT/Claude 鉴权仍是正式交付前缺口。
+
+### 下一阶段输入
+
+- 第一步运行无任务 image+JSON canary：修复 GPT/Claude HTTP 403，并确认 Seed 的推荐部署 ID、streaming/thinking timeout。
+- Provider Gate 通过后，从全新 workspace 各跑一次 Seed 与至少一个外部模型；不重跑或择优覆盖当前 Qwen 结果。
