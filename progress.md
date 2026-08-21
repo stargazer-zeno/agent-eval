@@ -628,3 +628,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 需要一个明确批准的 protocol revision：允许经过验证的 Qwen session-ID adapter / Provider event normalizer，或变更为没有 resume 的单-turn controller contract；修复后应新建 v2.1 suite ID 并重新预注册全矩阵。
 - 未获得该批准前，只可展示 Task 001/002/003 的 validation、canary 与 infrastructure log，不可展示 v2 模型分数。
+
+## 2026-08-21 — v2 Seed + Local Codex 3×2 protocol revision
+
+### 当前阶段
+
+**已按用户明确指令跳过 Qwen3.8-Max；冻结 `gamevisualfix_v2_seed_local_3x2`，准备执行 Seed Evolving 与 Local Codex 在三个已验证任务上的六次 canonical attempt。**
+
+### 已完成内容
+
+- 保留 Qwen Task 001 的两次 `invalid_infrastructure` artifact 与基础设施日志，不将其错误地记作模型分数。
+- 将统一 Runner 的 suite ID 参数化；新运行默认写入 `gamevisualfix_v2_seed_local_3x2`，使其不会混入原 3×3 预注册矩阵。
+- 在实验协议中登记此次用户授权的范围缩减、有效 Provider、单次 attempt 规则与结果边界。
+
+### 关键结论
+
+- Seed 和 Local Codex 仍使用同一 Task manifest、public preload、Controller action schema、图片 observation、预算与 private evaluator；因此可形成受限但可复现的两模型 × 三任务比较。
+- Qwen 的 provider/CLI event-stream 不兼容是 availability 记录，不是能力失败；本轮不再尝试规避或替换该 Provider。
+
+### 当前风险
+
+- 此 suite 不包含 Qwen，不能作为原计划的三模型结论；报告必须以“Seed + Local Codex 3×2”标示范围。
+- 每个 Provider/Task 仍只接受一个 valid attempt；模型失败不重跑，只有独立可复现的基础设施故障可保留 invalid 后重跑一次。
+
+### 下一阶段输入
+
+- 使用更新后的 feature-disabled Runner 分别复验 Seed Evolving 与 Local Codex 的无任务 image/schema/resume canary；通过后按 Task 001、002、003 的顺序各执行 Seed、Local Codex 一次。

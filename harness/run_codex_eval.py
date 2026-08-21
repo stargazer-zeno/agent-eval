@@ -101,7 +101,7 @@ def provider_config(provider: str, secrets: dict[str, str], home: Path) -> tuple
     return model, provider, env, extra
 
 def main() -> int:
-    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); args = p.parse_args()
+    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_seed_local_3x2"); args = p.parse_args()
     task_dir = ROOT / "benchmark" / args.task_id; task = json.loads((task_dir / "task.json").read_text(encoding="utf-8"))
     # Task 001 predates v2's nested manifest. Preserve its frozen metadata and
     # supply the v2 dispatch contract here rather than rewriting the pilot spec.
@@ -157,7 +157,7 @@ def main() -> int:
     patch_code, patch_text, _=command(["git","diff","--no-ext-diff"],30,workspace); (output/"final.patch").write_text(patch_text,encoding="utf-8")
     eval_dir=output/"evaluation"; eval_dir.mkdir(); evaluator=task_dir/task["harness"]["private_evaluator"]; code,elog,timed=command([sys.executable,str(evaluator),"--candidate",str(workspace),"--godot",str(args.godot.resolve()),"--output",str(eval_dir)],300)
     evaluation=json.loads((eval_dir/"evaluation.json").read_text(encoding="utf-8")) if (eval_dir/"evaluation.json").is_file() else None
-    version=command([str(executable),"--version"],15)[1].strip(); manifest={"schema_version":2,"experiment_suite_id":"gamevisualfix_v2_3x3","task_id":task["task_id"],"provider":args.provider,"model":model,"authentication":auth,"mode":"codex_cli_controller_actions","codex_cli_version":version,"codex_executable_sha256":digest(executable),"valid_api":valid,"submitted":submitted,"observations":observations,"elapsed_seconds":round(time.monotonic()-started,3),"thread_id":thread,"summary":summary,"evaluation":evaluation,"evaluator_exit_code":code,"evaluator_timed_out":timed}
+    version=command([str(executable),"--version"],15)[1].strip(); manifest={"schema_version":2,"experiment_suite_id":args.suite_id,"task_id":task["task_id"],"provider":args.provider,"model":model,"authentication":auth,"mode":"codex_cli_controller_actions","codex_cli_version":version,"codex_executable_sha256":digest(executable),"valid_api":valid,"submitted":submitted,"observations":observations,"elapsed_seconds":round(time.monotonic()-started,3),"thread_id":thread,"summary":summary,"evaluation":evaluation,"evaluator_exit_code":code,"evaluator_timed_out":timed}
     (output/"run.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     if home.exists(): shutil.rmtree(home,ignore_errors=True)
     print(json.dumps({"valid_api":valid,"submitted":submitted,"score":evaluation.get("total") if evaluation else None,"task_success":evaluation.get("task_success") if evaluation else None})); return 0

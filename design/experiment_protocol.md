@@ -1,5 +1,12 @@
 # Codex 单模型 Pilot 实验协议（Step 6 暂停草案）
 
+> 2026-08-21 用户批准的 v2 范围修订：不再尝试 Qwen3.8-Max；本轮只运行
+> `gamevisualfix_v2_seed_local_3x2`，即 Task 001–003 各一次 `seed_evolving` 与
+> `local_codex` canonical attempt（共 6 次）。这是一项范围缩减，不是 Qwen 结果替换：两次
+> Qwen `invalid_infrastructure` 记录保留在 `results/v2_infrastructure_log.md`，不进入该 suite
+> 的分数或模型比较。下文保留的旧 Pilot 草案仅作历史和 hardening 参考；本修订与
+> `harness/run_codex_eval.py --suite-id gamevisualfix_v2_seed_local_3x2` 为本轮可执行协议。
+
 > 2026-08-21 执行更新：原严格 Codex Harness 保留为 hardening 设计，但当前 Windows sandbox gate 未通过。为优先走通完整流程，本轮新增 `harness/run_api_eval.py` controller-mediated API Harness，统一评测 Qwen、Seed、GPT 和 Claude 配置；文件动作被限制在 public clean workspace，hidden evaluator 终止后执行。该 P0 放宽不等价于 VM/Windows Sandbox 隔离。真实结果与 validity 分类见 `results/scores.json`。
 
 > Seed Evolving 更新：`harness/run_codex_provider_eval.py` 通过 run-local Codex custom provider 接入 `doubao-seed-evolving`，使用 Agent Plan Responses endpoint、环境变量 key 和同一 thread resume。canonical 逐文件 run 超时；唯一 compatibility rerun 预载同一 public text/PNG，必须标记 `comparison_eligible=false`，不能与 Qwen 作严格效率或排名比较。
