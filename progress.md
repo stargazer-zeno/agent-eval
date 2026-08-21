@@ -196,3 +196,42 @@
 - 恢复所需输入：用户明确批准一种非严格-headless 的 Windows runtime capture 策略。
 - 恢复后必须新建 preflight revision，连续三次通过非黑 PNG 与语义像素稳定性检查，再创建 `design/benchmark_spec.md`。
 - 本 blocker 记录和 Git 历史必须保留，不得 amend、squash 或改写为成功结果。
+
+## 2026-08-21 — Step 4 Rev.2
+
+### 当前阶段
+
+**Step 4：Benchmark Specification——Rev.2 环境 Gate 与规格冻结已完成，按用户授权自动进入 Step 5。**
+
+Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准的受控 Windows hidden-window renderer 恢复执行。
+
+### 已完成内容
+
+- 以真实 `Windows` display server、OpenGL 3.3 / `gl_compatibility` 和项目内部 Viewport capture 重做环境预检。
+- 保留首个成功渲染但缺失 exit-code telemetry 的 run 1 为 `invalid_telemetry`；只修复 runner instrumentation，未调整 scene、renderer、时机或阈值。
+- 使用 run 2–4 三个新进程完成 canonical Gate：退出码、stderr、PNG 尺寸、非黑像素、四类语义像素、SHA-256 和逐像素比较全部一致，无残留 Godot 进程。
+- 输出 `design/godot_preflight_rev2.md`，记录用户授权、Rev.1/Rev.2 差异、原始结果、焦点风险和正式 Harness 约束。
+- 输出并冻结 `design/benchmark_spec.md`：Prompt、输入隔离、环境、动作协议、Ground Truth、45/35/20 Oracle、预算、有效/无效运行和 trajectory 标签均在模型接触任务前确定。
+
+### 关键结论
+
+- 严格 `--headless` 不可用不代表 Godot 不能自动截图；隐藏但非最小化的真实 Windows renderer 可以稳定提供完全一致的 Viewport PNG。
+- 截图必须由 Controller 在冻结 workspace copy 中生成，并以 tree/image receipt 证明 freshness；Agent 自己保存的图片和 evaluator-only 图片均不可信作闭环证据。
+- Task 001 的主要成功条件是完整性 Gate 以及功能 45、视觉 35、回归 20 全部满分；总分不能补偿 mandatory failure。
+- 初始 screenshot 和 PNG pixels 用于在多个静态合理解释之间提供区分证据；本轮不通过 no-image model run 声称因果必要性。
+- 窗口可能短暂抢 foreground 是已知宿主机限制；只要重复像素不受影响就作为 telemetry 记录，若导致差异则运行无效。
+
+### 当前风险
+
+- Agent submission 是不可信代码；正式 renderer 必须使用隔离 copy、最小权限、无网络、受控临时目录和完整进程树清理。
+- 完全隐藏窗口在本机稳定，但跨机器、锁屏或 RDP 状态下不能直接外推，需要重新 preflight。
+- 一行 reference patch 可能被猜中，因此对称 profile、文本泄漏审计、多方向双分辨率和 shortcut tests 必须全部落实。
+- Codex image/resume、clean `CODEX_HOME`、private ACL 和 JSONL schema 仍需 Step 6 canary。
+- 本轮仍是单模型 pilot，不能回答 HR 正式 Seed vs external comparison。
+
+### 下一阶段输入
+
+- 必读：`design/benchmark_spec.md`、`design/godot_preflight_rev2.md`、`progress.md`。
+- Step 5 只实现 Task 001；Bug State 与 Oracle State 均须连续三次验证，且隐藏评价能拒绝预声明 shortcut。
+- private tests、reference patch 和 expected artifacts 不得进入 Agent-visible package。
+- Oracle 未全通过时不得进入 Harness 或模型实验。
