@@ -117,7 +117,7 @@ def main() -> int:
     # External providers are configured in the run-local CODEX_HOME. Do not use
     # --ignore-user-config here: that flag also ignores this isolated provider
     # config and silently falls back to api.openai.com.
-    executable = native_codex(args.codex_exe); schema = ROOT / "harness" / "controller_action.schema.json"; common = ["--json", "--ignore-rules", "--output-schema", str(schema), "--disable", "plugins", "--disable", "apps", "-c", 'web_search="disabled"']
+    executable = native_codex(args.codex_exe); schema = ROOT / "harness" / "controller_action.schema.json"; common = ["--json", "--ignore-rules", "--output-schema", str(schema), "--disable", "plugins", "--disable", "apps", "--disable", "multi_agent", "--disable", "browser_use", "--disable", "computer_use", "--disable", "shell_tool", "--disable", "skill_search", "--disable", "hooks", "-c", 'web_search="disabled"']
     prompt = PROTOCOL + "\nTASK:\n" + (workspace / "TASK.md").read_text(encoding="utf-8")
     for relative in files(workspace):
         path = workspace / relative

@@ -575,3 +575,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 从全新 workspace 使用 `run_codex_eval.py --task-id task_001 --provider qwen38` 运行唯一 canonical attempt；仅独立可复现的 Controller/CLI/provider/capture/evaluator基础设施故障允许保留 invalid 后重跑。
 - 随后依序运行 Seed、Local Codex；Task 002 和 Task 003 使用同样 runner 与 frozen budgets。
+
+## 2026-08-21 — Qwen Task 001 infrastructure invalidation
+
+### 当前阶段
+
+**Qwen Task 001 的第一次 v2 workspace/session 已标记 `invalid_infrastructure`；Harness feature gate 修复并通过无任务 Qwen canary，允许一次全新 rerun。**
+
+### 已完成内容
+
+- 保存首次 run 的 workspace、raw JSONL、patch、hidden evaluator 输出和 manifest；它没有提交 action，不能作为模型分数。
+- 确认原因是 Codex CLI 的 `multi_agent` feature 未被先前参数关闭：Qwen 调用该工具后线程未产生最终 controller action。
+- 在统一 Runner 和 canary 中显式禁用 `multi_agent`、browser、computer、shell、skill search、hooks、plugins 与 apps；修复后 Qwen image/schema/resume canary 通过。
+
+### 关键结论
+
+- 此次 invalidation 是由 Controller/CLI feature exposure 造成，独立于任务、模型补丁和 hidden evaluator，符合一次 fresh rerun 条件。
+- 任何后续 Qwen Task 001 的无补丁、错误补丁、错误 action、超时或 task failure 都将是有效模型结果，不能再次重跑。
+
+### 当前风险
+
+- Qwen fallback metadata warning 仍存在，需在最终 manifest/report 中披露。
+- 当前结果目录同时含 invalid run 与未来 canonical rerun，汇总器必须显式排除 `invalid_infrastructure`。
+
+### 下一阶段输入
+
+- 提交 Harness feature-gate 修复，从全新 output/workspace 启动 Qwen Task 001 的唯一 rerun；之后继续预注册顺序。
