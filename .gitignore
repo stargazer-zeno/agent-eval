@@ -21,6 +21,7 @@ htmlcov/
 # Godot generated state
 .godot/
 .import/
+*.import
 *.uid
 
 # Build and tool caches

@@ -12,7 +12,7 @@ const SCENARIOS := {
 }
 var camera_rotation_deg := 30.0
 var camera_zoom := 1.25
-var player_world := Vector2(80, 60)
+var player_world := Vector2(300, 200)
 var objective_world := Vector2(600, -110)
 var threat_world := Vector2(-260, 320)
 var objective_direction := Vector2.RIGHT
@@ -61,6 +61,14 @@ func _draw() -> void:
 	var center := size * 0.5
 	draw_circle(center, 14, Color("79a7ff"))
 	draw_arc(center, 120, 0, TAU, 48, Color("1b3b63"), 2)
+	# The world-space beacons are represented inside the camera ring. The HUD
+	# indicators must agree with these camera-space relationships.
+	var objective_world_direction := (camera_space(objective_world) - camera_space(player_world)).normalized()
+	var threat_world_direction := (camera_space(threat_world) - camera_space(player_world)).normalized()
+	draw_dashed_line(center, center + objective_world_direction * 112, Color("f5c451", 0.45), 2.0, 6.0)
+	draw_dashed_line(center, center + threat_world_direction * 112, Color("ee6474", 0.45), 2.0, 6.0)
+	draw_circle(center + objective_world_direction * 112, 7.0, Color("f5c451"))
+	draw_circle(center + threat_world_direction * 112, 7.0, Color("ee6474"))
 	_draw_indicator(objective_tip, objective_direction, Color("f5c451"), "OBJECTIVE")
 	_draw_indicator(threat_tip, threat_direction, Color("ee6474"), "THREAT")
 

@@ -10,8 +10,10 @@ config_version=5
 
 [application]
 
-config/name="Orbit Relay — Camera-Space Edge Indicator"
+config/name="Orbit Relay"
 run/main_scene="res://scenes/main.tscn"
+boot_splash/show_image=false
+boot_splash/bg_color=Color(0.027, 0.043, 0.082, 1)
 config/features=PackedStringArray("4.7")
 
 [display]
@@ -20,8 +22,15 @@ window/size/viewport_width=960
 window/size/viewport_height=540
 window/size/window_width_override=960
 window/size/window_height_override=540
+window/stretch/mode="disabled"
+window/vsync/vsync_mode=0
 
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/canvas_textures/default_texture_filter=0
+
+[physics]
+common/physics_ticks_per_second=60

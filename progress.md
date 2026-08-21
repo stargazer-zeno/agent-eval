@@ -494,3 +494,30 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 需要用户明确批准并提供可验证的 Windows Sandbox/VM 渲染环境或其他 renderer 解决路径；随后从 Task 002 的 clean-copy Gate 第一步重跑。
 - Gate 完成后才实现/验证 Task 003，随后执行三 Provider canary、9 次 canonical run、正式汇总和旧 Qwen 替换。
+
+## 2026-08-21 — GameVisualFix v2 Task 002 Gate Recovered
+
+### 当前阶段
+
+**Task 002 已完成并通过 Gate；下一步为冻结统一 Codex Runner 后实现 Task 003。尚未运行任何 v2 模型实验。**
+
+### 已完成内容
+
+- 修复 Task 002 项目级 Windows/OpenGL 稳定性设置，重新生成 bug-state 初始 screenshot，并保留 renderer incident 记录。
+- 完成 public prompt、三个 observation 场景、独立 private capture evaluator、18-case 隐藏矩阵与验证记录。
+- 最终 Bug Seed 连续三次为 0/100；Reference Patch 连续三次为 100/100；所有 run 都覆盖 3 rotations × 2 zooms × 3 viewports。
+
+### 关键结论
+
+- 原 renderer crash 来自缺失的已验证 Godot project settings，而非 Task 002 题意、任务代码、Oracle 或模型行为。
+- Objective 的 world/camera coordinate-space 混用会在多个相机状态下被图像方向 Oracle 稳定拒绝；Threat tracker 保持可见作为回归条件。
+
+### 当前风险
+
+- private evaluator 当前以每个隐藏组合的新进程 capture 和 image-derived color direction 实现，速度约 25 秒/18-case run；这是稳定优先的 P0 实现。
+- Task 003、统一 canonical runner、Provider canary、9-run 矩阵与旧 Qwen 替换仍未完成，不能生成 v2 比较结论。
+
+### 下一阶段输入
+
+- 冻结 `run_codex_eval.py` 的 task-manifest dispatch，确保 Task 001/002 使用同一 Controller schema、预算、CLI pin 和 artifact contract。
+- 随后实现并在模型接触前完成 Task 003 的 clean-copy Gate。
