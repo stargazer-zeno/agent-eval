@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run an external Responses-compatible model through Codex CLI and controller actions."""
+"""Run a Codex-login or external Responses model through controller actions."""
 
 from __future__ import annotations
 
@@ -15,17 +15,19 @@ import time
 import run_api_eval as core
 
 
-MODEL = "doubao-seed-evolving"
+SEED_MODEL = "doubao-seed-evolving"
+LOCAL_MODEL = "gpt-5.6-sol"
 PROVIDER = "volcengine-agent-plan"
 PROTOCOL = """Operate through the controller protocol. Return exactly one JSON action as your final answer per turn.
 Actions: list_files, read_file(path), write_file(path,content), run_smoke, observe, submit(summary).
+Always include action, path, content, and summary. Use an empty string for fields unused by the selected action.
 Do not use Codex shell/apply_patch/web tools directly; ask the controller to read or write files. Read relevant files before editing.
 Do not modify TASK.md, project.godot, evidence, tests, tools, or binary assets. You must inspect a successful fresh post-patch observation before submit. Keep the patch minimal.
 """
 
 
 def codex_config() -> str:
-    return f'''model = "{MODEL}"
+    return f'''model = "{SEED_MODEL}"
 model_provider = "{PROVIDER}"
 model_supports_reasoning_summaries = true
 approval_policy = "never"
@@ -46,12 +48,24 @@ stream_idle_timeout_ms = 180000
 '''
 
 
-def safe_environment(key: str, codex_home: Path) -> dict[str, str]:
+def sanitized_environment() -> dict[str, str]:
     blocked = re.compile(r"(KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|AUTH)", re.IGNORECASE)
-    environment = {name: value for name, value in os.environ.items() if not blocked.search(name)}
+    return {name: value for name, value in os.environ.items() if not blocked.search(name)}
+
+
+def provider_environment(key: str, codex_home: Path) -> dict[str, str]:
+    environment = sanitized_environment()
     environment["Seed_Agent_Plan_key"] = key
     environment["CODEX_HOME"] = str(codex_home)
     return environment
+
+
+def codex_version() -> str:
+    completed = subprocess.run(
+        ["codex", "--version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        text=True, encoding="utf-8", errors="replace", timeout=15, check=False,
+    )
+    return completed.stdout.strip() or "unknown"
 
 
 def run_codex(command: list[str], prompt: str, cwd: Path, environment: dict[str, str], timeout: int) -> tuple[int, str, bool]:
@@ -127,6 +141,10 @@ def main() -> int:
     parser.add_argument("--godot", required=True, type=Path)
     parser.add_argument("--env-file", default=core.ROOT / ".env", type=Path)
     parser.add_argument("--preload-public", action="store_true")
+    parser.add_argument(
+        "--local-login", action="store_true",
+        help="Use the current Codex ChatGPT login with gpt-5.6-sol instead of Seed Agent Plan.",
+    )
     args = parser.parse_args()
     output = args.output.resolve()
     if output.exists():
@@ -135,22 +153,38 @@ def main() -> int:
     workspace = output / "workspace"
     artifacts = output / "artifacts"
     raw_root = output / "codex_raw"
-    codex_home = output / "control" / "codex_home"
+    codex_home = output / "control" / "codex_home" if not args.local_login else None
     artifacts.mkdir()
     raw_root.mkdir()
-    codex_home.mkdir(parents=True)
     core.copy_public(workspace)
-    (codex_home / "config.toml").write_text(codex_config(), encoding="utf-8", newline="\n")
-    secrets = core.load_dotenv(args.env_file)
-    key = secrets.get("Seed_Agent_Plan_key", "")
-    if not key:
-        raise SystemExit("Seed_Agent_Plan_key is not configured")
-    environment = safe_environment(key, codex_home)
+    if args.local_login:
+        environment = sanitized_environment()
+        model = LOCAL_MODEL
+        provider_name = "codex_login_controller"
+    else:
+        assert codex_home is not None
+        codex_home.mkdir(parents=True)
+        (codex_home / "config.toml").write_text(codex_config(), encoding="utf-8", newline="\n")
+        secrets = core.load_dotenv(args.env_file)
+        key = secrets.get("Seed_Agent_Plan_key", "")
+        if not key:
+            raise SystemExit("Seed_Agent_Plan_key is not configured")
+        environment = provider_environment(key, codex_home)
+        model = SEED_MODEL
+        provider_name = "seed_evolving_codex"
     schema = core.ROOT / "harness" / "controller_action.schema.json"
     common = [
         "--json", "--ignore-rules", "--output-schema", str(schema),
-        "--disable", "plugins", "--disable", "apps", "--disable", "web_search",
+        "-c", 'web_search="disabled"',
+        "--disable", "plugins", "--disable", "apps",
     ]
+    if args.local_login:
+        common.extend([
+            "--ignore-user-config", "--model", model,
+            "-c", 'model_reasoning_effort="ultra"',
+            "-c", 'approval_policy="never"',
+            "-c", 'shell_environment_policy.inherit="none"',
+        ])
     started = time.monotonic()
     thread = None
     observations = 0
@@ -177,7 +211,10 @@ def main() -> int:
                 prompt += "\nPUBLIC WORKSPACE TEXT SNAPSHOT (already read; do not reread unless necessary):\n" + "".join(snapshots)
                 prompt += "\nThe attached images are, in order: initial runtime evidence, objective_arrow.png, threat_arrow.png. Diagnose now and prefer a focused write_file action."
                 images.extend([workspace / "assets" / "objective_arrow.png", workspace / "assets" / "threat_arrow.png"])
-            command = ["codex", "exec", *common, "--image", *[str(path) for path in images], "-C", str(workspace), "-"]
+            command = ["codex", "exec", *common]
+            if args.local_login:
+                command.extend(["--sandbox", "read-only"])
+            command.extend(["--image", *[str(path) for path in images], "-C", str(workspace), "-"])
         else:
             prompt = pending_prompt
             command = ["codex", "exec", "resume", *common]
@@ -230,12 +267,19 @@ def main() -> int:
     evaluation_file = evaluation_dir / "evaluation.json"
     evaluation = json.loads(evaluation_file.read_text(encoding="utf-8")) if evaluation_file.is_file() else None
     manifest = {
-        "schema_version": 1, "provider": "seed_evolving_codex", "model": MODEL,
+        "schema_version": 1, "provider": provider_name, "model": model,
         "task_id": "gamevisualfix_task_001", "mode": "codex_cli_controller_actions",
-        "codex_cli_version": "0.142.5", "model_metadata": "fallback_unknown_model",
+        "codex_cli_version": codex_version(),
+        "model_metadata": "official_codex_catalog" if args.local_login else "fallback_unknown_model",
+        "authentication": "chatgpt_login" if args.local_login else "seed_agent_plan_key",
+        "reasoning_effort": "ultra" if args.local_login else None,
         "public_text_preloaded": args.preload_public,
         "comparison_eligible": not args.preload_public,
-        "attempt_role": "compatibility_rerun_public_preload" if args.preload_public else "canonical",
+        "comparison_group": "codex_public_preload_v1" if args.preload_public else "codex_incremental_v1",
+        "attempt_role": (
+            "canonical_local_controller" if args.local_login
+            else ("compatibility_rerun_public_preload" if args.preload_public else "canonical")
+        ),
         "valid_api": valid_provider, "submitted": submitted, "observations": observations,
         "elapsed_seconds": round(time.monotonic() - started, 3), "thread_id": thread,
         "summary": summary, "patch_sha256": core.sha256(patch_path),
@@ -246,9 +290,10 @@ def main() -> int:
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
     )
     # Credentials and run-local session state are never archived.
-    for path in codex_home.rglob("*"):
-        if path.is_file():
-            path.unlink()
+    if codex_home is not None:
+        for path in codex_home.rglob("*"):
+            if path.is_file():
+                path.unlink()
     print(json.dumps({
         "valid_api": valid_provider, "submitted": submitted, "observations": observations,
         "score": evaluation.get("total") if evaluation else None,

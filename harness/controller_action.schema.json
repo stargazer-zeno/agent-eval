@@ -1,15 +1,24 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
-  "required": ["action"],
+  "required": ["action", "path", "content", "summary"],
   "properties": {
     "action": {
       "type": "string",
       "enum": ["list_files", "read_file", "write_file", "run_smoke", "observe", "submit"]
     },
-    "path": {"type": "string"},
-    "content": {"type": "string"},
-    "summary": {"type": "string"}
+    "path": {
+      "type": "string",
+      "description": "Relative workspace path for read_file/write_file; otherwise an empty string."
+    },
+    "content": {
+      "type": "string",
+      "description": "Complete replacement text for write_file; otherwise an empty string."
+    },
+    "summary": {
+      "type": "string",
+      "description": "Submission summary for submit; otherwise an empty string."
+    }
   },
   "additionalProperties": false
 }

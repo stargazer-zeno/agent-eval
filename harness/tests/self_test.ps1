@@ -6,7 +6,7 @@ $ErrorActionPreference = 'Stop'
 $utf8NoBom = New-Object System.Text.UTF8Encoding($false)
 $testsRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $harnessRoot = [System.IO.Path]::GetFullPath((Join-Path $testsRoot '..'))
-$repoRoot = [System.IO.Path]::GetFullPath((Join-Path $harnessRoot '..\..\..'))
+$repoRoot = [System.IO.Path]::GetFullPath((Join-Path $harnessRoot '..'))
 $controller = Join-Path $harnessRoot 'Invoke-GameVisualFixPilot.ps1'
 $powershell = "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe"
 
@@ -38,7 +38,7 @@ try {
     & git check-ignore -q -- '.cache/staging/harness/probe'
     Assert-Condition ($LASTEXITCODE -eq 0) '.cache/staging/harness must be ignored before any test writes.'
 
-    $caseRoot = Join-Path $harnessRoot ('.selftest\case-' + [guid]::NewGuid().ToString('N'))
+    $caseRoot = Join-Path $repoRoot ('.cache\staging\harness\selftest-case-' + [guid]::NewGuid().ToString('N'))
     $seed = Join-Path $caseRoot 'inputs\seed'
     $sourceCodexHome = Join-Path $caseRoot 'inputs\source-codex-home'
     $outputRoot = Join-Path $caseRoot 'runs'
@@ -71,8 +71,8 @@ try {
         model = 'fixture-do-not-call'
         reasoning_effort = 'ultra'
         codex_exe = $nativeCodex
-        expected_codex_version = 'codex-cli 0.142.5'
-        expected_codex_sha256 = '645F5A1A0347ABB2B31FAE4E594C198AD00E3A4B4A999DCFA3A66C0D0F8CD43B'
+        expected_codex_version = 'codex-cli 0.149.0'
+        expected_codex_sha256 = '14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00'
         godot_exe = Join-Path $repoRoot '.cache\tools\godot-4.7.1\Godot_v4.7.1-stable_win64_console.exe'
         expected_godot_version = '4.7.1.stable.official.a13da4feb'
         expected_godot_sha256 = '35DAB11E04ECE16A2B93035E65204F4A944A3E00B020D43E54409193379D5EEF'
@@ -95,7 +95,7 @@ try {
     Assert-Condition ($LASTEXITCODE -eq 0) 'Preflight must pass without a model call.'
     $preflight = ($preflightOutput -join [Environment]::NewLine) | ConvertFrom-Json
     Assert-Condition (-not [bool]$preflight.model_called) 'Preflight must report model_called=false.'
-    Assert-Condition ($preflight.native_codex.version -eq 'codex-cli 0.142.5') 'Preflight must pin Codex 0.142.5.'
+    Assert-Condition ($preflight.native_codex.version -eq 'codex-cli 0.149.0') 'Preflight must pin Codex 0.149.0.'
     Assert-Condition ($preflight.godot_runtime.version -eq '4.7.1.stable.official.a13da4feb') 'Preflight must pin Godot 4.7.1.'
     Assert-Condition ($preflight.reasoning_effort -eq 'ultra') 'Preflight must freeze ultra reasoning.'
 

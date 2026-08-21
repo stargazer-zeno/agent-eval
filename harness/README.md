@@ -1,8 +1,25 @@
-# GameVisualFix Codex pilot Harness（暂停检查点）
+# GameVisualFix 模型评测 Harness
+
+> 2026-08-21 本地 Codex 修复：`run_codex_provider_eval.py --local-login --preload-public`
+> 使用当前 ChatGPT 登录、`gpt-5.6-sol`、`ultra` reasoning 和 read-only Codex 沙箱。
+> 模型只返回严格 JSON Controller action，文件读写、Godot smoke 与 fresh screenshot
+> 由白名单 Controller 执行，因此不依赖 Windows `workspace-write`。本模式不会读取 `.env`。
 
 > 2026-08-21 执行更新：`run_api_eval.py` 与 `api_models.json` 已作为 P0 可执行统一 API Harness 完成真实运行；本文件下方描述的 PowerShell/Codex strict Harness 仍是未通过 Windows sandbox gate 的 hardening 分支。`summarize_results.py` 负责生成去凭据的分数汇总与 hash-chain trajectory。任何 provider 403/timeout 都标为 invalid，不计模型分数。
 
 > Seed Evolving：`run_codex_provider_eval.py` 使用 Codex CLI custom provider + Responses API，并把模型最终 JSON action 交给受限 Controller 执行。Agent Plan key 仅从 `Seed_Agent_Plan_key` 读取；run-local Codex session/config 在运行结束时清空，不归档凭据。`controller_action.schema.json` 定义可用动作。
+
+本地 Codex 运行命令：
+
+```powershell
+python harness/run_codex_provider_eval.py `
+  --local-login --preload-public `
+  --godot .cache/tools/godot-4.7.1/Godot_v4.7.1-stable_win64.exe `
+  --output experiments/task_001/codex_local_gpt56_20260821_run1
+```
+
+运行前应先确认 `codex login status` 为 ChatGPT 登录，并使用 OpenAI Structured Outputs
+兼容的严格 `controller_action.schema.json`。输出目录必须不存在，以保证每次从全新 public copy 开始。
 
 > **WIP：不得执行真实模型 Pilot。** 本目录保存 2026-08-21 暂停时的 Step 6 草案；最新修改尚未完成
 > fixture 回归，且凭据清理、失败分类和 production isolation canary 仍有阻塞。完整状态与恢复顺序见

@@ -24,6 +24,7 @@ htmlcov/
 
 # Build and tool caches
 .cache/
+harness/.selftest/
 build/
 dist/
 *.tmp
