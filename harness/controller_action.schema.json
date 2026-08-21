@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["action"],
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": ["list_files", "read_file", "write_file", "run_smoke", "observe", "submit"]
+    },
+    "path": {"type": "string"},
+    "content": {"type": "string"},
+    "summary": {"type": "string"}
+  },
+  "additionalProperties": false
+}

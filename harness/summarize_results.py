@@ -83,7 +83,10 @@ def normalize_trajectory(run_dir: Path, provider: str) -> tuple[str | None, int,
             normalized_lines.append(json.dumps(normalized, ensure_ascii=False, separators=(",", ":")))
             count += 1
             actions += 1 if action else 0
-            tokens += int(usage.get("total_tokens") or 0)
+            reported = usage.get("total_tokens")
+            if reported is None:
+                reported = int(usage.get("input_tokens") or 0) + int(usage.get("output_tokens") or 0)
+            tokens += int(reported or 0)
     normalized_path = destination / "normalized.jsonl"
     normalized_path.write_text("\n".join(normalized_lines) + ("\n" if normalized_lines else ""), encoding="utf-8")
     artifacts = run_dir / "artifacts"
@@ -122,6 +125,8 @@ def main() -> None:
             "provider": provider,
             "model": manifest.get("model"),
             "valid_model_result": valid,
+            "comparison_eligible": bool(manifest.get("comparison_eligible", True)) if valid else False,
+            "attempt_role": manifest.get("attempt_role"),
             "failure_class": failure_class(manifest),
             "submitted": bool(manifest.get("submitted")),
             "action_count": action_count,
@@ -152,6 +157,7 @@ def main() -> None:
         "summary": {
             "configured_providers": len({r["provider"] for r in runs}),
             "valid_model_results": sum(1 for r in runs if r["valid_model_result"]),
+            "comparison_eligible_valid_results": sum(1 for r in runs if r["valid_model_result"] and r["comparison_eligible"]),
             "successful_tasks": sum(1 for r in runs if r["task_success"] is True),
         },
     }
