@@ -235,3 +235,44 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 - Step 5 只实现 Task 001；Bug State 与 Oracle State 均须连续三次验证，且隐藏评价能拒绝预声明 shortcut。
 - private tests、reference patch 和 expected artifacts 不得进入 Agent-visible package。
 - Oracle 未全通过时不得进入 Harness 或模型实验。
+
+## 2026-08-21 — Step 5/6 暂停检查点
+
+### 当前阶段
+
+**Step 5：Task 001 实现——进行中，已按用户要求暂停。Step 6 仅保存未验收草案；Step 7P–9P 未开始。**
+
+当前有效 WIP 已迁入 tracked `benchmark/task_001/`、`harness/` 与
+`design/experiment_protocol.md`。本记录不将 Step 5 或 Step 6 标为完成；禁止在恢复验收前调用模型。
+
+### 已完成内容
+
+- Step 2–4 与 Rev.2 Windows/OpenGL preflight 已独立提交并推送；冻结 RQ、Task 001 选择、Prompt/Oracle 规格和受控隐藏窗口策略均保留。
+- 保存 Task 001 当前 Godot 项目、原创资产、Bug screenshot、WASD、Objective completion、公开 smoke/capture、private suite/evaluator/reference patch。
+- 初始布局已对齐 Objective 正东、Threat 西北；泄露 PNG 原生朝向的 generator 已移出 public workspace。
+- 保存 Visual/Regression Oracle 的最新源码草案：`dot >= 0.98`、五方向×双分辨率、tip/body 像素、scale/alpha、WASD、completion、required nodes 与资产完整性。
+- 保存 Codex Harness 当前源码草案，包括显式 thread resume、strict action schema、fresh-image/turn/time/command 预算、sanitized workspace、日志/receipt 和 fixture。
+- 未保存旧 `.godot`/Python cache、派生 Oracle/shortcut workspace、`.selftest`、凭据副本或失效的批量截图。
+
+### 关键结论
+
+- **当前没有模型实验结果。** 尚未调用 Codex、Seed 或其他模型，也没有可用于报告的 Pilot trajectory 或分数。
+- Step 4 Rev.2 环境 Gate 仍有效；严格 headless 失败与隐藏 Windows/OpenGL 三次稳定通过的历史证据均已保留。
+- 较早 Bug 三轮为 `20/100`、Oracle 三轮为 `100/100`，但它们早于最新场景与 Oracle 修改，已明确失效，必须重跑。
+- 最新 shortcut 草案运行均得到 `task_success=false`，但 asset-swap 使用过旧 import cache；整个 shortcut 集合仍须 cache-free 重跑。
+- Harness 较早 fixture 曾通过，Codex CLI help/config parse 也曾通过；最新 hash-chain、Godot PATH、token 与 strict-action 修改后尚未回归，因此不能声称 Step 6 已通过。
+
+### 当前风险
+
+- Step 5 尚缺最终 `task.json`、`validation.md`、Bug/Oracle 最新三轮、cache-free shortcut、截图哈希稳定性与 multimodal leak audit。
+- Harness 尚未删除 run-local `auth.json` 副本；evaluator failure 可能被误分类为 infrastructure invalid 并触发错误重跑。
+- adapter 环境/网络隔离、真实 Windows sandbox 读取边界、初始与 resume 图片感知、JSONL、进程树清理和 credential canary 均未证明。
+- `public/TASK.md` 仍需在恢复时与冻结 Exact Agent Prompt 做最后逐字审计，之后更新 manifest hash。
+- `benchmark/task_001/` 与 `harness/` 是可恢复源码检查点，不是可发布 Benchmark/Harness；执行真实 Pilot 会污染实验并带来凭据风险。
+
+### 下一阶段输入
+
+- 下一次继续时的**第一步**：阅读 `benchmark/task_001/CHECKPOINT.md` 与 `harness/CHECKPOINT.md`，先实现 Harness `auth.json` finally 清理和 evaluator failure classification 修复；不调用模型。
+- 随后按 `benchmark/task_001/CHECKPOINT.md` 中的命令从 cache-free copy 重跑 Step 5：Python compile、Godot import/smoke、Bug/Oracle 各三轮、全部 shortcut、哈希与 leak audit。
+- Step 6 修复后按 `harness/CHECKPOINT.md` 重新运行 `harness/tests/self_test.ps1`；只有 fixture 全绿并通过无任务 production canary，才允许 Step 7P。
+- 恢复所需命令已分别固定在上述两个 CHECKPOINT 文档中；本次暂停后不再执行这些命令，等待用户回复。

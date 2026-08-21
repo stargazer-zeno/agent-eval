@@ -1,0 +1,49 @@
+{
+  "task_id": "gamevisualfix_task_001",
+  "title": "Signal Courier \u2014 Twin Tracker Calibration",
+  "created_at": "2026-08-21",
+  "engine": {
+    "version": "4.7.1.stable.official.a13da4feb",
+    "binary_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+    "renderer": "gl_compatibility",
+    "display_server": "Windows"
+  },
+  "resolutions": [
+    [960, 540],
+    [1280, 720]
+  ],
+  "directions": {
+    "E": [1.0, 0.0],
+    "N": [0.0, -1.0],
+    "W": [-1.0, 0.0],
+    "S": [0.0, 1.0],
+    "NE": [0.7071067811865476, -0.7071067811865476]
+  },
+  "dot_threshold": 0.98,
+  "visual_contract": {
+    "tip_pixel_range_inclusive": [38, 45],
+    "body_pixel_range_inclusive": [790, 830],
+    "global_scale": [1.0, 1.0],
+    "scale_tolerance": 0.001,
+    "minimum_effective_alpha": 0.99
+  },
+  "ground_truth": {
+    "objective_native_forward": [1.0, 0.0],
+    "threat_native_forward": [-1.0, 0.0],
+    "objective_correct_offset": 0.0,
+    "threat_correct_offset": 3.141592653589793,
+    "objective_bug_offset": 3.141592653589793
+  },
+  "score_weights": {
+    "functional": 45,
+    "visual": 35,
+    "regression": 20
+  },
+  "protected_files": {
+    "assets/objective_arrow.png": "6DA377FE0C6E75CDE61FCE798E0B23DC5D72874E1925C4517FF69A34B736ABD7",
+    "assets/threat_arrow.png": "35E5FB182ABECBE6F9E0A2ABD6BFC5FED2DF0900C8AFC25BAB57DC8D2868940C",
+    "evidence/initial_bug.png": "3F35E391F3E02496068DE95CB03B8FD5D558C9D08138FF4E84CE192BE916AB11",
+    "TASK.md": "257A9775F8DF7BD9FE7016EF07B07973ABFE11D624321EBABB5738BA57F335D4",
+    "tests/smoke.gd": "85B808F8E59BD15E16CECA5A1C17A081CDED2FC07ECB439BAC9973068713844C"
+  }
+}

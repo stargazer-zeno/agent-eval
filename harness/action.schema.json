@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GameVisualFix pilot turn action",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "action",
+    "summary"
+  ],
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "observe",
+        "submit"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    }
+  }
+}

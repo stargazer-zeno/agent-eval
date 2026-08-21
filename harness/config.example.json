@@ -1,0 +1,30 @@
+{
+  "seed_path": "D:\\absolute\\path\\to\\public-seed",
+  "initial_image": "D:\\absolute\\path\\to\\initial-observation.png",
+  "prompt_path": "D:\\absolute\\path\\to\\public-task.md",
+  "model": "PIN-A-SINGLE-MODEL-ID",
+  "reasoning_effort": "ultra",
+  "codex_exe": "C:\\absolute\\path\\to\\codex.exe",
+  "expected_codex_version": "codex-cli 0.142.5",
+  "expected_codex_sha256": "645F5A1A0347ABB2B31FAE4E594C198AD00E3A4B4A999DCFA3A66C0D0F8CD43B",
+  "godot_exe": "D:\\portable\\godot-4.7.1\\Godot_v4.7.1-stable_win64_console.exe",
+  "expected_godot_version": "4.7.1.stable.official.a13da4feb",
+  "expected_godot_sha256": "35DAB11E04ECE16A2B93035E65204F4A944A3E00B020D43E54409193379D5EEF",
+  "godot_companion_exe": "D:\\portable\\godot-4.7.1\\Godot_v4.7.1-stable_win64.exe",
+  "expected_godot_companion_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+  "source_codex_home": "C:\\secure\\operator\\codex-home",
+  "renderer_script": "D:\\trusted\\adapters\\renderer.ps1",
+  "evaluator_script": "D:\\trusted\\adapters\\hidden-evaluator.ps1",
+  "output_root": "D:\\isolated\\pilot-runs",
+  "budgets": {
+    "max_turns": 4,
+    "max_fresh_images": 3,
+    "max_codex_wall_seconds": 1500,
+    "max_run_seconds": 2100,
+    "max_commands": 60,
+    "max_input_tokens": 150000,
+    "max_output_tokens": 20000,
+    "capture_timeout_seconds": 90,
+    "evaluator_timeout_seconds": 180
+  }
+}
