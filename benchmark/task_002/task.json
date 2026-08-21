@@ -1,5 +1,5 @@
 {
   "task_id":"gamevisualfix_task_002", "title":"Orbit Relay — Camera-Space Edge Indicator", "difficulty":"medium", "engine":{"version":"4.7.1","renderer":"gl_compatibility"},
-  "harness":{"public_root":"public","prompt":"public/TASK.md","initial_visual":"public/evidence/initial_bug.png","preload_images":["public/evidence/initial_bug.png"],"smoke_adapter":"public/tests/smoke.gd","observation_adapter":"public/tools/capture.gd","default_scenario":"BASELINE","allowed_scenarios":["BASELINE","ROTATE_LEFT","ZOOMED_OUT"],"private_evaluator":"private/evaluate.py","action_budget":18,"observation_budget":3,"time_budget_seconds":1500},
+  "harness":{"public_root":"public","prompt":"public/TASK.md","initial_visual":"public/evidence/initial_bug.png","preload_images":["public/evidence/initial_bug.png"],"smoke_adapter":"tests/smoke.gd","observation_adapter":"tools/capture.gd","default_scenario":"BASELINE","allowed_scenarios":["BASELINE","ROTATE_LEFT","ZOOMED_OUT"],"private_evaluator":"private/evaluate.py","action_budget":18,"observation_budget":3,"time_budget_seconds":1500},
   "scoring":{"functional":45,"visual":35,"regression":20,"task_success":"all three categories must receive full credit"}, "hidden_cases":18
 }

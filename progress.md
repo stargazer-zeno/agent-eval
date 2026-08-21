@@ -706,3 +706,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 固定同一 Runner、CLI、预算与隐藏评价器，运行 Local Codex Task 002 的唯一 canonical attempt；Task 003 仅在 Task 002 artifact 完整归档后启动。
+
+## 2026-08-21 — Task 002/003 adapter-path infrastructure correction
+
+### 当前阶段
+
+**Local Codex Task 002 首次 run 已标记 `invalid_infrastructure`；正在修复并验证 Task 002/003 manifest 的 workspace-relative adapter 路径，随后允许一次全新 Local Codex Task 002 rerun。**
+
+### 已完成内容
+
+- 保存 Task 002 Local Codex run1 的完整 workspace、controller trajectory、patch、截图与 evaluator 结果；它的隐藏 Oracle 为 100/100，但不作为 canonical score。
+- 定位到 `task.json` 的 `public/tests/smoke.gd` 和 `public/tools/capture.gd` 在 Runner 复制 public root 后会解析成不存在的 `res://public/...`。
+- 已将 Task 002 与尚未接触模型的 Task 003 改为 workspace-relative `tests/smoke.gd`、`tools/capture.gd`；不改变 Prompt、bug、visual evidence、Oracle、阈值、资产或任务预算。
+
+### 关键结论
+
+- Task 002 run1 的两个 observation 和 smoke 均因 Controller/manifest 路径错误失败；模型没有获得成功的 post-patch visual feedback，因此必须按基础设施失败而非模型成功记录。
+- 相同路径在 Task 003 若不预先修正也必然失败；提前更正是 shared Harness dispatch 修复，而非结果后调节任务难度或评分。
+
+### 当前风险
+
+- Local Codex Task 002 的 rerun 是其唯一一次 infrastructure rerun；任何模型补丁失败、预算耗尽或 hidden score 失败都将是有效模型结果。
+- 该修复产生新的 Task manifest hash，rerun manifest 必须记录；Task 002 run1 的 artifact 保留以保持 failure lineage。
+
+### 下一阶段输入
+
+- 对 Task 002 与 Task 003 在 clean public copy 上执行 smoke/capture adapter preflight；通过后从全新 workspace 启动 Local Codex Task 002 rerun。
