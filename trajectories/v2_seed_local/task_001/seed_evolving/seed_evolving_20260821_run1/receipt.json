@@ -1,0 +1,5 @@
+{
+  "source": "experiments/v2_seed_local/task_001/seed_evolving_20260821_run1/trajectory.jsonl",
+  "source_sha256": "ea51034ba5cd5578253ded06c82deea1d18b9fd5a42f6c49e8274229a45b720c",
+  "terminal_hash": "ef2d11b271743200ff5b6d02ba421f6bfee6114cd111a21350f6549fd405a64f"
+}

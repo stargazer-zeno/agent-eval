@@ -784,3 +784,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 扫描 `gamevisualfix_v2_seed_local_3x2` artifacts，输出只包含 valid canonical results 的机器可读矩阵、invalid lineage registry、阶段级 action Case Study 和明确标注 provider 缺口/ceiling effect 的报告。
+
+## 2026-08-21 — v2 restricted-suite reporting complete
+
+### 当前阶段
+
+**`gamevisualfix_v2_seed_local_3x2` 的有效 Local Codex 三题结果、基础设施 lineage、机器可读评分、hash-chain trajectory、Case Study 与受限报告均已生成，等待后续 Provider compatibility 决策。**
+
+### 已完成内容
+
+- 生成 `results/v2_seed_local_scores.json`：只将三个 `valid_canonical` Local Codex run 计入聚合，保留两次 Seed transport invalid 与一次 Local Task 002 manifest invalid。
+- 生成 action-only hash-chain trajectories，明确排除 raw provider stream 和 model reasoning；生成 `results/v2_seed_local_comparison.md`、`results/v2_seed_local_case_study.md`、`report/v2_seed_local_report.md` 并更新 README。
+- 报告完整记录 Local Codex T001/T002/T003 皆为 45/35/20、100/100、Task Success 3/3，及因此产生的 ceiling effect。
+
+### 关键结论
+
+- 当前项目已具备可展示的三任务数据集、公开 visual evidence、可复现 hidden evaluator、量化指标、真实运行 artifact 和阶段级 action 分析；端到端链路已走通。
+- 本轮不能声称双模型对比完成：Seed 的 N/A 是 Codex 0.149 与 Agent Plan Responses stream 的 compatibility/availability blocker，Qwen 被明确跳过；二者都不是低能力分数。
+
+### 当前风险
+
+- Local Codex 三题全通过表明当前 Easy/Medium/Hard 的命名不等于该模型的有效难度梯度；任何对“Hard 更难”的能力结论都需进一步 calibration。
+- 现有结果是单次、单账户、synthetic Godot repair；无统计有效性，且 Case Study 的 Recovery 均为 N/A。
+
+### 下一阶段输入
+
+- 若要恢复 HR 正式的双/三模型实验，先用 Seed Provider 或 Codex CLI 的兼容适配器进行 full-prompt event-stream canary，成功后新建 suite ID 并从所有三任务的新 workspace 重跑；不得将本轮的 N/A 或历史 Pilot 混入该矩阵。

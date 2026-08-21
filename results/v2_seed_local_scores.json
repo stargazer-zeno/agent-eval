@@ -1,0 +1,167 @@
+{
+  "suite_id": "gamevisualfix_v2_seed_local_3x2",
+  "mode": "restricted_provider_matrix",
+  "intended_providers": [
+    "seed_evolving",
+    "local_codex"
+  ],
+  "scored_providers": [
+    "local_codex"
+  ],
+  "task_count": 3,
+  "scoring": {
+    "functional": 45,
+    "visual": 35,
+    "regression": 20,
+    "task_success": "all mandatory categories pass"
+  },
+  "validity_rule": "Only status=valid_canonical contributes to metrics. Invalid infrastructure runs are retained below.",
+  "provider_availability": {
+    "seed_evolving": "blocked_after_two_task_001_transport_invalidations",
+    "local_codex": "available"
+  },
+  "runs": [
+    {
+      "run_path": "experiments/v2_seed_local/task_001/local_codex_20260821_run1/run.json",
+      "run_sha256": "0f7644e3a4bcf37958c325c61f44088eaaaab9f2f101b1d609dbc1fca4c640ed",
+      "task_id": "gamevisualfix_task_001",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "status": "valid_canonical",
+      "invalid_reason": null,
+      "valid_api": true,
+      "submitted": true,
+      "actions": 7,
+      "fresh_observations": 1,
+      "elapsed_seconds": 106.032,
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      }
+    },
+    {
+      "run_path": "experiments/v2_seed_local/task_001/seed_evolving_20260821_run1/run.json",
+      "run_sha256": "ff0c04f3d7a47e2f976688f388e51b75f74a4491aa2334e411037bb034977019",
+      "task_id": "gamevisualfix_task_001",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "status": "invalid_infrastructure",
+      "invalid_reason": "provider_stream_missing_thread_and_controller_action",
+      "valid_api": false,
+      "submitted": false,
+      "actions": 1,
+      "fresh_observations": 0,
+      "elapsed_seconds": 96.719,
+      "scores": {
+        "functional": 0.0,
+        "visual": 0.0,
+        "regression": 20.0,
+        "total": 20.0,
+        "task_success": false
+      }
+    },
+    {
+      "run_path": "experiments/v2_seed_local/task_001/seed_evolving_20260821_run2/run.json",
+      "run_sha256": "4412f88742d31c066e9dc372ce624c96c5c1328b3321631d0ad777dc4f607d04",
+      "task_id": "gamevisualfix_task_001",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "status": "invalid_infrastructure",
+      "invalid_reason": "provider_stream_missing_thread_and_controller_action",
+      "valid_api": false,
+      "submitted": false,
+      "actions": 1,
+      "fresh_observations": 0,
+      "elapsed_seconds": 209.437,
+      "scores": {
+        "functional": 0.0,
+        "visual": 0.0,
+        "regression": 20.0,
+        "total": 20.0,
+        "task_success": false
+      }
+    },
+    {
+      "run_path": "experiments/v2_seed_local/task_002/local_codex_20260821_run1/run.json",
+      "run_sha256": "83bd1ad21081176f394bc678f8e0b76dfbede7ca0c9c30825308a622b6357305",
+      "task_id": "gamevisualfix_task_002",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "status": "invalid_infrastructure",
+      "invalid_reason": "controller_manifest_adapter_path",
+      "valid_api": true,
+      "submitted": true,
+      "actions": 7,
+      "fresh_observations": 2,
+      "elapsed_seconds": 145.75,
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      }
+    },
+    {
+      "run_path": "experiments/v2_seed_local/task_002/local_codex_20260821_run2/run.json",
+      "run_sha256": "d780275587fb093a9fc78d305538f58b01ade1a2ba02bfe2c4501bb14a4aa396",
+      "task_id": "gamevisualfix_task_002",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "status": "valid_canonical",
+      "invalid_reason": null,
+      "valid_api": true,
+      "submitted": true,
+      "actions": 6,
+      "fresh_observations": 1,
+      "elapsed_seconds": 120.547,
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      }
+    },
+    {
+      "run_path": "experiments/v2_seed_local/task_003/local_codex_20260821_run1/run.json",
+      "run_sha256": "fbd7a4cb6f46b1f707b582d8c55abea2b5a39df4bf85dbeecd2750533623f441",
+      "task_id": "gamevisualfix_task_003",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "status": "valid_canonical",
+      "invalid_reason": null,
+      "valid_api": true,
+      "submitted": true,
+      "actions": 4,
+      "fresh_observations": 1,
+      "elapsed_seconds": 80.813,
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      }
+    }
+  ],
+  "aggregate": {
+    "local_codex": {
+      "valid_runs": 3,
+      "task_success_rate": "3/3",
+      "mean_total": 100.0,
+      "mean_functional": 45.0,
+      "mean_visual": 35.0,
+      "mean_regression": 20.0
+    },
+    "seed_evolving": {
+      "valid_runs": 0,
+      "task_success_rate": "N/A",
+      "reason": "provider availability blocker; not a model score"
+    }
+  },
+  "interpretation_boundary": "This artifact reports one available provider across three tasks; it is not a Seed-vs-Local comparison or a three-model matrix."
+}

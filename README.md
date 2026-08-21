@@ -6,7 +6,7 @@ GameVisualFix 是一个面向游戏开发场景的 Multimodal Coding Agent Evalu
 
 ## 当前状态（2026-08-21）
 
-端到端 Pilot 已完成：Task 001 数据集、10 个隐藏主 case、100 分制自动 evaluator、真实多 provider 调用、trajectory、结果对比和最终报告均已产出。有效结果包括本地登录 Codex `gpt-5.6-sol` **100/100、成功**、Seed Evolving via Codex compatibility run **100/100、成功**，以及 Qwen **42/100、失败**。本地 Codex 与 Seed 成功 run 使用相同 public text/图片预载和 Controller action 包装；Qwen 使用逐步探索，因此结果适合作为 qualified case comparison，不构成严格模型排名。详见 [`report/final_report.md`](report/final_report.md)。
+历史 Task 001 Pilot 已完成并保留在 [`report/final_report.md`](report/final_report.md)。当前 v2 任务集扩展为 Easy / Medium / Hard 三题；本地 Codex `gpt-5.6-sol` 在三项唯一有效 canonical run 中均为 **100/100、成功**。Seed Evolving 在 Task 001 的两次完整任务调用均发生 Codex CLI / Provider 流式 transport invalid，按协议停止后续任务，不能记为能力分数；Qwen 已按用户指令跳过。因而 v2 只是一份受限的单 Provider 跨难度结果，不能作为模型排名。详见 [`report/v2_seed_local_report.md`](report/v2_seed_local_report.md) 与 [`results/v2_seed_local_scores.json`](results/v2_seed_local_scores.json)。
 
 ## 要求基线
 

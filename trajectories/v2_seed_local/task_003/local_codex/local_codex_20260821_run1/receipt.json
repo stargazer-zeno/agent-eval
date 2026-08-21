@@ -1,0 +1,5 @@
+{
+  "source": "experiments/v2_seed_local/task_003/local_codex_20260821_run1/trajectory.jsonl",
+  "source_sha256": "34e99eedf822b7169c722773120d3b9dc00c9b99f59ecb9f8bc25c0c0e667684",
+  "terminal_hash": "4307ffbb973f4062f1d5abaf609bbf4c00290a96d6202f5e8a99f6820682d517"
+}
