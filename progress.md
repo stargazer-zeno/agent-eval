@@ -465,3 +465,32 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 - 若需更严格的模型比较，从全新 workspace 为各模型统一 public preload、Schema、预算与 CLI pin，并预注册后各跑一次。
 - 若需增强面试展示，新增 2–5 个同结构任务并报告 task-level success rate；现有 Task 001 和全部历史 run 不覆盖。
 - 复现本地 Codex 时先运行 `codex login status`，再使用 `harness/README.md` 中的 `--local-login --preload-public` 命令；`run.json` 必须记录 CLI 路径与 SHA-256。
+
+## 2026-08-21 — GameVisualFix v2 Task 002 Gate Blocker
+
+### 当前阶段
+
+**v2 统一 Harness / Task 002 Gate：已停止。Task 002 未通过 renderer Gate，后续 Task 003、Provider canary 与 9 次 canonical run 均未开始。**
+
+### 已完成内容
+
+- 已开始将 Controller action schema 扩展为统一接口：`scenario` 与其余字段同为 required，以支持 task-manifest 声明的公开 observation 场景。
+- 已建立 Task 002 的独立 Godot public/private 目录、任务 Prompt、三个公开 observation 场景、18 个预声明隐藏组合及独立 evaluator 草案。
+- 已完成一次 clean import/headless smoke 检查和一次允许的 renderer 诊断；完整技术证据与影响见 `benchmark/task_002/BLOCKER.md`。
+
+### 关键结论
+
+- 在本机 AMD Radeon + Godot 4.7.1 Windows/OpenGL Compatibility hidden-window 路径上，Task 002 的 capture 与 private suite 都在写出 PNG 前以 `3221225477` / `CrashHandlerException: signal 11` 结束。
+- 将 HUD 三角形改为线段和圆点后故障不变，因此没有证据将其归因为任务逻辑、Oracle 或模型行为。
+- 按 v2 计划的 Gate 规则，不能换引擎、改任务语义或对模型运行未通过 Gate 的任务；本轮自动流程到此停止。
+
+### 当前风险
+
+- v2 尚不具备三个可展示且验证完成的任务，任何“3×3”分数、模型成功率或难度结论都不能生成。
+- Task 002 当前缺少 initial runtime evidence PNG，目录仅为被阻塞的实现草案，不能计入数据集。
+- 旧 Qwen3-VL-Plus 当前树结果不得删除：新的 Qwen3.8-Max Task 001 canonical attempt 尚未有效完成。
+
+### 下一阶段输入
+
+- 需要用户明确批准并提供可验证的 Windows Sandbox/VM 渲染环境或其他 renderer 解决路径；随后从 Task 002 的 clean-copy Gate 第一步重跑。
+- Gate 完成后才实现/验证 Task 003，随后执行三 Provider canary、9 次 canonical run、正式汇总和旧 Qwen 替换。

@@ -1,0 +1,5 @@
+*** Begin Patch
+*** Update File: scripts/main.gd
+@@
+-const OBJECTIVE_SPACE_MODE := "mixed"
++const OBJECTIVE_SPACE_MODE := "camera"
