@@ -276,3 +276,34 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 - 随后按 `benchmark/task_001/CHECKPOINT.md` 中的命令从 cache-free copy 重跑 Step 5：Python compile、Godot import/smoke、Bug/Oracle 各三轮、全部 shortcut、哈希与 leak audit。
 - Step 6 修复后按 `harness/CHECKPOINT.md` 重新运行 `harness/tests/self_test.ps1`；只有 fixture 全绿并通过无任务 production canary，才允许 Step 7P。
 - 恢复所需命令已分别固定在上述两个 CHECKPOINT 文档中；本次暂停后不再执行这些命令，等待用户回复。
+## 2026-08-21 — Step 5
+
+### 当前阶段
+
+**Step 5：Task 001 实现与验证——已完成，自动进入统一多模型 Harness 实现。**
+
+### 已完成内容
+
+- 冻结并实现 1 条可展示的 pilot dataset record，包含 public Godot Seed、初始视觉证据、10 个隐藏主 case、reference patch 和独立 evaluator。
+- 在当前 Windows/OpenGL Compatibility 环境中完成 Bug State 与 Oracle State 各三次 clean-copy 验证；每次覆盖 10 个方向/分辨率组合和 1 个动态回归 case。
+- Bug 三轮均为 20/100 且失败；Oracle 三轮均为 100/100 且成功；对应截图哈希完全稳定。
+- 通过 asset swap、共享算法翻转、隐藏/缩放 Tracker、固定方向、目标篡改和修改错误 profile 七类负例验证 evaluator 的拒绝能力。
+- 输出 `benchmark/dataset.jsonl`、`benchmark/DATASET_CARD.md`、`task.json`、`validation.md` 和机器可读 `validation/results.json`。
+
+### 关键结论
+
+- Task 001 已具备可运行数据、明确指标、可复现 Bug/Oracle 边界和行为等价补丁评价能力，可以进入真实模型调用。
+- 总分不能补偿 mandatory failure；只有 Functional 45、Visual 35、Regression 20 全部通过时 `task_success=true`。
+- 严格 headless 限制仍存在；本机评价使用用户批准、已重复验证的 Windows 隐藏窗口渲染。
+
+### 当前风险
+
+- 数据集只有 1 个合成任务，结果只能作为 pilot/case study，不能形成统计排名。
+- 单行修复仍可能被猜中；模型是否真正利用截图需结合 trajectory 中的观察、定位和验证证据谨慎解释。
+- 多家 API 的模型命名、图像消息格式、限流和 OpenAI-compatible 兼容程度尚需真实 canary 确认。
+
+### 下一阶段输入
+
+- 以冻结的 `benchmark/task_001/public/`、`task.json` 和独立 evaluator 为输入，实现统一 API tool-loop Harness。
+- Harness 只从 `.env` 读取凭据，不记录 key 或完整鉴权请求；每个 provider 使用独立 clean workspace。
+- 完成确定性 fixture 与最小 API canary 后，依次运行 Seed、Qwen、GPT 和 Claude 配置，不重复 Task 001 验证。

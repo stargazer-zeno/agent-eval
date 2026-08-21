@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "task_id": "gamevisualfix_task_001",
+  "revision": "task_001_v1",
+  "title": "Signal Courier — Twin Tracker Calibration",
+  "status": "validated",
+  "dataset_split": "pilot",
+  "public_root": "public",
+  "prompt": {
+    "path": "public/TASK.md",
+    "sha256": "0C9E381E3C4CDF4669EF57AC59110AFEB4053E38EF335DE2AA27CBA3765CD95D"
+  },
+  "initial_image": {
+    "path": "public/evidence/initial_bug.png",
+    "sha256": "3F35E391F3E02496068DE95CB03B8FD5D558C9D08138FF4E84CE192BE916AB11",
+    "width": 960,
+    "height": 540
+  },
+  "engine": {
+    "name": "Godot",
+    "version": "4.7.1.stable.official.a13da4feb",
+    "executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+    "display_server": "Windows",
+    "rendering_method": "gl_compatibility",
+    "rendering_driver": "opengl3"
+  },
+  "agent_protocol": {
+    "actions": ["observe", "submit"],
+    "max_turns": 4,
+    "max_fresh_screenshots": 3,
+    "max_command_events": 60,
+    "max_wall_seconds": 2100
+  },
+  "evaluation": {
+    "entrypoint": "private/evaluate.py",
+    "evaluator_version": "task_001_evaluator_v1",
+    "evaluator_sha256": "1330027A7F195CF3B3076E782DECEFF6E9D2932E30BBF44B53EC7DEC978C205F",
+    "suite_sha256": "7D523EF8E00B65C8BC7FA93D1271F23525CD1829F3EC275F760793969A5FA59F",
+    "case_manifest": "private/evaluation_cases.jsonl",
+    "functional_max": 45,
+    "visual_max": 35,
+    "regression_max": 20,
+    "score_max": 100,
+    "task_success_requires_all_mandatory": true
+  },
+  "reference_patch": {
+    "path": "private/oracle.patch",
+    "sha256": "151BEA561FF07CCCF62CFD8D97156296A964955DD6BF24D80FCD94A407EAFBFA"
+  }
+}

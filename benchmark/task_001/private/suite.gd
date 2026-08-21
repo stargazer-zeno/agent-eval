@@ -51,7 +51,11 @@ func _run() -> void:
 				scene.configure_scenario(scenario)
 			await process_frame
 			await process_frame
-			await RenderingServer.frame_post_draw
+			# A fixed pair of rendered frames is more reliable than waiting on
+			# frame_post_draw in a hidden Windows Compatibility window: the signal
+			# may not fire again when the scene becomes visually idle.
+			await process_frame
+			await process_frame
 
 			var case_data := _inspect_scene(scene)
 			case_data["scenario"] = scenario
@@ -68,14 +72,13 @@ func _run() -> void:
 				case_data["capture_error"] = image.save_png(capture_path)
 			case_data["capture_path"] = capture_path
 			result.cases.append(case_data)
-			scene.queue_free()
-			await process_frame
+			scene.free()
+	print("PRIVATE_SUITE_PHASE matrix_complete")
 
-	root.size = Vector2i(960, 540)
-	DisplayServer.window_set_size(Vector2i(960, 540))
-	await process_frame
-	await process_frame
+	# Keep the final matrix resolution. Resizing a hidden Windows/OpenGL window
+	# back to 960x540 can block after the ten captures have already completed.
 	var dynamic_scene = packed.instantiate()
+	print("PRIVATE_SUITE_PHASE dynamic_start")
 	root.add_child(dynamic_scene)
 	await process_frame
 	dynamic_scene.configure_scenario("E")
@@ -84,11 +87,8 @@ func _run() -> void:
 	var objective_update := Vector2(0.6, 0.8)
 	var threat_update := Vector2(-0.8, 0.6)
 	dynamic_scene.set_target_directions(objective_update, threat_update)
-	await process_frame
-	await process_frame
-	await RenderingServer.frame_post_draw
 	var after := _inspect_scene(dynamic_scene)
-	var dynamic_capture := output_dir.path_join("960x540_DYNAMIC.png")
+	var dynamic_capture := output_dir.path_join("1280x720_DYNAMIC.png")
 	var dynamic_image := root.get_texture().get_image()
 	var dynamic_capture_error := ERR_CANT_CREATE
 	if dynamic_image != null and not dynamic_image.is_empty():
@@ -101,10 +101,11 @@ func _run() -> void:
 		"capture_path": dynamic_capture,
 		"capture_error": dynamic_capture_error,
 	}
-	dynamic_scene.queue_free()
-	await process_frame
+	print("PRIVATE_SUITE_PHASE dynamic_complete")
+	dynamic_scene.free()
 
 	var behavior_scene = packed.instantiate()
+	print("PRIVATE_SUITE_PHASE behavior_start")
 	root.add_child(behavior_scene)
 	await process_frame
 	behavior_scene.configure_scenario("BASELINE")
@@ -125,10 +126,8 @@ func _run() -> void:
 			continue
 		behavior_player.position = initial_player_position
 		Input.action_press(action, 1.0)
-		await physics_frame
-		await physics_frame
+		behavior_player.call("_physics_process", 1.0 / 60.0)
 		Input.action_release(action)
-		await physics_frame
 		var movement_delta: Vector2 = behavior_player.position - initial_player_position
 		var event_codes := []
 		for event in InputMap.action_get_events(action):
@@ -144,8 +143,8 @@ func _run() -> void:
 		behavior_scene.reset_objective_completion()
 	if behavior_player != null and behavior_objective != null:
 		behavior_player.position = behavior_objective.position
-	await process_frame
-	await process_frame
+	if behavior_scene.has_method("complete_objective_if_overlapping"):
+		behavior_scene.complete_objective_if_overlapping()
 	var completion_after := bool(behavior_scene.get("objective_completed"))
 	var marker_completed := bool(behavior_objective.get("completed")) if behavior_objective != null else false
 	result.behavior = {
@@ -155,10 +154,11 @@ func _run() -> void:
 		"completion_after": completion_after,
 		"marker_completed": marker_completed,
 	}
-	behavior_scene.queue_free()
-	await process_frame
+	print("PRIVATE_SUITE_PHASE behavior_complete")
+	behavior_scene.free()
 
 	var result_path := output_dir.path_join("suite_result.json")
+	print("PRIVATE_SUITE_PHASE result_write_start")
 	var result_file := FileAccess.open(result_path, FileAccess.WRITE)
 	if result_file == null:
 		push_error("PRIVATE_SUITE cannot write result")

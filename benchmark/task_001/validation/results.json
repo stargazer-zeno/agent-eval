@@ -1,0 +1,670 @@
+{
+    "schema_version":  1,
+    "task_id":  "gamevisualfix_task_001",
+    "generated_at":  "2026-08-21",
+    "evaluator_version":  "task_001_evaluator_v1",
+    "canonical_bug_runs":  [
+                               {
+                                   "run":  1,
+                                   "functional":  0.0,
+                                   "visual":  0.0,
+                                   "regression":  20.0,
+                                   "total":  20.0,
+                                   "task_success":  false,
+                                   "build_integrity_gate":  true
+                               },
+                               {
+                                   "run":  2,
+                                   "functional":  0.0,
+                                   "visual":  0.0,
+                                   "regression":  20.0,
+                                   "total":  20.0,
+                                   "task_success":  false,
+                                   "build_integrity_gate":  true
+                               },
+                               {
+                                   "run":  3,
+                                   "functional":  0.0,
+                                   "visual":  0.0,
+                                   "regression":  20.0,
+                                   "total":  20.0,
+                                   "task_success":  false,
+                                   "build_integrity_gate":  true
+                               }
+                           ],
+    "canonical_oracle_runs":  [
+                                  {
+                                      "run":  1,
+                                      "functional":  45.0,
+                                      "visual":  35.0,
+                                      "regression":  20.0,
+                                      "total":  100.0,
+                                      "task_success":  true,
+                                      "build_integrity_gate":  true
+                                  },
+                                  {
+                                      "run":  2,
+                                      "functional":  45.0,
+                                      "visual":  35.0,
+                                      "regression":  20.0,
+                                      "total":  100.0,
+                                      "task_success":  true,
+                                      "build_integrity_gate":  true
+                                  },
+                                  {
+                                      "run":  3,
+                                      "functional":  45.0,
+                                      "visual":  35.0,
+                                      "regression":  20.0,
+                                      "total":  100.0,
+                                      "task_success":  true,
+                                      "build_integrity_gate":  true
+                                  }
+                              ],
+    "screenshot_stability":  {
+                                 "runs_per_state":  3,
+                                 "images_per_run":  11,
+                                 "unstable_images":  0,
+                                 "run_1_sha256":  {
+                                                      "bug":  {
+                                                                  "1280x720_DYNAMIC.png":  "A3CE53B18A637DA117281E33D3790C31B9976214649C3C4B0E7561B30102457D",
+                                                                  "1280x720_E.png":  "A3CE53B18A637DA117281E33D3790C31B9976214649C3C4B0E7561B30102457D",
+                                                                  "1280x720_N.png":  "88BAB966C04E7F6AD82EC924EC3B1434AA2F44E8946A3B19B6FE53A7242FA196",
+                                                                  "1280x720_NE.png":  "A8DE29BECA50807D48671EDF26A2C1C5F2716705D430D0813DE15429F42B8C11",
+                                                                  "1280x720_S.png":  "37AAFA492A0F6F82A89882B5676EAB1BD39A673DF452E92CE177022127769D2A",
+                                                                  "1280x720_W.png":  "15E31C771B6E818AF083381FE517665181C6AEA9F8C883DDB101E0FF8B3F2BDD",
+                                                                  "960x540_E.png":  "89D9372AD947BCA5183D6703B5A63B0256BA518B2E1602E483E8BF5EFF54FA77",
+                                                                  "960x540_N.png":  "EC97CA0FB86BC4511417C3E8A7084B0C39707BFC554BB849240BD444C6E0A6FD",
+                                                                  "960x540_NE.png":  "8988D3A8E778699F2286B8FF87AA4FA3DE1AA2A3B025CD8DCA32D716D7882149",
+                                                                  "960x540_S.png":  "CCF738ECF3365FA85AB4C6EE394F099E7052C443C626763D12190E15E6B57A8B",
+                                                                  "960x540_W.png":  "D1E2099E962005E66F9611788DADACC1059A668FE3CBE3EB64352DE9552A59BA"
+                                                              },
+                                                      "oracle":  {
+                                                                     "1280x720_DYNAMIC.png":  "96CD663C0641A8E13146835EDCE46FA373BB61E503571EACB03028919CB32804",
+                                                                     "1280x720_E.png":  "96CD663C0641A8E13146835EDCE46FA373BB61E503571EACB03028919CB32804",
+                                                                     "1280x720_N.png":  "9C562F3A4CF061826EADCDEFFE8A8F8C71E00320D4112B15E1ABE1B4B2BA5BF8",
+                                                                     "1280x720_NE.png":  "4693AE5B9A6C4F4112BD44553806E9DEE3F473101BA9E7A8180CE2FD021A241D",
+                                                                     "1280x720_S.png":  "7D86B37FCA1D9C29D0F2F8D5D04A1F680B90C74EE5BEFB9D65E87F9375D8C065",
+                                                                     "1280x720_W.png":  "05AB24D5B99596F506C8D056BF8D8A2D0281407DE40B71CDF411DE25721A16FC",
+                                                                     "960x540_E.png":  "E2213C0B7CA5A327BDBC797316896598C1ED1F9EE2DF9B9AF0CD3421BF2CEFAF",
+                                                                     "960x540_N.png":  "1E56AAD31133BF1EF1D8A954AA74B1486319677F9D0029A8AE969B2BEEF4B3BC",
+                                                                     "960x540_NE.png":  "A345BB968EF256AA9024D94CD2144113F05BBC65463EA1B51C01E3716A4F983E",
+                                                                     "960x540_S.png":  "DE65BF5528ACE49FAF499E6F86755946EEBD980A0FAB98CAE3CFB3FB69840917",
+                                                                     "960x540_W.png":  "BBE893FDEEBC6E0792D64F1F07537F0D29E254C6EE32F990321859CBC9A04829"
+                                                                 }
+                                                  }
+                             },
+    "oracle_case_results":  {
+                                "functional":  {
+                                                   "score":  45.0,
+                                                   "max":  45.0,
+                                                   "cases":  [
+                                                                 {
+                                                                     "width":  960,
+                                                                     "height":  540,
+                                                                     "scenario":  "E",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  960,
+                                                                     "height":  540,
+                                                                     "scenario":  "N",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  960,
+                                                                     "height":  540,
+                                                                     "scenario":  "W",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  960,
+                                                                     "height":  540,
+                                                                     "scenario":  "S",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  960,
+                                                                     "height":  540,
+                                                                     "scenario":  "NE",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.00000011920929,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  1280,
+                                                                     "height":  720,
+                                                                     "scenario":  "E",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  1280,
+                                                                     "height":  720,
+                                                                     "scenario":  "N",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  1280,
+                                                                     "height":  720,
+                                                                     "scenario":  "W",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  1280,
+                                                                     "height":  720,
+                                                                     "scenario":  "S",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.0,
+                                                                     "geometry_ok":  true
+                                                                 },
+                                                                 {
+                                                                     "width":  1280,
+                                                                     "height":  720,
+                                                                     "scenario":  "NE",
+                                                                     "passed":  true,
+                                                                     "objective_dot":  1.00000011920929,
+                                                                     "geometry_ok":  true
+                                                                 }
+                                                             ]
+                                               },
+                                "visual":  {
+                                               "score":  35.0,
+                                               "max":  35.0,
+                                               "cases":  [
+                                                             {
+                                                                 "width":  960,
+                                                                 "height":  540,
+                                                                 "scenario":  "E",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      177.38095238095238,
+                                                                                                      471.5
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  0.9995864829449013,
+                                                                                                  -0.028755227591565655
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   799.5,
+                                                                                                   489.3809523809524
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               -0.028755227591565607,
+                                                                                               0.9995864829449013
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9995864829449013,
+                                                                 "threat_dot":  0.9995864829449013,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  960,
+                                                                 "height":  540,
+                                                                 "scenario":  "N",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      159.5,
+                                                                                                      453.6190476190476
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  -0.027192013996454586,
+                                                                                                  -0.9996302288220462
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   817.3809523809524,
+                                                                                                   471.5
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               0.9995864829449013,
+                                                                                               -0.028755227591565607
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9996302288220462,
+                                                                 "threat_dot":  0.9995864829449013,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  960,
+                                                                 "height":  540,
+                                                                 "scenario":  "W",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      141.61904761904762,
+                                                                                                      471.5
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  -0.9996302288220462,
+                                                                                                  -0.027192013996454628
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   799.5,
+                                                                                                   453.6190476190476
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               -0.027192013996454586,
+                                                                                               -0.9996302288220462
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9996302288220462,
+                                                                 "threat_dot":  0.9996302288220462,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  960,
+                                                                 "height":  540,
+                                                                 "scenario":  "S",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      159.5,
+                                                                                                      489.3809523809524
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  -0.028755227591565607,
+                                                                                                  0.9995864829449013
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   781.6190476190476,
+                                                                                                   471.5
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               -0.9996302288220462,
+                                                                                               -0.027192013996454586
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9995864829449013,
+                                                                 "threat_dot":  0.9996302288220462,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  960,
+                                                                 "height":  540,
+                                                                 "scenario":  "NE",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  41,
+                                                                                   "body_pixels":  811,
+                                                                                   "tip_center":  [
+                                                                                                      172.21951219512195,
+                                                                                                      458.780487804878
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  0.6787863920357176,
+                                                                                                  -0.7343357774118956
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  41,
+                                                                                "body_pixels":  811,
+                                                                                "tip_center":  [
+                                                                                                   812.219512195122,
+                                                                                                   484.219512195122
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               0.7071067811865475,
+                                                                                               0.7071067811865475
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9992282686614528,
+                                                                 "threat_dot":  1.0,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  1280,
+                                                                 "height":  720,
+                                                                 "scenario":  "E",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      177.38095238095238,
+                                                                                                      651.5
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  0.9995864829449013,
+                                                                                                  -0.028755227591565655
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   1119.5,
+                                                                                                   669.3809523809524
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               -0.028755227591565607,
+                                                                                               0.9995864829449013
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9995864829449013,
+                                                                 "threat_dot":  0.9995864829449013,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  1280,
+                                                                 "height":  720,
+                                                                 "scenario":  "N",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      159.5,
+                                                                                                      633.6190476190476
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  -0.027192013996454586,
+                                                                                                  -0.9996302288220462
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   1137.3809523809523,
+                                                                                                   651.5
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               0.9995864829449013,
+                                                                                               -0.028755227591565798
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9996302288220462,
+                                                                 "threat_dot":  0.9995864829449013,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  1280,
+                                                                 "height":  720,
+                                                                 "scenario":  "W",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      141.61904761904762,
+                                                                                                      651.5
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  -0.9996302288220462,
+                                                                                                  -0.027192013996454628
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   1119.5,
+                                                                                                   633.6190476190476
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               -0.027192013996454586,
+                                                                                               -0.9996302288220462
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9996302288220462,
+                                                                 "threat_dot":  0.9996302288220462,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  1280,
+                                                                 "height":  720,
+                                                                 "scenario":  "S",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  42,
+                                                                                   "body_pixels":  812,
+                                                                                   "tip_center":  [
+                                                                                                      159.5,
+                                                                                                      669.3809523809524
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  -0.028755227591565607,
+                                                                                                  0.9995864829449013
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  42,
+                                                                                "body_pixels":  812,
+                                                                                "tip_center":  [
+                                                                                                   1101.6190476190477,
+                                                                                                   651.5
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               -0.9996302288220462,
+                                                                                               -0.027192013996454753
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9995864829449013,
+                                                                 "threat_dot":  0.9996302288220462,
+                                                                 "transform_ok":  true
+                                                             },
+                                                             {
+                                                                 "width":  1280,
+                                                                 "height":  720,
+                                                                 "scenario":  "NE",
+                                                                 "passed":  true,
+                                                                 "objective":  {
+                                                                                   "valid":  true,
+                                                                                   "tip_pixels":  41,
+                                                                                   "body_pixels":  811,
+                                                                                   "tip_center":  [
+                                                                                                      172.21951219512195,
+                                                                                                      638.780487804878
+                                                                                                  ],
+                                                                                   "vector":  [
+                                                                                                  0.6787863920357176,
+                                                                                                  -0.7343357774118956
+                                                                                              ]
+                                                                               },
+                                                                 "threat":  {
+                                                                                "valid":  true,
+                                                                                "tip_pixels":  41,
+                                                                                "body_pixels":  811,
+                                                                                "tip_center":  [
+                                                                                                   1132.219512195122,
+                                                                                                   664.219512195122
+                                                                                               ],
+                                                                                "vector":  [
+                                                                                               0.7071067811865475,
+                                                                                               0.7071067811865475
+                                                                                           ]
+                                                                            },
+                                                                 "objective_dot":  0.9992282686614528,
+                                                                 "threat_dot":  1.0,
+                                                                 "transform_ok":  true
+                                                             }
+                                                         ]
+                                           },
+                                "regression":  {
+                                                   "score":  20.0,
+                                                   "max":  20.0,
+                                                   "checks":  [
+                                                                  {
+                                                                      "name":  "objective_live_update",
+                                                                      "passed":  true,
+                                                                      "points":  2.0
+                                                                  },
+                                                                  {
+                                                                      "name":  "threat_live_update",
+                                                                      "passed":  true,
+                                                                      "points":  2.0
+                                                                  },
+                                                                  {
+                                                                      "name":  "layout_960x540",
+                                                                      "passed":  true,
+                                                                      "points":  1.0
+                                                                  },
+                                                                  {
+                                                                      "name":  "layout_1280x720",
+                                                                      "passed":  true,
+                                                                      "points":  1.0
+                                                                  },
+                                                                  {
+                                                                      "name":  "asset_hash:assets/objective_arrow.png",
+                                                                      "passed":  true,
+                                                                      "points":  1.0
+                                                                  },
+                                                                  {
+                                                                      "name":  "asset_hash:assets/threat_arrow.png",
+                                                                      "passed":  true,
+                                                                      "points":  1.0
+                                                                  },
+                                                                  {
+                                                                      "name":  "startup_required_nodes_wasd_completion",
+                                                                      "passed":  true,
+                                                                      "points":  2.0,
+                                                                      "process_clean":  true,
+                                                                      "required_nodes":  true,
+                                                                      "wasd":  {
+                                                                                   "move_up":  true,
+                                                                                   "move_left":  true,
+                                                                                   "move_down":  true,
+                                                                                   "move_right":  true
+                                                                               },
+                                                                      "completion":  true
+                                                                  }
+                                                              ]
+                                               }
+                            },
+    "shortcut_results":  [
+                             {
+                                 "name":  "asset_swap",
+                                 "functional":  45.0,
+                                 "visual":  0.0,
+                                 "regression":  19.0,
+                                 "diagnostic_total":  64.0,
+                                 "reported_total":  0.0,
+                                 "build_integrity_gate":  false,
+                                 "task_success":  false
+                             },
+                             {
+                                 "name":  "global_flip",
+                                 "functional":  45.0,
+                                 "visual":  0.0,
+                                 "regression":  10.0,
+                                 "diagnostic_total":  55.0,
+                                 "reported_total":  55.0,
+                                 "build_integrity_gate":  true,
+                                 "task_success":  false
+                             },
+                             {
+                                 "name":  "hide_tracker",
+                                 "functional":  45.0,
+                                 "visual":  0.0,
+                                 "regression":  18.0,
+                                 "diagnostic_total":  63.0,
+                                 "reported_total":  63.0,
+                                 "build_integrity_gate":  true,
+                                 "task_success":  false
+                             },
+                             {
+                                 "name":  "scale_tracker",
+                                 "functional":  45.0,
+                                 "visual":  0.0,
+                                 "regression":  20.0,
+                                 "diagnostic_total":  65.0,
+                                 "reported_total":  65.0,
+                                 "build_integrity_gate":  true,
+                                 "task_success":  false
+                             },
+                             {
+                                 "name":  "single_direction",
+                                 "functional":  9.0,
+                                 "visual":  0.0,
+                                 "regression":  8.0,
+                                 "diagnostic_total":  17.0,
+                                 "reported_total":  17.0,
+                                 "build_integrity_gate":  true,
+                                 "task_success":  false
+                             },
+                             {
+                                 "name":  "target_swap",
+                                 "functional":  0.0,
+                                 "visual":  0.0,
+                                 "regression":  6.0,
+                                 "diagnostic_total":  6.0,
+                                 "reported_total":  6.0,
+                                 "build_integrity_gate":  true,
+                                 "task_success":  false
+                             },
+                             {
+                                 "name":  "threat_edit",
+                                 "functional":  0.0,
+                                 "visual":  0.0,
+                                 "regression":  10.0,
+                                 "diagnostic_total":  10.0,
+                                 "reported_total":  10.0,
+                                 "build_integrity_gate":  true,
+                                 "task_success":  false
+                             }
+                         ],
+    "conclusions":  {
+                        "bug_reproduced":  true,
+                        "oracle_full_pass":  true,
+                        "deterministic_screenshots":  true,
+                        "all_shortcuts_rejected":  true,
+                        "model_runs_started":  false
+                    }
+}

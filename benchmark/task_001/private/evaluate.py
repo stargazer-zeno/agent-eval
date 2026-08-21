@@ -145,6 +145,34 @@ def visual_forward(
 def run_private_suite(args: argparse.Namespace) -> tuple[subprocess.CompletedProcess[str], dict[str, Any] | None]:
     args.output.mkdir(parents=True, exist_ok=True)
     suite = Path(__file__).with_name("suite.gd").resolve()
+    run_options: dict[str, Any] = {}
+    if sys.platform == "win32":
+        startupinfo = subprocess.STARTUPINFO()
+        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startupinfo.wShowWindow = subprocess.SW_HIDE
+        run_options["startupinfo"] = startupinfo
+        run_options["creationflags"] = subprocess.CREATE_NO_WINDOW
+
+    import_command = [
+        str(args.godot.resolve()),
+        "--headless",
+        "--path",
+        str(args.candidate.resolve()),
+        "--import",
+    ]
+    imported = subprocess.run(
+        import_command,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=90,
+        check=False,
+        **run_options,
+    )
+    if imported.returncode != 0 or "SCRIPT ERROR" in imported.stdout or "SCRIPT ERROR" in imported.stderr:
+        return imported, None
+
     command = [
         str(args.godot.resolve()),
         "--path",
@@ -157,6 +185,8 @@ def run_private_suite(args: argparse.Namespace) -> tuple[subprocess.CompletedPro
         "gl_compatibility",
         "--audio-driver",
         "Dummy",
+        "--fixed-fps",
+        "60",
         "--resolution",
         "960x540",
         "--position",
@@ -167,21 +197,18 @@ def run_private_suite(args: argparse.Namespace) -> tuple[subprocess.CompletedPro
         "--output-dir",
         str(args.output.resolve()),
     ]
-    run_options: dict[str, Any] = {}
-    if sys.platform == "win32":
-        startupinfo = subprocess.STARTUPINFO()
-        startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
-        startupinfo.wShowWindow = subprocess.SW_HIDE
-        run_options["startupinfo"] = startupinfo
-        run_options["creationflags"] = subprocess.CREATE_NO_WINDOW
     completed = subprocess.run(
         command,
         capture_output=True,
         text=True,
+        encoding="utf-8",
+        errors="replace",
         timeout=180,
         check=False,
         **run_options,
     )
+    completed.stdout = imported.stdout + completed.stdout
+    completed.stderr = imported.stderr + completed.stderr
     result_path = args.output / "suite_result.json"
     suite_result = json.loads(result_path.read_text(encoding="utf-8")) if result_path.exists() else None
     return completed, suite_result

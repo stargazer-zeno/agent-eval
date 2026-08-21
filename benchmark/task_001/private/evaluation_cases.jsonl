@@ -1,0 +1,10 @@
+{"case_id":"960x540_E","width":960,"height":540,"objective_direction":[1.0,0.0],"threat_direction":[0.0,1.0],"dot_threshold":0.98}
+{"case_id":"960x540_N","width":960,"height":540,"objective_direction":[0.0,-1.0],"threat_direction":[1.0,0.0],"dot_threshold":0.98}
+{"case_id":"960x540_W","width":960,"height":540,"objective_direction":[-1.0,0.0],"threat_direction":[0.0,-1.0],"dot_threshold":0.98}
+{"case_id":"960x540_S","width":960,"height":540,"objective_direction":[0.0,1.0],"threat_direction":[-1.0,0.0],"dot_threshold":0.98}
+{"case_id":"960x540_NE","width":960,"height":540,"objective_direction":[0.7071067811865476,-0.7071067811865476],"threat_direction":[0.7071067811865476,0.7071067811865476],"dot_threshold":0.98}
+{"case_id":"1280x720_E","width":1280,"height":720,"objective_direction":[1.0,0.0],"threat_direction":[0.0,1.0],"dot_threshold":0.98}
+{"case_id":"1280x720_N","width":1280,"height":720,"objective_direction":[0.0,-1.0],"threat_direction":[1.0,0.0],"dot_threshold":0.98}
+{"case_id":"1280x720_W","width":1280,"height":720,"objective_direction":[-1.0,0.0],"threat_direction":[0.0,-1.0],"dot_threshold":0.98}
+{"case_id":"1280x720_S","width":1280,"height":720,"objective_direction":[0.0,1.0],"threat_direction":[-1.0,0.0],"dot_threshold":0.98}
+{"case_id":"1280x720_NE","width":1280,"height":720,"objective_direction":[0.7071067811865476,-0.7071067811865476],"threat_direction":[0.7071067811865476,0.7071067811865476],"dot_threshold":0.98}
