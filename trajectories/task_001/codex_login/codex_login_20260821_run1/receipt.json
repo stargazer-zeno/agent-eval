@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "event_count": 10,
+  "action_count": 0,
+  "total_reported_tokens": 0,
+  "successful_screenshot_files": 0,
+  "chain_head": "24AD557A1FAA0C013552412E6E846E62D42390461D90655268C01405F47FE480",
+  "raw_sha256": "6C5325177CEE5F051CBEC902D08F3F2CBEAB3BB834CCB268AB2050C55311929F",
+  "normalized_sha256": "953B18D228B21BF54CC9042090779613DE7F51BE458F2FEC03A3DF8BC11FE1DB"
+}

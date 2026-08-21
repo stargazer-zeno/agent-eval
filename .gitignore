@@ -29,6 +29,9 @@ dist/
 *.tmp
 *.temp
 
+# Run-local mutable model workspaces (patches and manifests are archived separately)
+experiments/**/workspace/
+
 # Editor and operating-system metadata
 .idea/
 .vscode/

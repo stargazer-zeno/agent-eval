@@ -24,3 +24,4 @@
 *.ogg binary
 *.mp3 binary
 *.mp4 binary
+*.patch -whitespace
