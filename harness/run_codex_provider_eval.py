@@ -8,6 +8,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -60,9 +61,27 @@ def provider_environment(key: str, codex_home: Path) -> dict[str, str]:
     return environment
 
 
-def codex_version() -> str:
+def resolve_codex_executable(requested: Path | None) -> Path:
+    if requested is not None:
+        candidate = requested.expanduser().resolve()
+        if not candidate.is_file():
+            raise SystemExit(f"Codex executable is missing: {candidate}")
+        return candidate
+    if os.name == "nt":
+        appdata = os.environ.get("APPDATA", "")
+        native = Path(appdata) / "npm" / "node_modules" / "@openai" / "codex" / "node_modules" / \
+            "@openai" / "codex-win32-x64" / "vendor" / "x86_64-pc-windows-msvc" / "bin" / "codex.exe"
+        if native.is_file():
+            return native.resolve()
+    discovered = shutil.which("codex")
+    if not discovered:
+        raise SystemExit("Codex executable was not found")
+    return Path(discovered).resolve()
+
+
+def codex_version(executable: Path) -> str:
     completed = subprocess.run(
-        ["codex", "--version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+        [str(executable), "--version"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
         text=True, encoding="utf-8", errors="replace", timeout=15, check=False,
     )
     return completed.stdout.strip() or "unknown"
@@ -141,6 +160,7 @@ def main() -> int:
     parser.add_argument("--godot", required=True, type=Path)
     parser.add_argument("--env-file", default=core.ROOT / ".env", type=Path)
     parser.add_argument("--preload-public", action="store_true")
+    parser.add_argument("--codex-exe", type=Path)
     parser.add_argument(
         "--local-login", action="store_true",
         help="Use the current Codex ChatGPT login with gpt-5.6-sol instead of Seed Agent Plan.",
@@ -172,6 +192,7 @@ def main() -> int:
         environment = provider_environment(key, codex_home)
         model = SEED_MODEL
         provider_name = "seed_evolving_codex"
+    codex_executable = resolve_codex_executable(args.codex_exe)
     schema = core.ROOT / "harness" / "controller_action.schema.json"
     common = [
         "--json", "--ignore-rules", "--output-schema", str(schema),
@@ -211,13 +232,13 @@ def main() -> int:
                 prompt += "\nPUBLIC WORKSPACE TEXT SNAPSHOT (already read; do not reread unless necessary):\n" + "".join(snapshots)
                 prompt += "\nThe attached images are, in order: initial runtime evidence, objective_arrow.png, threat_arrow.png. Diagnose now and prefer a focused write_file action."
                 images.extend([workspace / "assets" / "objective_arrow.png", workspace / "assets" / "threat_arrow.png"])
-            command = ["codex", "exec", *common]
+            command = [str(codex_executable), "exec", *common]
             if args.local_login:
                 command.extend(["--sandbox", "read-only"])
             command.extend(["--image", *[str(path) for path in images], "-C", str(workspace), "-"])
         else:
             prompt = pending_prompt
-            command = ["codex", "exec", "resume", *common]
+            command = [str(codex_executable), "exec", "resume", *common]
             if pending_image is not None:
                 command.extend(["--image", str(pending_image)])
             command.extend([str(thread), "-"])
@@ -269,7 +290,9 @@ def main() -> int:
     manifest = {
         "schema_version": 1, "provider": provider_name, "model": model,
         "task_id": "gamevisualfix_task_001", "mode": "codex_cli_controller_actions",
-        "codex_cli_version": codex_version(),
+        "codex_cli_version": codex_version(codex_executable),
+        "codex_executable": str(codex_executable),
+        "codex_executable_sha256": core.sha256(codex_executable),
         "model_metadata": "official_codex_catalog" if args.local_login else "fallback_unknown_model",
         "authentication": "chatgpt_login" if args.local_login else "seed_agent_plan_key",
         "reasoning_effort": "ultra" if args.local_login else None,

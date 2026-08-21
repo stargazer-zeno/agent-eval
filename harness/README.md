@@ -20,6 +20,9 @@ python harness/run_codex_provider_eval.py `
 
 运行前应先确认 `codex login status` 为 ChatGPT 登录，并使用 OpenAI Structured Outputs
 兼容的严格 `controller_action.schema.json`。输出目录必须不存在，以保证每次从全新 public copy 开始。
+Windows 默认固定 npm 安装包内的 native `codex.exe`；也可用 `--codex-exe` 显式指定。
+`run.json` 会记录实际 CLI 的版本、绝对路径和 SHA-256，避免 PowerShell 与 Python 的 PATH
+解析落到不同 Codex 安装。
 
 > **WIP：不得执行真实模型 Pilot。** 本目录保存 2026-08-21 暂停时的 Step 6 草案；最新修改尚未完成
 > fixture 回归，且凭据清理、失败分类和 production isolation canary 仍有阻塞。完整状态与恢复顺序见
