@@ -758,3 +758,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 使用已通过 preflight 的 Task 003 manifest，从全新 workspace 执行 Local Codex 的唯一 canonical attempt；随后汇总有效结果、invalid lineage 和可展示的轨迹/评分报告。
+
+## 2026-08-21 — v2 Task 003 Local Codex canonical outcome
+
+### 当前阶段
+
+**三项 Task 的 Local Codex canonical attempts 已完成；开始生成受限 suite 的机器可读评分、trajectory Case Study 与报告。**
+
+### 已完成内容
+
+- Local Codex Task 003 run1 从全新 workspace 执行 4 个 Controller actions：读取 `scripts/main.gd`、最小写入、fresh `RIGHT_TO_LEFT` contact-sheet observation、submit。
+- Task 003 private evaluator 在 6 条 replay × 30/60 physics tick 的 12 个状态 case 中给出 Functional 45/45、Visual 35/35、Regression 20/20、总分 100/100、`task_success=true`；耗时 80.813 秒、1 次 fresh observation。
+- Local Codex 在 Task 001/002/003 三个难度上均为 100/100。Task 002 run2 为唯一 valid rerun；Task 001 与 Task 003 均为首个 valid attempt。
+
+### 关键结论
+
+- 这轮结果证明三个 Task、Controller observation 和 hidden evaluators 端到端可运行，但对 `gpt-5.6-sol` 出现 ceiling effect；不得据此宣称这组三题具备该模型的细粒度区分度。
+- Seed 的两次 Task 001 transport invalid 与 Task 002 run1 adapter invalid 都是保留的基础设施 lineage，不得混入 Task Success Rate 或平均分。
+
+### 当前风险
+
+- 有效评分目前只覆盖 Local Codex；受限 suite 无法产出 Seed-vs-Local 的能力排名，报告必须将 Seed 标为 provider availability blocker。
+- 单次 attempt、单一 Local Codex 账户与 synthetic Godot task 限制任何泛化、统计显著性或真实游戏项目结论。
+
+### 下一阶段输入
+
+- 扫描 `gamevisualfix_v2_seed_local_3x2` artifacts，输出只包含 valid canonical results 的机器可读矩阵、invalid lineage registry、阶段级 action Case Study 和明确标注 provider 缺口/ceiling effect 的报告。

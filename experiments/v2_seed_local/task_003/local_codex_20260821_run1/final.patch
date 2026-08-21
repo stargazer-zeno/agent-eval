@@ -1,0 +1,14 @@
+diff --git a/scripts/main.gd b/scripts/main.gd
+index 2fc2aef..8d8e7dc 100644
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -3,7 +3,7 @@ extends Node2D
+ 
+ # The seed samples before the dash position/facing commit. Change only this
+ # phase to "after" to make each pooled trail use the immutable current tick.
+-const TRAIL_SAMPLE_PHASE := "before"
++const TRAIL_SAMPLE_PHASE := "after"
+ const PURPLE := Color("bd7bff")
+ const BLUE := Color("77b9ff")
+ var current_scenario := "RIGHT_TO_LEFT"
+warning: in the working copy of 'scripts/main.gd', LF will be replaced by CRLF the next time Git touches it

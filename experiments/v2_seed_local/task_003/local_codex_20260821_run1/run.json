@@ -1,0 +1,712 @@
+{
+  "schema_version": 2,
+  "experiment_suite_id": "gamevisualfix_v2_seed_local_3x2",
+  "task_id": "gamevisualfix_task_003",
+  "provider": "local_codex",
+  "model": "gpt-5.6-sol",
+  "authentication": "chatgpt_login",
+  "mode": "codex_cli_controller_actions",
+  "codex_cli_version": "codex-cli 0.149.0",
+  "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+  "valid_api": true,
+  "submitted": true,
+  "observations": 1,
+  "elapsed_seconds": 80.813,
+  "thread_id": "01a02308-4ace-77b3-9352-2b9b56a6a61a",
+  "summary": "Fixed the trail sampling phase to use the current tick's facing, keeping the trail effect active and correctly positioned through direction changes. Fresh RIGHT_TO_LEFT observation captured successfully.",
+  "evaluation": {
+    "task_id": "gamevisualfix_task_003",
+    "functional": {
+      "score": 45.0,
+      "max": 45
+    },
+    "visual": {
+      "score": 35.0,
+      "max": 35
+    },
+    "regression": {
+      "score": 20.0,
+      "max": 20
+    },
+    "total": 100.0,
+    "task_success": true,
+    "case_count": 12,
+    "cases": [
+      {
+        "scenario": "RIGHT",
+        "physics_tick_rate": 30,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "RIGHT",
+        "physics_tick_rate": 60,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "LEFT",
+        "physics_tick_rate": 30,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "LEFT",
+        "physics_tick_rate": 60,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "RIGHT_TO_LEFT",
+        "physics_tick_rate": 30,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "RIGHT_TO_LEFT",
+        "physics_tick_rate": 60,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "LEFT_TO_RIGHT",
+        "physics_tick_rate": 30,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "LEFT_TO_RIGHT",
+        "physics_tick_rate": 60,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "REPEATED",
+        "physics_tick_rate": 30,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "REPEATED",
+        "physics_tick_rate": 60,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "INTERRUPTED",
+        "physics_tick_rate": 30,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          }
+        ],
+        "passed": true
+      },
+      {
+        "scenario": "INTERRUPTED",
+        "physics_tick_rate": 60,
+        "capture_exit": 0,
+        "frames": [
+          {
+            "tick": 0,
+            "facing": 1,
+            "trail_delta_x": -43.402629233511604,
+            "passed": true
+          },
+          {
+            "tick": 1,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351162,
+            "passed": true
+          },
+          {
+            "tick": 2,
+            "facing": 1,
+            "trail_delta_x": -43.40262923351156,
+            "passed": true
+          },
+          {
+            "tick": 3,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 4,
+            "facing": 0,
+            "trail_delta_x": null,
+            "passed": true
+          },
+          {
+            "tick": 5,
+            "facing": -1,
+            "trail_delta_x": 43.228386809269125,
+            "passed": true
+          },
+          {
+            "tick": 6,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          },
+          {
+            "tick": 7,
+            "facing": -1,
+            "trail_delta_x": 43.22838680926918,
+            "passed": true
+          }
+        ],
+        "passed": true
+      }
+    ],
+    "evaluator_version": "task003_contact_sheet_v1"
+  },
+  "evaluator_exit_code": 0,
+  "evaluator_timed_out": false
+}
