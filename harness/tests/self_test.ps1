@@ -62,7 +62,9 @@ try {
     $png = [Convert]::FromBase64String('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=')
     [System.IO.File]::WriteAllBytes($initialImage, $png)
 
-    $nativeCodex = 'C:\Users\Lenovo\AppData\Roaming\npm\node_modules\@openai\codex\node_modules\@openai\codex-win32-x64\vendor\x86_64-pc-windows-msvc\bin\codex.exe'
+    $npmRoot = (& npm root -g).Trim()
+    Assert-Condition (-not [string]::IsNullOrWhiteSpace($npmRoot)) 'Global npm package root must be discoverable.'
+    $nativeCodex = Join-Path $npmRoot '@openai\codex\node_modules\@openai\codex-win32-x64\vendor\x86_64-pc-windows-msvc\bin\codex.exe'
     Assert-Condition (Test-Path -LiteralPath $nativeCodex -PathType Leaf) 'Pinned native codex.exe must exist for hash/version preflight.'
     $config = [ordered]@{
         seed_path = $seed

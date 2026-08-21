@@ -4,7 +4,7 @@
 
 ## Status
 
-**Restricted result, not HR formal multi-model completion.**
+**Restricted historical result; not part of the formal v2.1 multi-model evaluation.**
 
 - Suite: `gamevisualfix_v2_seed_local_3x2`
 - Valid scored provider count: 1 (`gpt-5.6-sol` via Local Codex)

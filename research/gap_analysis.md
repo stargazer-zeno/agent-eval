@@ -40,18 +40,18 @@
 
 详细的一手来源与版本边界见 [Step 1 文献综述](./literature_review.md)。与本次决策最相关的约束如下。
 
-| 候选假设 | 已有覆盖 | 尚可检验的窄边界 | novelty 判断 | 面试价值 | 一天 P0 可行性 | 决策 |
+| 候选假设 | 已有覆盖 | 尚可检验的窄边界 | novelty 判断 | 项目价值 | 一天 P0 可行性 | 决策 |
 | --- | --- | --- | --- | --- | --- | --- |
 | A：Task-essential Visual Evidence | SWE-bench Multimodal 已有人类必要性标注与有/无图条件；多模态 repair/localization 也已有近邻工作 | 在一个现有游戏仓库中，通过文本泄漏审计与可辨识性审查，保证初始 runtime 画面提供非冗余的 Bug 证据 | 低至中；领域迁移本身不足以构成 gap | 高；能说明任务为何真正需要多模态 | 中；严格必要性难由一个模型实验建立 | 降为 validity gate |
 | B：Closed-loop Visual Debugging | VAB-CSS 已有反复截图编辑；GameCraft-Bench 已观察到生成期 screenshot debugging；SVRepair 与 FailureMem 已覆盖相邻的验证/恢复机制 | 在现有游戏仓库 repair 中，审计 Patch 后 fresh runtime observation 是否进入同一 Agent 上下文、是否伴随验证，以及失败后是否出现新的定位/计划/编辑 | 中；是受控组合边界，不是宽泛首创 | 很高；直接覆盖工具使用、运行、验证和失败恢复 | 中高；单任务可实现，但 Recovery 可能不被触发 | **Main RQ** |
-| C：Process-level Diagnosis | GUIRepair、SVRepair、MM-IssueLoc、CUADebug 等已覆盖视觉定位、模块化修复或多模态轨迹诊断 | 在同一游戏 repair case 中，以预注册阶段找出两模型最早的证据化差异并追踪其下游影响 | 低至中；通用方法并不新 | 很高；直接回应 HR 对 trajectory、强弱项和 Case Study 的要求 | 高；复用正式运行轨迹，不需新增模型调用 | **唯一 Secondary RQ** |
+| C：Process-level Diagnosis | GUIRepair、SVRepair、MM-IssueLoc、CUADebug 等已覆盖视觉定位、模块化修复或多模态轨迹诊断 | 在同一游戏 repair case 中，以预注册阶段找出两模型最早的证据化差异并追踪其下游影响 | 低至中；通用方法并不新 | 很高；直接覆盖 trajectory、强弱项和 Case Study 分析 | 高；复用正式运行轨迹，不需新增模型调用 | **唯一 Secondary RQ** |
 
 ### 3.1 G1–G5 取舍
 
 | Gap | 处置 | 理由与约束 |
 | --- | --- | --- |
 | G1：游戏仓库中的 task-essential visual symptom repair | 并入 A，作为任务有效性 Gate | 它是 Main RQ 成立的前提，但单任务不能把严格视觉必要性升级为普遍研究结论。P0 做设计审计，不把模型无图失败当作必要性的证明。 |
-| G2：Patch 后新 runtime observation 驱动再次规划与恢复 | 选为 Main RQ | 与 HR 要求的运行、调试、验证、恢复最贴合，也能用同一条 trajectory 审计。将“驱动”收窄为有证据的时序关联，不声称因果。 |
+| G2：Patch 后新 runtime observation 驱动再次规划与恢复 | 选为 Main RQ | 与项目关注的运行、调试、验证、恢复最贴合，也能用同一条 trajectory 审计。将“驱动”收窄为有证据的时序关联，不声称因果。 |
 | G3：端到端阶段级错误传播 | 选为唯一 Secondary RQ | 一天内可复用两条 trajectory；但必须预注册阶段和歧义规则，并限定为 case-level diagnosis。 |
 | G4：时序/交互视觉证据必要性 | 延后 | 固定输入 replay、帧时序、瞬态画面和渲染确定性的成本过高，容易牺牲 P0 完整度。Step 3 不把复杂时序交互设为必选条件。 |
 | G5：视觉 Oracle 的一致性与可审计性 | 降为评测设计约束 | 固定环境、重复截图和 Oracle 分歧记录是质量控制，不是本次独立 RQ；一个任务不足以评价 judge 的普遍可靠性。 |

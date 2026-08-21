@@ -46,3 +46,12 @@ experiments/v2_1_canary/seed_evolving_20260821_run2/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Local planning notes, handoff checkpoints, and exported documents
+/题目.md
+/plan.md
+/progress.md
+/benchmark/task_001/CHECKPOINT.md
+/benchmark/task_002/BLOCKER.md
+/harness/CHECKPOINT.md
+/GameVisualFix_*.pdf

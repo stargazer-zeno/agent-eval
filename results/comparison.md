@@ -57,7 +57,7 @@ Seed 的 token 数更高，主要因为 Codex Responses thread 每轮携带较�
 
 ## 结论边界
 
-- HR 要求的“Seed + 外部模型”最低模型数量与真实分数已满足；Local Codex 与 Seed 有同包装子组，但所有结论仍限定为 Task 001 case study。
+- “Seed + 外部模型”的最低比较数量与真实分数已具备；Local Codex 与 Seed 有同包装子组，但所有结论仍限定为 Task 001 case study。
 - Seed canonical run1 timeout，run2 成功依赖 public preload；这属于工程兼容性结论，也是正式复现实验必须解决的混杂变量。
 - 数据集只有一个合成任务，不支持统计显著性、通用模型排名或模型家族结论。
 - GPT/Claude 的 403、其他 Seed endpoint timeout 与 Codex sandbox blocker 都是 availability/infrastructure 结果，不是模型能力分数。
