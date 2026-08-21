@@ -185,7 +185,7 @@ def main() -> int:
                 command.extend(["--image", str(pending_image)])
             command.extend([str(thread), "-"])
         exit_code, raw, timed_out = run_codex(command, prompt, workspace, environment, 240)
-        (raw_root / f"turn_{step:02d}.jsonl").write_text(raw, encoding="utf-8")
+        (raw_root / f"turn_{step:02d}.jsonl").write_text(raw, encoding="utf-8", newline="\n")
         new_thread, model_text, usage = parse_codex_output(raw)
         if step == 1:
             thread = new_thread
@@ -197,7 +197,7 @@ def main() -> int:
             valid_provider = False
             summary = "Codex/provider turn failed or returned no agent message"
             event["failure_class"] = "provider_or_codex_transport"
-            with trajectory.open("a", encoding="utf-8") as stream:
+            with trajectory.open("a", encoding="utf-8", newline="\n") as stream:
                 stream.write(json.dumps(event, ensure_ascii=False) + "\n")
             break
         try:
@@ -211,7 +211,7 @@ def main() -> int:
         except Exception as exc:
             result, image = {"error": str(exc)[:500]}, None
         event["tool_result"] = result
-        with trajectory.open("a", encoding="utf-8") as stream:
+        with trajectory.open("a", encoding="utf-8", newline="\n") as stream:
             stream.write(json.dumps(event, ensure_ascii=False) + "\n")
         if submitted:
             break
@@ -242,7 +242,9 @@ def main() -> int:
         "prompt_sha256": core.sha256(core.TASK), "initial_image_sha256": core.sha256(core.INITIAL_IMAGE),
         "evaluator_process": evaluator, "evaluation": evaluation,
     }
-    (output / "run.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output / "run.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     # Credentials and run-local session state are never archived.
     for path in codex_home.rglob("*"):
         if path.is_file():

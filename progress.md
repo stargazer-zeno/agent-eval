@@ -401,3 +401,33 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 第一步运行无任务 image+JSON canary：修复 GPT/Claude HTTP 403，并确认 Seed 的推荐部署 ID、streaming/thinking timeout。
 - Provider Gate 通过后，从全新 workspace 各跑一次 Seed 与至少一个外部模型；不重跑或择优覆盖当前 Qwen 结果。
+## 2026-08-21 — Step 10：Seed Evolving via Codex
+
+### 当前阶段
+
+**Seed Agent Plan + Codex CLI Task 001 实验、汇总与报告已完成。**
+
+### 已完成内容
+
+- 核验 `.env` 新增 `Seed_Agent_Plan_key`，使用 Agent Plan 专属 Responses endpoint 和 `doubao-seed-evolving` model ID 完成 Codex canary。
+- 新增 run-local Codex custom provider、严格 Controller action schema、同 thread resume、fresh screenshot 与 hidden evaluator 链路。
+- canonical run1 保留为 provider timeout：10 个可解析 action，无 patch、无 observation，不计模型分。
+- compatibility run2 预载相同 public text 并附上 public PNG；模型用 4 actions 完成根因修复、fresh observation、smoke 和 submit。
+- hidden evaluator 得到 Functional 45、Visual 35、Regression 20，总分 100/100，`task_success=true`。
+
+### 关键结论
+
+- Seed Evolving 正确把 Objective 反向、Threat 正常定位到 `profile_alpha.tres` 的对象级 offset，并生成 `PI → 0.0` 的最小等价补丁。
+- Patch 后 fresh screenshot 被真实注入同一 Codex thread；模型随后运行 smoke 并提交，Verification 成立；首次 patch 成功使 Recovery 为 `N/A`。
+- HR 最低 Seed + external 有效分数现已具备：Seed Evolving 100、Qwen 42，但 public preload 差异使其只能作为 qualified case comparison。
+
+### 当前风险
+
+- Codex 0.142.5 不认识该第三方 model metadata，使用 fallback；Responses reasoning event 还产生兼容性 warning。
+- canonical 逐文件 controller 会让上下文和延迟快速增长，run1 在约 124K 上下文后 timeout。
+- run2 的 public preload 与 Qwen 逐步探索不一致，`comparison_eligible=false`；单任务也不支持通用排名。
+
+### 下一阶段输入
+
+- 若继续做严格比较，为 Qwen 与 Seed Evolving统一 public preload 或批量读取协议，并分别从全新 workspace 只跑一次。
+- 增加 Codex custom model metadata/streaming timeout canary；保持当前两条运行与分数不可覆盖。

@@ -2,7 +2,7 @@
 
 > **End-to-End Pilot Complete**
 >
-> **HR Formal Seed-vs-External Comparison Incomplete**
+> **Seed + External Model Minimum Completed; Controlled Comparison Qualified**
 >
 > 日期：2026-08-21
 
@@ -10,7 +10,7 @@
 
 本项目构建并运行了一条面向游戏开发视觉调试的 Coding Agent Evaluation 全链路：文献边界与研究问题、原创 Godot repository task、可展示 dataset、统一指标、隐藏自动 evaluator、API tool-loop、真实 provider 调用、hash-chain trajectory、case study 与结果报告。Task 001 的 Bug 状态三次稳定为 20/100，reference patch 三次稳定为 100/100；七类投机补丁均被拒绝。
 
-真实实验中，Qwen 是唯一形成有效提交的模型，得分 42/100 且失败；Seed 两次 provider timeout，GPT/Claude API 均 HTTP 403，Codex CLI 补充运行受 Windows sandbox/controller 阻断。因此“整条评测流水线”已经走通，但 HR 要求的有效 Seed 与外部模型双模型能力对比仍未完成，不能用无效运行冒充分数。
+真实实验中，`doubao-seed-evolving` 经火山方舟 Agent Plan 接入 Codex CLI，在 public-preload compatibility run 中得到 100/100 并成功；外部模型 Qwen 得分 42/100 且失败。HR 要求的 Seed + external 最低模型数量和真实分数已经具备，但两者 input packaging 不完全一致，不能把 58 分差距外推为一般模型排名。Seed canonical run1 timeout、GPT/Claude 403 与 Codex sandbox blocker 均保留为无效基础设施结果。
 
 ## 1. 研究问题与文献边界
 
@@ -44,11 +44,17 @@ Task 验证结果：Bug 三轮均 20/100；Oracle 三轮均 100/100；每种状�
 
 严格 headless 不能产生真实 viewport，故按用户批准使用隐藏 Windows renderer。API Harness 是一天内 P0 的工程放宽：它实现 workspace 路径与写入限制，但不是 VM/Windows Sandbox 级 OS 隔离。Codex CLI 补充运行证明当前 Windows `workspace-write` 又过于严格，拒绝了全部模型命令；未使用危险的全磁盘绕过选项。
 
+Seed Evolving 使用 Codex CLI 0.142.5 的 custom model provider：run-local `CODEX_HOME/config.toml` 指向 Agent Plan `/api/plan/v3` Responses endpoint，key 通过 `Seed_Agent_Plan_key` 环境变量注入。Codex 对该第三方模型使用 fallback metadata。为避免 Windows 直接写入 sandbox，模型每轮输出一个受 Schema 约束的 Controller action；Controller 执行文件读写、smoke 和 observation。canonical run1 因逐文件调用导致 124K 以上上下文和 provider timeout；run2 预载相同 public text 并附上 public 资产，将动作压缩到 4 步。
+
+接入依据：[火山方舟 Agent Plan 三方工具文档](https://console.volcengine.com/ark/region:cn-beijing/docs/82379/2556054?lang=zh)、[Codex Configuration Reference](https://learn.chatgpt.com/docs/config-file/config-reference)、[Codex Non-interactive Mode](https://learn.chatgpt.com/docs/non-interactive-mode)。
+
 ## 5. 真实结果
 
 | Run | Validity | Score | Task Success |
 | --- | --- | ---: | --- |
+| Seed Evolving via Codex run2 | valid compatibility preload | **100/100** | true |
 | Qwen `qwen3-vl-plus` | valid | 42/100 | false |
+| Seed Evolving via Codex run1 | provider timeout | 不计分 | — |
 | Seed 2.1 Pro run 1 | provider timeout | 不计分 | — |
 | Seed 2.1 Pro run 2 | provider timeout | 不计分 | — |
 | GPT API `gpt-5.6-sol` | HTTP 403 | 不计分 | — |
@@ -57,27 +63,32 @@ Task 验证结果：Bug 三轮均 20/100；Oracle 三轮均 100/100；每种状�
 
 Qwen 细分为 Functional 18、Visual 14、Regression 10。它执行 17 个可解析 actions，成功获得两张 fresh screenshot（另一次 capture timeout），并提交了修改；累计 API 请求报告 token 为 99,741。其最终共享算法修改在单一画面上看似改善，却在多方向隐藏矩阵中失败。
 
+Seed Evolving run2 细分为 Functional 45、Visual 35、Regression 20。它第一步将 Objective profile offset 从 `PI` 改为 `0.0`，随后请求 1 张 fresh screenshot、运行 smoke 并 submit；wall time 125.437 秒，4 actions，累计报告 token 206,913。补丁与 reference root cause 等价，10 个主 case 和所有回归检查通过。
+
 ## 6. 阶段分析与工程洞见
 
 Qwen 的 Perception 和文件定位范围部分正确，但根因判断错误导致共享算法过修。公开 smoke 触发一次语法恢复；成功 fresh screenshot 又触发一次基于新证据的 patch 变化，因此 Recovery 确实发生。最终 evaluator 说明“有闭环”和“做对任务”是两件事：视觉反馈提高了可纠错性，却不保证模型摆脱局部画面过拟合。
+
+Seed Evolving 的 Perception、Localization、Editing 和 Verification 均有成功证据；首次 patch 即正确，所以 Recovery 记为 `N/A`。它把 Objective 异常、Threat 正常和两张资产原生朝向组合为对象级配置根因，没有修改共享算法。
 
 工程上最重要的结论是 validity 必须先于 score。HTTP 403、provider timeout 和 sandbox 阻断不能被记录为模型 20 分；20 只是未修改 Seed 的 Bug baseline。模型比较报告必须把 availability、harness validity 与 task outcome 分层。
 
 ## 7. 局限与后续正式续跑
 
-- 单任务、单次有效轨迹不支持统计显著性、通用排名或模型家族强弱结论。
-- Seed 未产生有效提交，HR 正式 Seed vs external 对比尚缺失。
-- GPT/Claude `.env` 凭据或 endpoint 权限需修复；Seed endpoint 需确认流式响应、thinking timeout 或换用可稳定返回的部署 ID。
+- 单任务、两个有效轨迹不支持统计显著性、通用排名或模型家族强弱结论。
+- Seed run2 的 public preload 与 Qwen 的逐步探索不同，结果可作成功/失败 case study，但不是严格受控排名。
+- Seed canonical run1 仍有长上下文 provider timeout；Codex 对该模型缺少原生 metadata，fallback 可能影响行为和性能。
+- GPT/Claude `.env` 凭据或 endpoint 权限仍需修复。
 - 正式运行应采用 Windows Sandbox/VM 或独立低权限账号，同时保证 Godot GPU rendering 可用。
 - 应增加 2–5 个同结构任务，覆盖 layout、动画/瞬态状态，并预注册 timeout 与成本指标。
 
-续跑的第一优先级不是改题或放宽 Oracle，而是修复 provider 可用性：先做无任务图像 + JSON action canary；Seed 能在预算内稳定返回、GPT/Claude 鉴权成功后，从全新 workspace 各运行一次，再更新 `scores.json` 与本报告。Qwen 已有结果不应 best-of-n 重跑。
+下一轮应统一 input packaging：让 Qwen 与 Seed Evolving 都使用 public preload，或让两者都使用批量 read tool；随后从全新 workspace 各跑一次。现有 Qwen 与 Seed run2 均不应 best-of-n 覆盖。还应为 Codex custom model metadata、Responses reasoning events 和长上下文 timeout 建立专门 canary。
 
 ## 8. 交付索引
 
 - Dataset：`benchmark/dataset.jsonl`、`benchmark/DATASET_CARD.md`
 - Task 与验证：`benchmark/task_001/task.json`、`benchmark/task_001/validation.md`
-- Harness：`harness/run_api_eval.py`、`harness/api_models.json`
+- Harness：`harness/run_api_eval.py`、`harness/run_codex_provider_eval.py`、`harness/api_models.json`
 - 机器结果：`results/scores.json`
 - 对比与 Case Study：`results/comparison.md`、`results/pilot_case_study.md`
 - 原始运行：`experiments/task_001/`

@@ -49,7 +49,9 @@ def normalize_trajectory(run_dir: Path, provider: str) -> tuple[str | None, int,
     destination = TRAJECTORY_ROOT / provider / run_dir.name
     destination.mkdir(parents=True, exist_ok=True)
     if source.is_file():
-        shutil.copy2(source, destination / "raw.jsonl")
+        (destination / "raw.jsonl").write_text(
+            source.read_text(encoding="utf-8"), encoding="utf-8", newline="\n"
+        )
     previous = "0" * 64
     count = 0
     tokens = 0
@@ -88,7 +90,10 @@ def normalize_trajectory(run_dir: Path, provider: str) -> tuple[str | None, int,
                 reported = int(usage.get("input_tokens") or 0) + int(usage.get("output_tokens") or 0)
             tokens += int(reported or 0)
     normalized_path = destination / "normalized.jsonl"
-    normalized_path.write_text("\n".join(normalized_lines) + ("\n" if normalized_lines else ""), encoding="utf-8")
+    normalized_path.write_text(
+        "\n".join(normalized_lines) + ("\n" if normalized_lines else ""),
+        encoding="utf-8", newline="\n",
+    )
     artifacts = run_dir / "artifacts"
     screenshots = 0
     if artifacts.is_dir():
@@ -101,10 +106,12 @@ def normalize_trajectory(run_dir: Path, provider: str) -> tuple[str | None, int,
         "schema_version": 1, "event_count": count, "action_count": actions,
         "total_reported_tokens": tokens, "successful_screenshot_files": screenshots,
         "chain_head": previous if count else None,
-        "raw_sha256": digest_file(source) if source.is_file() else None,
+        "raw_sha256": digest_file(destination / "raw.jsonl") if source.is_file() else None,
         "normalized_sha256": digest_file(normalized_path),
     }
-    (destination / "receipt.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (destination / "receipt.json").write_text(
+        json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
     return receipt["chain_head"], actions, tokens, screenshots
 
 
@@ -161,7 +168,9 @@ def main() -> None:
             "successful_tasks": sum(1 for r in runs if r["task_success"] is True),
         },
     }
-    (RESULTS / "scores.json").write_text(json.dumps(aggregate, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (RESULTS / "scores.json").write_text(
+        json.dumps(aggregate, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
 
 
 if __name__ == "__main__":

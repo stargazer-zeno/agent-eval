@@ -1,4 +1,19 @@
-# Qwen Task 001 Trajectory Case Study
+# Task 001 Trajectory Case Study
+
+## Seed Evolving：成功轨迹
+
+| 阶段 | 判定 | 可观察证据 |
+| --- | --- | --- |
+| Perception | 成功 | 初始 runtime、Objective/Threat 公开资产与场景关系共同显示 Objective 反向而 Threat 正常。 |
+| Localization | 成功 | 首个 action 直接选择 `resources/profile_alpha.tres`；没有修改共享 tracker 或 `profile_beta.tres`。 |
+| Editing | 成功 | 唯一语义变更为 Objective `art_forward_offset: PI → 0.0`，与 reference root cause 等价。 |
+| Verification | 成功 | 请求 1 张 Controller 生成的 fresh PNG，随后运行 public smoke，退出码 0。 |
+| Recovery | N/A | 首次 patch 即正确，没有失败 patch 后改变 hypothesis 的机会。 |
+| Outcome | 成功 | hidden evaluator：45/45 + 35/35 + 20/20 = 100/100，`task_success=true`。 |
+
+成功 run 是 public-preload compatibility rerun，不是 canonical run1。run1 在逐文件读取 10 个 action 后因单轮 provider timeout 终止，无 patch、无 observation，记为 infrastructure invalid。
+
+## Qwen：失败与恢复轨迹
 
 本分析只引用 action、文件读写、公开工具结果、Controller screenshot receipt 与隐藏 evaluator；不使用不可见 chain-of-thought，也不把模型自述当作成功证据。
 
