@@ -1,5 +1,0 @@
-2026-08-21T04:43:35.705500Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
-{"type":"thread.started","thread_id":"01a022a0-f6cf-7812-aacb-714a2404fc1a"}
-{"type":"turn.started"}
-{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"{\"action\":\"submit\",\"path\":\"\",\"content\":\"\",\"summary\":\"Corrected the Objective tracker profile’s art-forward offset from PI to 0, matching its right-facing source sprite while preserving the Threat tracker’s required PI offset for its left-facing sprite. Fresh 960x540 runtime observation succeeded and shows both arrows aligned with their respective targets (Objective east, Threat northwest). Public smoke check passed.\"}"}}
-{"type":"turn.completed","usage":{"input_tokens":17593,"cached_input_tokens":16256,"cache_write_input_tokens":0,"output_tokens":162,"reasoning_output_tokens":72}}

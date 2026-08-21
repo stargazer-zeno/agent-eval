@@ -1,5 +1,37 @@
 # GameVisualFix 项目进度
 
+## 2026-08-21 — v2.1 Seed Responses 修复与 3x2 正式测试
+
+### 当前阶段
+
+**`gamevisualfix_v2_1_seed_proxy_3x2` 已完成实现、preflight、双 Provider canary、六次 canonical attempt、汇总与报告。**
+
+### 已完成内容
+
+- 新增 loopback-only `seed_responses_proxy.py`，依据官方 Responses streaming events 补齐 Seed added envelope 的 `content`、`summary`、part `text`、`annotations`、`logprobs`、response `output` 及缺失 done；所有事件重新生成单调 `sequence_number`。
+- 9 项标准库单元测试全部通过；Harness fixture self-test 和 T001/T002/T003 的 import、public smoke、capture、private evaluator preflight 全部通过。
+- Seed synthetic canary 的 active-item error 经字段形状诊断从 142/137 降为 0；最终 Seed 与 Local canary 均完成三图、长 prompt、首轮加两次 resume。前两次失败 canary 仅作为 adapter development lineage。
+- 按 T001 Seed→Local、T002 Seed→Local、T003 Seed→Local 顺序完成六次正式 attempt，全部为 `valid_canonical`；没有正式 infrastructure rerun。
+- Seed 三题均 100/100、task success 3/3；Local T001/T003 为 100/100，T002 未写补丁即提交，为有效 0/100，task success 2/3。
+- 生成 `results/v2_1_seed_proxy_scores.json`、对比报告、Case Study、综合报告和去 reasoning/正文的 trajectory hash-chain；旧 v2 restricted report 标记为历史。
+
+### 关键结论
+
+- v2 的 Seed N/A 是 Provider/Codex 生命周期 envelope 兼容问题；v2.1 修复 transport 后，Seed 三题均形成完整 thread、action、fresh observation、submit 与隐藏评测结果。
+- Local T002 的 0 分证明 evaluator 能拒绝正常渲染但未修复的提交；它不是基础设施失败，也没有重跑。
+- 五个满分造成明显 ceiling effect。每模型仅 3 题且每 pair 仅 1 次 attempt，只能作描述性 Case Study，不能作统计显著性或广泛泛化结论。
+
+### 当前风险
+
+- SSE adapter 针对当前 Seed Agent Plan 与 Codex 0.149 字段形状验证；任一端升级后需重新运行单元测试和 task-shaped canary。
+- 单机器、单账户、三项 synthetic Godot repair 不能代表真实大型游戏仓库或其他引擎。
+- `.env`、API key、Authorization、原始 Provider delta/reasoning 不得进入 Git；最终归档前仍需执行全仓 secret scan。
+
+### 下一阶段输入
+
+- 若继续提升数据集区分度，应新增经 Oracle 校准的任务或更强变体，而不是根据本轮模型输出调现有三题。
+- 若升级 Codex/Seed Provider，先建立新 suite ID，并重跑 synthetic canary 与全矩阵；不得把不同 transport 版本混入 v2.1 指标。
+
 本文件采用追加式记录。每个阶段固定保留“当前阶段、已完成内容、关键结论、当前风险、下一阶段输入”五项，避免后续更新覆盖重要决策历史。
 
 ## 2026-08-20 — Step 0

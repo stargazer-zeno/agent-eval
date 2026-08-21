@@ -1,0 +1,35 @@
+diff --git a/scripts/main.gd b/scripts/main.gd
+index c5b46f2..56006f9 100644
+--- a/scripts/main.gd
++++ b/scripts/main.gd
+@@ -1,10 +1,8 @@
+ class_name OrbitRelayScene
+ extends Node2D
+ 
+-# A camera-space HUD indicator.  The Objective path is intentionally wrong in
+-# this seed: its source remains in world space while its target is camera-space.
+ const SAFE_MARGIN := 42.0
+-const OBJECTIVE_SPACE_MODE := "mixed" # Change to "camera" for a behavioral fix.
++const OBJECTIVE_SPACE_MODE := "camera"
+ const SCENARIOS := {
+ 	"BASELINE": [30.0, 1.25, Vector2(520, -170)],
+ 	"ROTATE_LEFT": [-55.0, 1.25, Vector2(520, -170)],
+@@ -61,8 +59,6 @@ func _draw() -> void:
+ 	var center := size * 0.5
+ 	draw_circle(center, 14, Color("79a7ff"))
+ 	draw_arc(center, 120, 0, TAU, 48, Color("1b3b63"), 2)
+-	# The world-space beacons are represented inside the camera ring. The HUD
+-	# indicators must agree with these camera-space relationships.
+ 	var objective_world_direction := (camera_space(objective_world) - camera_space(player_world)).normalized()
+ 	var threat_world_direction := (camera_space(threat_world) - camera_space(player_world)).normalized()
+ 	draw_dashed_line(center, center + objective_world_direction * 112, Color("f5c451", 0.45), 2.0, 6.0)
+@@ -75,8 +71,6 @@ func _draw() -> void:
+ func _draw_indicator(tip: Vector2, direction: Vector2, color: Color, label: String) -> void:
+ 	var normal := Vector2(-direction.y, direction.x)
+ 	var base := tip - direction * 26.0
+-	# Lines are deliberately used instead of a polygon here: hidden-window GL
+-	# capture on the target AMD driver is stable for CanvasItem primitives.
+ 	draw_line(base + normal * 10, tip, color, 5.0, true)
+ 	draw_line(base - normal * 10, tip, color, 5.0, true)
+ 	draw_line(base + normal * 10, base - normal * 10, color, 4.0, true)
+warning: in the working copy of 'scripts/main.gd', LF will be replaced by CRLF the next time Git touches it

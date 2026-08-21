@@ -1,0 +1,90 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 3,
+  "errors": 0,
+  "upstream_event_counts": {
+    "[DONE]": 3,
+    "response.completed": 3,
+    "response.content_part.added": 3,
+    "response.content_part.done": 3,
+    "response.created": 3,
+    "response.in_progress": 3,
+    "response.output_item.added": 6,
+    "response.output_item.done": 6,
+    "response.output_text.delta": 1208,
+    "response.output_text.done": 3,
+    "response.reasoning_summary_part.added": 3,
+    "response.reasoning_summary_part.done": 3,
+    "response.reasoning_summary_text.delta": 605,
+    "response.reasoning_summary_text.done": 3
+  },
+  "output_event_counts": {
+    "response.completed": 3,
+    "response.content_part.added": 3,
+    "response.content_part.done": 3,
+    "response.created": 3,
+    "response.in_progress": 3,
+    "response.output_item.added": 6,
+    "response.output_item.done": 6,
+    "response.output_text.delta": 1208,
+    "response.output_text.done": 3,
+    "response.reasoning_summary_part.added": 3,
+    "response.reasoning_summary_part.done": 3,
+    "response.reasoning_summary_text.delta": 605,
+    "response.reasoning_summary_text.done": 3
+  },
+  "normalization_counts": {
+    "response.content_part.added": 3,
+    "response.content_part.done": 3,
+    "response.created": 3,
+    "response.in_progress": 3,
+    "response.output_item.added": 6,
+    "response.output_text.delta": 1208,
+    "response.reasoning_summary_part.added": 3
+  },
+  "field_shapes": {
+    "response.completed": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.output,response.prompt_cache_key,response.service_tier,response.status,response.store,response.text,response.tools,response.usage": 3
+    },
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 3
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 3
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 3
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 3
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 3,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 3
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 3,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 3
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 1208
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 3
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 3
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 3
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 605
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 3
+    }
+  },
+  "structure_sha256": "3dfb6cd771d3486b40120ff92d98044ce7d5c56f28774b3d421f5b2bafe51e25"
+}

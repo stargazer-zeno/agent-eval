@@ -1,0 +1,15 @@
+{
+  "source_path": "experiments/v2_1_seed_proxy/task_003/local_codex_20260821_run1/trajectory.jsonl",
+  "source_sha256": "d66836af738edc2bb8ff934193c3fb21852ba86c4e3a627fb274b20b2cc1a2a8",
+  "normalized_path": "trajectories/v2_1_seed_proxy/t003/local_codex/trajectory.jsonl",
+  "normalized_sha256": "78a94667162b92eba5650fd3ae0220e00d5eb9441a5c9fb16b74e3c603a9d6ac",
+  "events": 6,
+  "final_chain_hash": "54d0dbf2ada09cf4bcf34be3f6eb6d439c29c5d3188323358d23569bdb7bc637",
+  "excludes": [
+    "provider_stream",
+    "reasoning",
+    "model_text",
+    "file_content",
+    "submit_summary_text"
+  ]
+}

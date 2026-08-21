@@ -35,6 +35,10 @@ dist/
 # Run-local mutable model workspaces (patches and manifests are archived separately)
 experiments/**/workspace/
 experiments/**/codex_raw/
+experiments/**/codex_events/
+experiments/**/trajectory.jsonl
+experiments/v2_1_canary/seed_evolving_20260821/
+experiments/v2_1_canary/seed_evolving_20260821_run2/
 
 # Editor and operating-system metadata
 .idea/

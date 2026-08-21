@@ -1,6 +1,6 @@
-# GameVisualFix v2 Local Codex 单轨迹 Case Study
+# GameVisualFix v2 Local Codex 单轨迹 Case Study（历史版本）
 
-本分析只使用受控 Controller action、公开截图 receipt 与隐藏 evaluator 结果；不使用模型自述或不可见 reasoning 作为正确性证据。原始 Controller events 已被去除模型文本并 hash-chain 化，见 [`trajectories/v2_seed_local/`](../trajectories/v2_seed_local/)。
+本分析只使用受控 Controller action、公开截图 receipt 与隐藏 evaluator 结果；不使用模型自述或不可见 reasoning 作为正确性证据。旧 v2 轨迹目录已按发布规则移除，历史内容仍可从 Git 历史追溯；v2.1 脱敏轨迹见 [`trajectories/v2_1_seed_proxy/`](../trajectories/v2_1_seed_proxy/)。
 
 | Task | 可观察 action 序列 | Perception | Localization | Editing | Verification | Recovery | 自动评分 |
 | --- | --- | --- | --- | --- | --- | --- | --- |

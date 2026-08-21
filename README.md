@@ -1,10 +1,24 @@
 # GameVisualFix
 
+## v2.1 Seed + Local Codex 正式结果（2026-08-21）
+
+`gamevisualfix_v2_1_seed_proxy_3x2` 已完成三题 x 两 Provider 的六次 canonical attempt。Seed Evolving 三题均为 100/100（3/3 task success）；Local Codex 为 T001 100、T002 0、T003 100（2/3 task success）。T002 Local 是未写入补丁即提交的有效模型失败，按冻结协议保留且未重跑。
+
+- 综合数据集设计与测试报告：[`report/v2_1_seed_proxy_report.md`](report/v2_1_seed_proxy_report.md)
+- 项目最终汇报（调研、设计、指标、成本与案例）：[`report/final_project_report.md`](report/final_project_report.md)
+- 机器可读矩阵：[`results/v2_1_seed_proxy_scores.json`](results/v2_1_seed_proxy_scores.json)
+- 对比与 Case Study：[`results/v2_1_seed_proxy_comparison.md`](results/v2_1_seed_proxy_comparison.md)、[`results/v2_1_seed_proxy_case_study.md`](results/v2_1_seed_proxy_case_study.md)
+- 去 reasoning 的 action/observation hash-chain：[`trajectories/v2_1_seed_proxy/`](trajectories/v2_1_seed_proxy/)
+
+v2.1 使用仅监听 loopback 的 Responses SSE 归一化代理，补齐 Seed Agent Plan 缺失的 item/part 空容器与生命周期事件，不修改模型输出、任务、预算、Controller schema 或隐藏评分器。旧 [`report/v2_seed_local_report.md`](report/v2_seed_local_report.md) 是 transport 修复前的历史受限报告，不进入 v2.1 指标。
+
+最终发布范围：当前树只保留 v2.1 正式实验、脱敏轨迹、任务/评测实现、调研设计和历史摘要；早期 raw provider 输出与重复运行目录已从当前树移除。已有 Git 历史不改写，历史 invalid lineage 由 v2.1 score JSON 和报告保留。
+
 GameVisualFix 是一个面向游戏开发场景的 Multimodal Coding Agent Evaluation 项目，关注模型能否利用截图或运行时视觉状态，完成从观察、代码定位、修改、运行验证到失败恢复的开发闭环。
 
 > 当前定位是待研究和实验验证的项目假设，不是已经由文献或实验支持的结论。
 
-## 当前状态（2026-08-21）
+## 历史 v2 状态（2026-08-21，已由 v2.1 取代）
 
 历史 Task 001 Pilot 已完成并保留在 [`report/final_report.md`](report/final_report.md)。当前 v2 任务集扩展为 Easy / Medium / Hard 三题；本地 Codex `gpt-5.6-sol` 在三项唯一有效 canonical run 中均为 **100/100、成功**。Seed Evolving 在 Task 001 的两次完整任务调用均发生 Codex CLI / Provider 流式 transport invalid，按协议停止后续任务，不能记为能力分数；Qwen 已按用户指令跳过。因而 v2 只是一份受限的单 Provider 跨难度结果，不能作为模型排名。详见 [`report/v2_seed_local_report.md`](report/v2_seed_local_report.md) 与 [`results/v2_seed_local_scores.json`](results/v2_seed_local_scores.json)。
 

@@ -1,4 +1,4 @@
-# GameVisualFix v2：Seed + Local Codex 受限结果
+# GameVisualFix v2：Seed + Local Codex 受限结果（历史版本）
 
 > Suite：`gamevisualfix_v2_seed_local_3x2`。这是用户批准跳过 Qwen 后的受限执行结果，不是原 3×3 模型矩阵，也不是模型排名。
 
@@ -20,7 +20,7 @@
 | Local T002 run1 | `invalid_infrastructure` | manifest adapter 路径使 smoke 与 fresh observation 找不到脚本；隐藏 100 分不计入。 |
 | Local T002 run2 | `valid_canonical` | 修正 workspace-relative adapter 后的唯一有效 rerun，计分。 |
 
-完整机器可读数据（含文件哈希、时间、actions、invalid reason）在 [`v2_seed_local_scores.json`](v2_seed_local_scores.json)；行动 hash-chain 在 [`trajectories/v2_seed_local/`](../trajectories/v2_seed_local/)。
+完整机器可读数据（含文件哈希、时间、actions、invalid reason）保留在历史提交的 [`v2_seed_local_scores.json`](v2_seed_local_scores.json)；本工作树中的旧运行目录和轨迹已按发布规则移除。最终正式指标请参阅 [`v2_1_seed_proxy_scores.json`](v2_1_seed_proxy_scores.json) 与 [`final_project_report.md`](../report/final_project_report.md)。
 
 ## 解释边界
 

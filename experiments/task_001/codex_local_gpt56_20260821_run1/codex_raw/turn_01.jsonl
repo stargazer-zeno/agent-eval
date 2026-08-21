@@ -1,5 +1,0 @@
-2026-08-21T04:42:49.511371Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
-{"type":"thread.started","thread_id":"01a022a0-f6cf-7812-aacb-714a2404fc1a"}
-{"type":"turn.started"}
-{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"{\"action\":\"write_file\",\"path\":\"resources/profile_alpha.tres\",\"content\":\"[gd_resource type=\\\"Resource\\\" script_class=\\\"TrackerProfile\\\" load_steps=3 format=3]\\n\\n[ext_resource type=\\\"Script\\\" path=\\\"res://scripts/tracker_profile.gd\\\" id=\\\"1_profile\\\"]\\n[ext_resource type=\\\"Texture2D\\\" path=\\\"res://assets/objective_arrow.png\\\" id=\\\"2_icon\\\"]\\n\\n[resource]\\nscript = ExtResource(\\\"1_profile\\\")\\ntracker_label = \\\"Objective\\\"\\npanel_color = Color(0.298, 0.902, 0.631, 1)\\nicon = ExtResource(\\\"2_icon\\\")\\nart_forward_offset = 0.0\\n\",\"summary\":\"\"}"}}
-{"type":"turn.completed","usage":{"input_tokens":15642,"cached_input_tokens":0,"cache_write_input_tokens":0,"output_tokens":411,"reasoning_output_tokens":240}}

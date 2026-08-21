@@ -1,0 +1,968 @@
+{
+  "schema_version": 1,
+  "suite_id": "gamevisualfix_v2_1_seed_proxy_3x2",
+  "validity_rule": "metrics include only schema-v3 valid_canonical runs with a valid task-shaped canary",
+  "canonical_runs": [
+    {
+      "task": "T001",
+      "task_id": "gamevisualfix_task_001",
+      "difficulty": "Easy",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 5,
+      "action_sequence": [
+        "read_file",
+        "write_file",
+        "observe",
+        "run_smoke",
+        "submit"
+      ],
+      "observations_requested": 1,
+      "successful_fresh_observations": 1,
+      "elapsed_seconds": 105.969,
+      "token_usage": {
+        "input_tokens": 94734,
+        "cached_input_tokens": 76824,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3039,
+        "reasoning_output_tokens": 2728
+      },
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      },
+      "normalization_counts": {
+        "response.content_part.added": 5,
+        "response.content_part.done": 5,
+        "response.created": 5,
+        "response.in_progress": 5,
+        "response.output_item.added": 10,
+        "response.output_text.delta": 311,
+        "response.reasoning_summary_part.added": 5
+      },
+      "run_path": "experiments/v2_1_seed_proxy/task_001/seed_evolving_20260821_run1/run.json",
+      "run_sha256": "58245cc58ac04b8aaefb9c7b7a2779196eb22daee51b8df476987c79e5152b71",
+      "trajectory_receipt": {
+        "source_path": "experiments/v2_1_seed_proxy/task_001/seed_evolving_20260821_run1/trajectory.jsonl",
+        "source_sha256": "9cbd6da7399fdcc9f5a045af13e2ee4e5a39e23c60aa559937d75199daf1a480",
+        "normalized_path": "trajectories/v2_1_seed_proxy/t001/seed_evolving/trajectory.jsonl",
+        "normalized_sha256": "511a15a1ed9e61c8b4d7506ad34f1cdfb9f0f9a444d649c34a3bb26c45853240",
+        "events": 5,
+        "final_chain_hash": "1a132a27617c2474029f377a45d76d9b8dd9f70ee5a360cb906316f540675996",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "canary_receipt": {
+        "path": "experiments/v2_1_canary/seed_evolving_20260821_run3/canary.json",
+        "sha256": "63F8EE068887F508539F279A3FAEC112CD5C645AA4779B4D4201125908B691E8",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 44,
+              "reasoning_output_tokens": 24
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 89,
+              "reasoning_output_tokens": 49
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 142,
+              "reasoning_output_tokens": 83
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "EFDDF3D2865790FA7D62EF23302ECF2C26FA61D8B8E2A5F7EFFD31DB48C69F2C",
+        "task_prompt_sha256": "0C9E381E3C4CDF4669EF57AC59110AFEB4053E38EF335DE2AA27CBA3765CD95D",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "1AD0EEB44AB5808F01DE3D17A1976B8B2EFD1053DD1F70E74446ECD37649A50A"
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "adapter_diagnostics": {
+        "path": "experiments/v2_1_seed_proxy/task_001/seed_evolving_20260821_run1/adapter_receipt.json",
+        "sha256": "c28fdd0a8a45bd1deca35d71c5da1e29185f90a6c3b51615114ab24d59b7111b",
+        "streams": 5,
+        "fail_closed_streams": 0,
+        "completed_events": 5,
+        "done_markers": 5
+      }
+    },
+    {
+      "task": "T001",
+      "task_id": "gamevisualfix_task_001",
+      "difficulty": "Easy",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 8,
+      "action_sequence": [
+        "read_file",
+        "read_file",
+        "read_file",
+        "read_file",
+        "write_file",
+        "run_smoke",
+        "observe",
+        "submit"
+      ],
+      "observations_requested": 1,
+      "successful_fresh_observations": 1,
+      "elapsed_seconds": 76.016,
+      "token_usage": {
+        "input_tokens": 199633,
+        "cached_input_tokens": 147712,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1335,
+        "reasoning_output_tokens": 795
+      },
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      },
+      "normalization_counts": {},
+      "run_path": "experiments/v2_1_seed_proxy/task_001/local_codex_20260821_run1/run.json",
+      "run_sha256": "aad52c34d33d8b131852faf67c3b60c8a09f80fc3e9acdd2a469f0526913153b",
+      "trajectory_receipt": {
+        "source_path": "experiments/v2_1_seed_proxy/task_001/local_codex_20260821_run1/trajectory.jsonl",
+        "source_sha256": "ab65ba558a1e1d60992c067750b3367f4522fa065d5a19f9013b2060f5e1b92d",
+        "normalized_path": "trajectories/v2_1_seed_proxy/t001/local_codex/trajectory.jsonl",
+        "normalized_sha256": "8440505f545c16bdd8681a1bd77bcc8a2a1d767cbee8b375c3c39c23f18c11aa",
+        "events": 8,
+        "final_chain_hash": "a2cf77aa0325f76f46c32696de74ede1bd9d548832371e5505f5f10b15e009e1",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "canary_receipt": {
+        "path": "experiments/v2_1_canary/local_codex_20260821/canary.json",
+        "sha256": "AA3442AC385CE479B690E86189E2ADC37B374A70A65E82E3B6833F99806B9ED1",
+        "provider": "local_codex",
+        "model": "gpt-5.6-sol",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 1,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 37603,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 119,
+              "reasoning_output_tokens": 91
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 2,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 107482,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 159,
+              "reasoning_output_tokens": 104
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 1,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 205590,
+              "cached_input_tokens": 69504,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 196,
+              "reasoning_output_tokens": 114
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "EFDDF3D2865790FA7D62EF23302ECF2C26FA61D8B8E2A5F7EFFD31DB48C69F2C",
+        "task_prompt_sha256": "0C9E381E3C4CDF4669EF57AC59110AFEB4053E38EF335DE2AA27CBA3765CD95D",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "1AD0EEB44AB5808F01DE3D17A1976B8B2EFD1053DD1F70E74446ECD37649A50A"
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": null,
+      "adapter_sha256": null,
+      "adapter_diagnostics": null
+    },
+    {
+      "task": "T002",
+      "task_id": "gamevisualfix_task_002",
+      "difficulty": "Medium",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 4,
+      "action_sequence": [
+        "write_file",
+        "observe",
+        "run_smoke",
+        "submit"
+      ],
+      "observations_requested": 1,
+      "successful_fresh_observations": 1,
+      "elapsed_seconds": 89.188,
+      "token_usage": {
+        "input_tokens": 92489,
+        "cached_input_tokens": 65960,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 2189,
+        "reasoning_output_tokens": 440
+      },
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      },
+      "normalization_counts": {
+        "response.content_part.added": 4,
+        "response.content_part.done": 4,
+        "response.created": 6,
+        "response.in_progress": 6,
+        "response.output_item.added": 8,
+        "response.output_text.delta": 1749,
+        "response.reasoning_summary_part.added": 4
+      },
+      "run_path": "experiments/v2_1_seed_proxy/task_002/seed_evolving_20260821_run1/run.json",
+      "run_sha256": "326bf97877b2db9db51ea4a4aa4bd9b7de6c5a5ff4ae35c4ab788408d487760e",
+      "trajectory_receipt": {
+        "source_path": "experiments/v2_1_seed_proxy/task_002/seed_evolving_20260821_run1/trajectory.jsonl",
+        "source_sha256": "f3ee2bf8ff93e8eaca165b872695a3edd8a47adf12a3371f7d90b162b1bdbc5d",
+        "normalized_path": "trajectories/v2_1_seed_proxy/t002/seed_evolving/trajectory.jsonl",
+        "normalized_sha256": "16c57b74b5e651e4711b03d76ea1573ce827e1bd327038b098dfb2679e3dd85b",
+        "events": 4,
+        "final_chain_hash": "65833d5a09c737c9177ab393e6e0db63c8f38ff385352070ecbcc82d0a58932d",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "canary_receipt": {
+        "path": "experiments/v2_1_canary/seed_evolving_20260821_run3/canary.json",
+        "sha256": "63F8EE068887F508539F279A3FAEC112CD5C645AA4779B4D4201125908B691E8",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 44,
+              "reasoning_output_tokens": 24
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 89,
+              "reasoning_output_tokens": 49
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 142,
+              "reasoning_output_tokens": 83
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "E415AA400AF9D0F14BE4D041B4A6E8E6BC910FB2380A0007A117A93E86F2F23A",
+        "task_prompt_sha256": "A5E7F0A72BFAB0D7FF4572A493F3BDB42567BC8BA8BD9632F58A463BBCB4C87C",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "1AD0EEB44AB5808F01DE3D17A1976B8B2EFD1053DD1F70E74446ECD37649A50A"
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "adapter_diagnostics": {
+        "path": "experiments/v2_1_seed_proxy/task_002/seed_evolving_20260821_run1/adapter_receipt.json",
+        "sha256": "3e6bf1dafc8fce467aa0d98f06dc51e01a8ade6d02230bfb4048b0782f8cccd3",
+        "streams": 6,
+        "fail_closed_streams": 2,
+        "completed_events": 4,
+        "done_markers": 4
+      }
+    },
+    {
+      "task": "T002",
+      "task_id": "gamevisualfix_task_002",
+      "difficulty": "Medium",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 4,
+      "action_sequence": [
+        "read_file",
+        "observe",
+        "observe",
+        "submit"
+      ],
+      "observations_requested": 2,
+      "successful_fresh_observations": 2,
+      "elapsed_seconds": 107.485,
+      "token_usage": {
+        "input_tokens": 112573,
+        "cached_input_tokens": 65280,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 3043,
+        "reasoning_output_tokens": 1201
+      },
+      "scores": {
+        "functional": 0.0,
+        "visual": 0.0,
+        "regression": 0.0,
+        "total": 0.0,
+        "task_success": false
+      },
+      "normalization_counts": {},
+      "run_path": "experiments/v2_1_seed_proxy/task_002/local_codex_20260821_run1/run.json",
+      "run_sha256": "c4cbc253a3c905444a00496344daedb925cb5420d35463aa9bf652c892f6afb3",
+      "trajectory_receipt": {
+        "source_path": "experiments/v2_1_seed_proxy/task_002/local_codex_20260821_run1/trajectory.jsonl",
+        "source_sha256": "2bc05eff5fea314c82e8bb62c805827b73c9e1852d2c1194cc50e2779dfb266d",
+        "normalized_path": "trajectories/v2_1_seed_proxy/t002/local_codex/trajectory.jsonl",
+        "normalized_sha256": "5e60d0eb4d16dddf6c6e627540217ea86c5bca80ac3f4381188eeb411bcce74b",
+        "events": 4,
+        "final_chain_hash": "b366718a4c017e1640e9d5aa84ce4a5d11a3b2eeb3753fef9c61fd818a30ece0",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "canary_receipt": {
+        "path": "experiments/v2_1_canary/local_codex_20260821/canary.json",
+        "sha256": "AA3442AC385CE479B690E86189E2ADC37B374A70A65E82E3B6833F99806B9ED1",
+        "provider": "local_codex",
+        "model": "gpt-5.6-sol",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 1,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 37603,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 119,
+              "reasoning_output_tokens": 91
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 2,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 107482,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 159,
+              "reasoning_output_tokens": 104
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 1,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 205590,
+              "cached_input_tokens": 69504,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 196,
+              "reasoning_output_tokens": 114
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "E415AA400AF9D0F14BE4D041B4A6E8E6BC910FB2380A0007A117A93E86F2F23A",
+        "task_prompt_sha256": "A5E7F0A72BFAB0D7FF4572A493F3BDB42567BC8BA8BD9632F58A463BBCB4C87C",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "1AD0EEB44AB5808F01DE3D17A1976B8B2EFD1053DD1F70E74446ECD37649A50A"
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": null,
+      "adapter_sha256": null,
+      "adapter_diagnostics": null
+    },
+    {
+      "task": "T003",
+      "task_id": "gamevisualfix_task_003",
+      "difficulty": "Hard",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 3,
+      "action_sequence": [
+        "write_file",
+        "observe",
+        "submit"
+      ],
+      "observations_requested": 1,
+      "successful_fresh_observations": 1,
+      "elapsed_seconds": 111.875,
+      "token_usage": {
+        "input_tokens": 36730,
+        "cached_input_tokens": 27048,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 4262,
+        "reasoning_output_tokens": 3054
+      },
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      },
+      "normalization_counts": {
+        "response.content_part.added": 3,
+        "response.content_part.done": 3,
+        "response.created": 3,
+        "response.in_progress": 3,
+        "response.output_item.added": 6,
+        "response.output_text.delta": 1208,
+        "response.reasoning_summary_part.added": 3
+      },
+      "run_path": "experiments/v2_1_seed_proxy/task_003/seed_evolving_20260821_run1/run.json",
+      "run_sha256": "61de0f6102ccfb5f1901f1c6a5125d399823bd0e4bb63c0da902c47531e6a0dc",
+      "trajectory_receipt": {
+        "source_path": "experiments/v2_1_seed_proxy/task_003/seed_evolving_20260821_run1/trajectory.jsonl",
+        "source_sha256": "9a7430b00f3d9694597f83f112fe548ee81a9a560f4ac6d48666545bf44a53d9",
+        "normalized_path": "trajectories/v2_1_seed_proxy/t003/seed_evolving/trajectory.jsonl",
+        "normalized_sha256": "193a0fd9e69a9183585962a2339c62c565a3c435b59b6d7ef15abdc5ee99a437",
+        "events": 3,
+        "final_chain_hash": "38d01f79cb8846251423eac7af91633a13a84334a2a3c70cda660d4e88721735",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "canary_receipt": {
+        "path": "experiments/v2_1_canary/seed_evolving_20260821_run3/canary.json",
+        "sha256": "63F8EE068887F508539F279A3FAEC112CD5C645AA4779B4D4201125908B691E8",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 44,
+              "reasoning_output_tokens": 24
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 89,
+              "reasoning_output_tokens": 49
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 142,
+              "reasoning_output_tokens": 83
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "3E173A9E5FE75353505F8682740FD80E9B9F5C49341DE5222E17D3082F58325C",
+        "task_prompt_sha256": "9E4719E90598D1734D6D3F184577C2306E882EFE1B415FD102D9878E8B2DC578",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "1AD0EEB44AB5808F01DE3D17A1976B8B2EFD1053DD1F70E74446ECD37649A50A"
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "adapter_diagnostics": {
+        "path": "experiments/v2_1_seed_proxy/task_003/seed_evolving_20260821_run1/adapter_receipt.json",
+        "sha256": "b2bd7a07c332a763b53a2b7992573d32c2342cc22afe1b3032fa71ee3be89c95",
+        "streams": 3,
+        "fail_closed_streams": 0,
+        "completed_events": 3,
+        "done_markers": 3
+      }
+    },
+    {
+      "task": "T003",
+      "task_id": "gamevisualfix_task_003",
+      "difficulty": "Hard",
+      "provider": "local_codex",
+      "model": "gpt-5.6-sol",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 6,
+      "action_sequence": [
+        "list_files",
+        "read_file",
+        "write_file",
+        "run_smoke",
+        "observe",
+        "submit"
+      ],
+      "observations_requested": 1,
+      "successful_fresh_observations": 1,
+      "elapsed_seconds": 80.172,
+      "token_usage": {
+        "input_tokens": 100551,
+        "cached_input_tokens": 31488,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 1595,
+        "reasoning_output_tokens": 397
+      },
+      "scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0,
+        "task_success": true
+      },
+      "normalization_counts": {},
+      "run_path": "experiments/v2_1_seed_proxy/task_003/local_codex_20260821_run1/run.json",
+      "run_sha256": "17fd468df2616f6a67255e407dc646abedbbf508b14956d77ba0921df359ba70",
+      "trajectory_receipt": {
+        "source_path": "experiments/v2_1_seed_proxy/task_003/local_codex_20260821_run1/trajectory.jsonl",
+        "source_sha256": "d66836af738edc2bb8ff934193c3fb21852ba86c4e3a627fb274b20b2cc1a2a8",
+        "normalized_path": "trajectories/v2_1_seed_proxy/t003/local_codex/trajectory.jsonl",
+        "normalized_sha256": "78a94667162b92eba5650fd3ae0220e00d5eb9441a5c9fb16b74e3c603a9d6ac",
+        "events": 6,
+        "final_chain_hash": "54d0dbf2ada09cf4bcf34be3f6eb6d439c29c5d3188323358d23569bdb7bc637",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "canary_receipt": {
+        "path": "experiments/v2_1_canary/local_codex_20260821/canary.json",
+        "sha256": "AA3442AC385CE479B690E86189E2ADC37B374A70A65E82E3B6833F99806B9ED1",
+        "provider": "local_codex",
+        "model": "gpt-5.6-sol",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 1,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 37603,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 119,
+              "reasoning_output_tokens": 91
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 2,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 107482,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 159,
+              "reasoning_output_tokens": 104
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 1,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 205590,
+              "cached_input_tokens": 69504,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 196,
+              "reasoning_output_tokens": 114
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "3E173A9E5FE75353505F8682740FD80E9B9F5C49341DE5222E17D3082F58325C",
+        "task_prompt_sha256": "9E4719E90598D1734D6D3F184577C2306E882EFE1B415FD102D9878E8B2DC578",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "1AD0EEB44AB5808F01DE3D17A1976B8B2EFD1053DD1F70E74446ECD37649A50A"
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": null,
+      "adapter_sha256": null,
+      "adapter_diagnostics": null
+    }
+  ],
+  "aggregate": {
+    "seed_evolving": {
+      "valid_runs": 3,
+      "task_successes": 3,
+      "task_success_rate": 1.0,
+      "mean_scores": {
+        "functional": 45.0,
+        "visual": 35.0,
+        "regression": 20.0,
+        "total": 100.0
+      },
+      "elapsed_seconds": {
+        "total": 307.032,
+        "mean": 102.344
+      },
+      "actions": {
+        "total": 12,
+        "mean": 4.0
+      },
+      "successful_fresh_observations": 3,
+      "token_usage": {
+        "input_tokens": 223953,
+        "cached_input_tokens": 169832,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 9490,
+        "reasoning_output_tokens": 6222
+      },
+      "adapter_fail_closed_streams": 2
+    },
+    "local_codex": {
+      "valid_runs": 3,
+      "task_successes": 2,
+      "task_success_rate": 0.6666666666666666,
+      "mean_scores": {
+        "functional": 30.0,
+        "visual": 23.333,
+        "regression": 13.333,
+        "total": 66.667
+      },
+      "elapsed_seconds": {
+        "total": 263.673,
+        "mean": 87.891
+      },
+      "actions": {
+        "total": 18,
+        "mean": 6.0
+      },
+      "successful_fresh_observations": 4,
+      "token_usage": {
+        "input_tokens": 412757,
+        "cached_input_tokens": 244480,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 5973,
+        "reasoning_output_tokens": 2393
+      },
+      "adapter_fail_closed_streams": 0
+    }
+  },
+  "seed_normalization_counts": {
+    "response.content_part.added": 12,
+    "response.content_part.done": 12,
+    "response.created": 14,
+    "response.in_progress": 14,
+    "response.output_item.added": 24,
+    "response.output_text.delta": 3268,
+    "response.reasoning_summary_part.added": 12
+  },
+  "excluded_lineage": [
+    {
+      "suite_id": "gamevisualfix_v2_seed_local_3x2",
+      "path": "experiments/v2_seed_local/task_001/seed_evolving_20260821_run1/run.json",
+      "status": "invalid_infrastructure",
+      "reason": "provider_stream_missing_thread_and_controller_action"
+    },
+    {
+      "suite_id": "gamevisualfix_v2_seed_local_3x2",
+      "path": "experiments/v2_seed_local/task_001/seed_evolving_20260821_run2/run.json",
+      "status": "invalid_infrastructure",
+      "reason": "provider_stream_missing_thread_and_controller_action"
+    },
+    {
+      "suite_id": "gamevisualfix_v2_seed_local_3x2",
+      "path": "experiments/v2_seed_local/task_002/local_codex_20260821_run1/run.json",
+      "status": "invalid_infrastructure",
+      "reason": "controller_manifest_adapter_path"
+    },
+    {
+      "suite_id": "v2.1_adapter_development_canary",
+      "path": "experiments/v2_1_canary/seed_evolving_20260821/canary.json",
+      "status": "diagnostic_canary_failed",
+      "reason": "active_item_errors=142"
+    },
+    {
+      "suite_id": "v2.1_adapter_development_canary",
+      "path": "experiments/v2_1_canary/seed_evolving_20260821_run2/canary.json",
+      "status": "diagnostic_canary_failed",
+      "reason": "active_item_errors=137"
+    }
+  ],
+  "limitations": [
+    "one valid attempt per Task/Provider pair",
+    "three synthetic Godot tasks per model",
+    "five of six runs at the 100-point ceiling",
+    "single machine/account/version configuration",
+    "descriptive comparison only; no statistical inference"
+  ]
+}

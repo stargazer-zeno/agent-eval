@@ -62,4 +62,4 @@ Seed 的 token 数更高，主要因为 Codex Responses thread 每轮携带较�
 - 数据集只有一个合成任务，不支持统计显著性、通用模型排名或模型家族结论。
 - GPT/Claude 的 403、其他 Seed endpoint timeout 与 Codex sandbox blocker 都是 availability/infrastructure 结果，不是模型能力分数。
 
-机器可读数据见 `results/scores.json`，原始记录见 `experiments/task_001/`，hash-chain trajectory 见 `trajectories/task_001/`。
+本文件是 Task 001 Pilot 的历史摘要。原始运行正文已按最终发布规则移除，历史内容仍可从 Git 历史追溯；正式指标请参阅 [`v2_1_seed_proxy_scores.json`](v2_1_seed_proxy_scores.json) 和 [`final_project_report.md`](../report/final_project_report.md)，脱敏 hash-chain 轨迹见 [`trajectories/v2_1_seed_proxy/`](../trajectories/v2_1_seed_proxy/)。

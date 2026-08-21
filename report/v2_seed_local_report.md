@@ -1,4 +1,6 @@
-# GameVisualFix v2 Restricted Evaluation Report
+# GameVisualFix v2 Restricted Evaluation Report (Historical)
+
+> This report predates the Responses transport fix. Its Seed runs are infrastructure-invalid and do not enter current metrics. See [v2_1_seed_proxy_report.md](v2_1_seed_proxy_report.md) for the formal v2.1 results.
 
 ## Status
 

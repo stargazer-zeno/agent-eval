@@ -1,0 +1,237 @@
+{
+  "task_id": "gamevisualfix_task_002",
+  "functional": {
+    "score": 0.0,
+    "max": 45
+  },
+  "visual": {
+    "score": 0.0,
+    "max": 35
+  },
+  "regression": {
+    "score": 0.0,
+    "max": 20
+  },
+  "total": 0.0,
+  "task_success": false,
+  "case_count": 18,
+  "cases": [
+    {
+      "size": [
+        960,
+        540
+      ],
+      "rotation": 0.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.5181248348531747,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        960,
+        540
+      ],
+      "rotation": 0.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.9032246163849511,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        960,
+        540
+      ],
+      "rotation": 30.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.6904695402729192,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        960,
+        540
+      ],
+      "rotation": 30.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.8683370609042449,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        960,
+        540
+      ],
+      "rotation": -55.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.988423771525743,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        960,
+        540
+      ],
+      "rotation": -55.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.9903741122046531,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1280,
+        720
+      ],
+      "rotation": 0.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.5157318782177245,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1280,
+        720
+      ],
+      "rotation": 0.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.8903866409750294,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1280,
+        720
+      ],
+      "rotation": 30.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.6881951794378658,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1280,
+        720
+      ],
+      "rotation": 30.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.8692235566211001,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1280,
+        720
+      ],
+      "rotation": -55.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.9644877896821032,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1280,
+        720
+      ],
+      "rotation": -55.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.996255013139376,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1024,
+        600
+      ],
+      "rotation": 0.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.5150756869133517,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1024,
+        600
+      ],
+      "rotation": 0.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.8986805288417153,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1024,
+        600
+      ],
+      "rotation": 30.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.6913681209412521,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1024,
+        600
+      ],
+      "rotation": 30.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.8710959983288098,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1024,
+        600
+      ],
+      "rotation": -55.0,
+      "zoom": 0.72,
+      "capture_exit": 0,
+      "objective_dot": 0.9799126034798449,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    },
+    {
+      "size": [
+        1024,
+        600
+      ],
+      "rotation": -55.0,
+      "zoom": 1.25,
+      "capture_exit": 0,
+      "objective_dot": 0.9932541786933959,
+      "threat_visible": true,
+      "log": "Godot Engine v4.7.1.stable.official.a13da4feb - https://godotengine.org\nOpenGL API 3.3.0 Core Profile Context 22.20.44.47.230323 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon(TM) Graphics\n\nCAPTURE scenario=BASELINE err=0\n"
+    }
+  ],
+  "evaluator_version": "task002_capture_oracle_v2"
+}

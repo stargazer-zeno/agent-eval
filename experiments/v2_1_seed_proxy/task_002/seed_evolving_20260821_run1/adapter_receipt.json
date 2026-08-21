@@ -1,0 +1,91 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 6,
+  "errors": 2,
+  "upstream_event_counts": {
+    "[DONE]": 4,
+    "response.completed": 4,
+    "response.content_part.added": 4,
+    "response.content_part.done": 4,
+    "response.created": 6,
+    "response.in_progress": 6,
+    "response.output_item.added": 10,
+    "response.output_item.done": 8,
+    "response.output_text.delta": 1749,
+    "response.output_text.done": 4,
+    "response.reasoning_summary_part.added": 4,
+    "response.reasoning_summary_part.done": 4,
+    "response.reasoning_summary_text.delta": 251,
+    "response.reasoning_summary_text.done": 4
+  },
+  "output_event_counts": {
+    "response.completed": 4,
+    "response.content_part.added": 4,
+    "response.content_part.done": 4,
+    "response.created": 6,
+    "response.in_progress": 6,
+    "response.output_item.added": 8,
+    "response.output_item.done": 8,
+    "response.output_text.delta": 1749,
+    "response.output_text.done": 4,
+    "response.reasoning_summary_part.added": 4,
+    "response.reasoning_summary_part.done": 4,
+    "response.reasoning_summary_text.delta": 251,
+    "response.reasoning_summary_text.done": 4
+  },
+  "normalization_counts": {
+    "response.content_part.added": 4,
+    "response.content_part.done": 4,
+    "response.created": 6,
+    "response.in_progress": 6,
+    "response.output_item.added": 8,
+    "response.output_text.delta": 1749,
+    "response.reasoning_summary_part.added": 4
+  },
+  "field_shapes": {
+    "response.completed": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.output,response.prompt_cache_key,response.service_tier,response.status,response.store,response.text,response.tools,response.usage": 4
+    },
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 4
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 4
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 6
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 6
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.call_id,item.id,item.name,item.status,item.type": 2,
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 4,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 4
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 4,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 4
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 1749
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 4
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 4
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 4
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 251
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 4
+    }
+  },
+  "structure_sha256": "3cc425f5b188e3e9b395d24950aaafe0b4e82a29ee3f3f5360082ada020cb012"
+}

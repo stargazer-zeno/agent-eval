@@ -1,0 +1,90 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 5,
+  "errors": 0,
+  "upstream_event_counts": {
+    "[DONE]": 5,
+    "response.completed": 5,
+    "response.content_part.added": 5,
+    "response.content_part.done": 5,
+    "response.created": 5,
+    "response.in_progress": 5,
+    "response.output_item.added": 10,
+    "response.output_item.done": 10,
+    "response.output_text.delta": 311,
+    "response.output_text.done": 5,
+    "response.reasoning_summary_part.added": 5,
+    "response.reasoning_summary_part.done": 5,
+    "response.reasoning_summary_text.delta": 613,
+    "response.reasoning_summary_text.done": 5
+  },
+  "output_event_counts": {
+    "response.completed": 5,
+    "response.content_part.added": 5,
+    "response.content_part.done": 5,
+    "response.created": 5,
+    "response.in_progress": 5,
+    "response.output_item.added": 10,
+    "response.output_item.done": 10,
+    "response.output_text.delta": 311,
+    "response.output_text.done": 5,
+    "response.reasoning_summary_part.added": 5,
+    "response.reasoning_summary_part.done": 5,
+    "response.reasoning_summary_text.delta": 613,
+    "response.reasoning_summary_text.done": 5
+  },
+  "normalization_counts": {
+    "response.content_part.added": 5,
+    "response.content_part.done": 5,
+    "response.created": 5,
+    "response.in_progress": 5,
+    "response.output_item.added": 10,
+    "response.output_text.delta": 311,
+    "response.reasoning_summary_part.added": 5
+  },
+  "field_shapes": {
+    "response.completed": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.output,response.prompt_cache_key,response.service_tier,response.status,response.store,response.text,response.tools,response.usage": 5
+    },
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 5
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 5
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 5
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 5
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 5,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 5
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 5,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 5
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 311
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 5
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 5
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 5
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 613
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 5
+    }
+  },
+  "structure_sha256": "c2de466f4c90eb5ddc8bb6ed0ca76395949b83f83900dcf663e89ea867c20625"
+}

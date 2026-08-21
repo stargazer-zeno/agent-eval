@@ -1,5 +1,18 @@
 # GameVisualFix 模型评测 Harness
 
+## v2.1 Seed Responses adapter
+
+`seed_responses_proxy.py` 在每次 Seed run 内绑定 `127.0.0.1` 随机端口，将固定 `doubao-seed-evolving` Responses 请求转发到 Agent Plan 上游，并补齐 Codex 0.149 所需的 output item/content/reasoning 生命周期 envelope。代理 receipt 只保存事件类型、字段名、计数和结构哈希。
+
+正式 Runner 为 `run_codex_eval.py`，默认 suite 为 `gamevisualfix_v2_1_seed_proxy_3x2`。`run_provider_canary.py` 固定执行三张合成图、约 118 KB synthetic prompt 和两次显式 resume；`run_v2_1_preflight.py` 无模型检查三题 import、public smoke、capture 和 private evaluator；`summarize_v2_1_seed_proxy.py` 验证六个 canonical manifest 并生成分数、报告和去正文 hash-chain。
+
+```powershell
+python -m unittest -v harness/test_seed_responses_proxy.py
+python harness/run_provider_canary.py --provider seed_evolving --output <new-canary-output>
+python harness/run_codex_eval.py --task-id task_001 --provider seed_evolving --godot <godot.exe> --canary-receipt <canary.json> --output <new-run-output>
+python harness/summarize_v2_1_seed_proxy.py
+```
+
 > 2026-08-21 本地 Codex 修复：`run_codex_provider_eval.py --local-login --preload-public`
 > 使用当前 ChatGPT 登录、`gpt-5.6-sol`、`ultra` reasoning 和 read-only Codex 沙箱。
 > 模型只返回严格 JSON Controller action，文件读写、Godot smoke 与 fresh screenshot
@@ -15,7 +28,7 @@
 python harness/run_codex_provider_eval.py `
   --local-login --preload-public `
   --godot .cache/tools/godot-4.7.1/Godot_v4.7.1-stable_win64.exe `
-  --output experiments/task_001/codex_local_gpt56_20260821_run1
+  --output experiments/v2_1_seed_proxy/<task>/<provider>_<run_id>
 ```
 
 运行前应先确认 `codex login status` 为 ChatGPT 登录，并使用 OpenAI Structured Outputs

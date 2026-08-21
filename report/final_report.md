@@ -99,5 +99,5 @@ Local Codex 呈现相同的成功阶段链：首步对象级定位与编辑，�
 - Harness：`harness/run_api_eval.py`、`harness/run_codex_provider_eval.py`、`harness/api_models.json`
 - 机器结果：`results/scores.json`
 - 对比与 Case Study：`results/comparison.md`、`results/pilot_case_study.md`
-- 原始运行：`experiments/task_001/`
-- 可审计轨迹：`trajectories/task_001/`
+- 原始运行目录已按发布规则移除；历史内容仍可从 Git 历史追溯。
+- 当前正式结果与脱敏轨迹：[`report/final_project_report.md`](final_project_report.md)、[`results/v2_1_seed_proxy_scores.json`](../results/v2_1_seed_proxy_scores.json)、[`trajectories/v2_1_seed_proxy/`](../trajectories/v2_1_seed_proxy/)

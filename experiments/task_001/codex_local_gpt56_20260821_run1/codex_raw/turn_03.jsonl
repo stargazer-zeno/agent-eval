@@ -1,5 +1,0 @@
-2026-08-21T04:43:22.966962Z  WARN codex_core::shell_snapshot: Failed to create shell snapshot for powershell: Shell snapshot not supported yet for PowerShell
-{"type":"thread.started","thread_id":"01a022a0-f6cf-7812-aacb-714a2404fc1a"}
-{"type":"turn.started"}
-{"type":"item.completed","item":{"id":"item_0","type":"agent_message","text":"{\"action\":\"run_smoke\",\"path\":\"\",\"content\":\"\",\"summary\":\"\"}"}}
-{"type":"turn.completed","usage":{"input_tokens":17311,"cached_input_tokens":15232,"cache_write_input_tokens":0,"output_tokens":77,"reasoning_output_tokens":50}}

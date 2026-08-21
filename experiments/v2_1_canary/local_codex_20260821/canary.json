@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "provider": "local_codex",
+  "model": "gpt-5.6-sol",
+  "authentication": "chatgpt_login",
+  "valid": true,
+  "thread_started": true,
+  "active_item_errors": 0,
+  "turns": [
+    {
+      "exit_code": 0,
+      "timed_out": false,
+      "event_counts": {
+        "item.completed": 1,
+        "thread.started": 1,
+        "turn.completed": 1,
+        "turn.started": 1
+      },
+      "usage": {
+        "input_tokens": 37603,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 119,
+        "reasoning_output_tokens": 91
+      },
+      "action": "list_files",
+      "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+    },
+    {
+      "exit_code": 0,
+      "timed_out": false,
+      "event_counts": {
+        "item.completed": 2,
+        "thread.started": 1,
+        "turn.completed": 1,
+        "turn.started": 1
+      },
+      "usage": {
+        "input_tokens": 107482,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 159,
+        "reasoning_output_tokens": 104
+      },
+      "action": "observe",
+      "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+    },
+    {
+      "exit_code": 0,
+      "timed_out": false,
+      "event_counts": {
+        "item.completed": 1,
+        "thread.started": 1,
+        "turn.completed": 1,
+        "turn.started": 1
+      },
+      "usage": {
+        "input_tokens": 205590,
+        "cached_input_tokens": 69504,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 196,
+        "reasoning_output_tokens": 114
+      },
+      "action": "submit",
+      "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+    }
+  ],
+  "synthetic_prompt_sha256": [
+    "206a94c97a97a00b218474fdc0bb9076630e1693a2e5c7afb9b93181f4d4eb98",
+    "f0993e9c11cbc0794fef0ecd7085bdab8e1e3a4ba910a5cafd6d790ef4c9bd2a",
+    "d47f8e32c465d5bb639ac8827479d83d8b560a02f672e640abf8198d1507e502"
+  ],
+  "synthetic_image_sha256": [
+    "3EB088D88F44F122B1AA2645705CC63CE53A50D1C75ACF199BA6A9E43F69F231",
+    "7AA292FCB44F4BC40CFC18B80B9E9860F51859BE727172BC3D1C84507A11E82E",
+    "76541C571D5602961FFFC23D26AB961CBEEDABABCC8D76ACE458A862E8F7F1CE"
+  ],
+  "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+  "codex_version": "codex-cli 0.149.0",
+  "codex_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+  "transport_adapter": null,
+  "adapter_sha256": null,
+  "adapter_receipt": null
+}

@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
-"""Canonical task-manifest Codex CLI controller evaluation for GameVisualFix v2."""
+"""Canonical task-manifest Codex CLI controller evaluation for GameVisualFix v2.1."""
 from __future__ import annotations
 
 import argparse, hashlib, json, os, re, shutil, subprocess, sys, time
 from pathlib import Path
+
+try:
+    import seed_responses_proxy
+except ImportError:  # Importing as harness.run_codex_eval from repository root.
+    from harness import seed_responses_proxy
 
 ROOT = Path(__file__).resolve().parents[1]
 READABLE = {".gd", ".tscn", ".tres", ".godot", ".md", ".json", ".cfg", ".txt"}
@@ -86,10 +91,10 @@ def capture(workspace: Path, task: dict, godot: Path, output: Path, scenario: st
     code, log, timed = command([str(godot), "--path", str(workspace), "--display-driver", "windows", "--rendering-driver", "opengl3", "--rendering-method", "gl_compatibility", "--audio-driver", "Dummy", "--position", "12000,12000", "--script", "res://" + str(script.relative_to(workspace)).replace("\\", "/"), "--", "--output", str(output.resolve()), "--scenario", selected], 120)
     return {"phase":"capture","exit_code":code,"output":log,"timed_out":timed,"image_exists":output.is_file(),"image_sha256":digest(output) if output.is_file() else None,"scenario":selected}
 
-def provider_config(provider: str, secrets: dict[str, str], home: Path) -> tuple[str, str, dict[str, str], list[str]]:
+def provider_config(provider: str, secrets: dict[str, str], home: Path, base_override: str | None = None) -> tuple[str, str, dict[str, str], list[str]]:
     env = safe_env(); args: list[str] = []
     if provider == "local_codex": return "gpt-5.6-sol", "chatgpt_login", env, ["--model", "gpt-5.6-sol", "-c", "model_reasoning_effort=ultra"]
-    if provider == "seed_evolving": key, model, name, base = "Seed_Agent_Plan_key", "doubao-seed-evolving", "volcengine-agent-plan", "https://ark.cn-beijing.volces.com/api/plan/v3"
+    if provider == "seed_evolving": key, model, name, base = "Seed_Agent_Plan_key", "doubao-seed-evolving", "volcengine-agent-plan", base_override or seed_responses_proxy.DEFAULT_UPSTREAM
     elif provider == "qwen38": key, model, name, base = "QWEN_API_KEY", "qwen3.8-max", "qwen38", secrets.get("QWEN_BASE_URL", "")
     else: raise SystemExit("provider must be local_codex, seed_evolving, or qwen38")
     if not secrets.get(key) or not base: raise SystemExit(f"{key} or provider base URL is unavailable")
@@ -100,9 +105,67 @@ def provider_config(provider: str, secrets: dict[str, str], home: Path) -> tuple
     extra = ["--model", model] + (["-c", "model_reasoning_effort=high"] if provider == "qwen38" else [])
     return model, provider, env, extra
 
+
+def sanitized_codex_events(raw: str) -> str:
+    """Retain lifecycle telemetry without archiving model or reasoning text."""
+    output = []
+    for line in raw.splitlines():
+        try:
+            source = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        event = {"type": source.get("type")}
+        if source.get("type") == "thread.started":
+            event["thread_id"] = source.get("thread_id")
+        if source.get("type") == "turn.completed" and isinstance(source.get("usage"), dict):
+            event["usage"] = source["usage"]
+        item = source.get("item") if isinstance(source.get("item"), dict) else None
+        if item:
+            event["item_type"] = item.get("type")
+            text = item.get("text")
+            if isinstance(text, str):
+                event["text_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
+        output.append(json.dumps(event, ensure_ascii=False, separators=(",", ":")))
+    return "\n".join(output) + ("\n" if output else "")
+
+
+def transport_failure(raw: str, code: int, timed_out: bool, thread: str | None) -> tuple[bool, str]:
+    """Separate reproducible transport failures from valid model failures."""
+    if timed_out:
+        return False, "model_turn_timeout"
+    lowered = raw.lower()
+    markers = (
+        "without active item", "error sending request", "stream disconnected",
+        "connection refused", "connection reset", "dns error", "tls error",
+        "upstream unavailable", "http status 401", "http status 403",
+        "http status 429", "http status 500", "http status 502",
+        "http status 503", "http status 504",
+    )
+    if any(marker in lowered for marker in markers):
+        return True, "provider_or_codex_transport"
+    if code and not thread:
+        return True, "codex_process_failed_before_thread"
+    return False, "missing_or_invalid_controller_action"
+
+
+def public_canary_receipt(path: Path | None) -> dict | None:
+    if path is None:
+        return None
+    report = json.loads(path.read_text(encoding="utf-8"))
+    return {
+        "path": path.resolve().relative_to(ROOT).as_posix() if ROOT in path.resolve().parents else path.name,
+        "sha256": digest(path),
+        "provider": report.get("provider"),
+        "model": report.get("model"),
+        "valid": report.get("valid"),
+        "turns": report.get("turns"),
+        "thread_started": report.get("thread_started"),
+        "active_item_errors": report.get("active_item_errors"),
+    }
+
 def main() -> int:
-    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_seed_local_3x2"); args = p.parse_args()
-    task_dir = ROOT / "benchmark" / args.task_id; task = json.loads((task_dir / "task.json").read_text(encoding="utf-8"))
+    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--canary-receipt", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_1_seed_proxy_3x2"); args = p.parse_args()
+    task_dir = ROOT / "benchmark" / args.task_id; task_json = task_dir / "task.json"; task = json.loads(task_json.read_text(encoding="utf-8"))
     # Task 001 predates v2's nested manifest. Preserve its frozen metadata and
     # supply the v2 dispatch contract here rather than rewriting the pilot spec.
     if "harness" not in task:
@@ -110,62 +173,170 @@ def main() -> int:
     public = task_dir / task["harness"]["public_root"]
     output = args.output.resolve()
     if output.exists(): raise SystemExit("output must not already exist")
-    output.mkdir(parents=True); workspace, artifacts, rawdir = output / "workspace", output / "artifacts", output / "codex_raw"; artifacts.mkdir(); rawdir.mkdir()
+    output.mkdir(parents=True); workspace, artifacts, eventdir = output / "workspace", output / "artifacts", output / "codex_events"; artifacts.mkdir(); eventdir.mkdir()
     shutil.copytree(public, workspace, ignore=lambda _, names: {n for n in names if n in {".godot", ".git"} or n.endswith((".uid", ".import"))})
     code, _, _ = command(["git", "init", "-b", "main"], 30, workspace); command(["git", "add", "-A"], 30, workspace); command(["git", "commit", "-m", "baseline", "--no-gpg-sign"], 30, workspace)
-    home = output / "control" / "codex_home"; model, auth, env, extra = provider_config(args.provider, dotenv(args.env_file), home)
-    # External providers are configured in the run-local CODEX_HOME. Do not use
-    # --ignore-user-config here: that flag also ignores this isolated provider
-    # config and silently falls back to api.openai.com.
-    executable = native_codex(args.codex_exe); schema = ROOT / "harness" / "controller_action.schema.json"; common = ["--json", "--ignore-rules", "--output-schema", str(schema), "--disable", "plugins", "--disable", "apps", "--disable", "multi_agent", "--disable", "browser_use", "--disable", "computer_use", "--disable", "shell_tool", "--disable", "skill_search", "--disable", "hooks", "-c", 'web_search="disabled"']
-    prompt = PROTOCOL + "\nTASK:\n" + (workspace / "TASK.md").read_text(encoding="utf-8")
-    for relative in files(workspace):
-        path = workspace / relative
-        if path.suffix.lower() in READABLE and relative != "TASK.md": prompt += f"\n--- {relative} ---\n" + path.read_text(encoding="utf-8", errors="replace")[:30000]
-    initial = [workspace / x.replace("public/", "") for x in task["harness"].get("preload_images", [])]
-    started, thread, observations, submitted, valid, summary = time.monotonic(), None, 0, False, True, ""
+    home = output / "control" / "codex_home"
+    proxy = seed_responses_proxy.SeedResponsesProxy() if args.provider == "seed_evolving" else None
+    if proxy:
+        proxy.start()
+    started = time.monotonic()
+    thread = None
+    observations = successful_observations = action_count = 0
+    submitted = False
+    result_status = "valid_canonical"
+    invalid_reason = None
+    terminal_status = "action_budget_exhausted"
+    summary = ""
     trajectory = output / "trajectory.jsonl"
-    for step in range(1, int(task["harness"]["action_budget"]) + 1):
-        if time.monotonic() - started > int(task["harness"]["time_budget_seconds"]): valid=False; summary="run timeout"; break
-        # `codex exec --image` is a variadic option (`--image <FILE>...`), not
-        # a repeatable one-file flag.  Group all initial public images behind a
-        # single option so third-party Responses providers see the same input
-        # shape as the documented CLI invocation.
-        if step == 1:
-            initial_images = [str(x) for x in initial if x.is_file()]
-            image_args = ["--image", *initial_images] if initial_images else []
-            cmd = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, *image_args, "-C", str(workspace), "-"]
-        else: cmd = [str(executable), "exec", "resume", *common, *(["--image", str(pending_image)] if pending_image else []), str(thread), "-"]
-        code, raw, timed = command(cmd, 240, workspace, env, prompt); (rawdir / f"turn_{step:02d}.jsonl").write_text(raw, encoding="utf-8")
-        new_thread, message, usage = extract(raw); thread = thread or new_thread; event={"step":step,"exit_code":code,"timed_out":timed,"usage":usage,"model_text":message}
-        if code or not thread or not message: valid=False; summary="Codex/provider transport failure"; event["failure_class"]="provider_or_codex_transport"; trajectory.open("a",encoding="utf-8").write(json.dumps(event)+"\n"); break
-        pending_image=None
-        try:
-            action=json_action(message); event["action"]=action; name=action["action"]
-            if name=="list_files": result={"files":files(workspace)}
-            elif name=="read_file":
-                path,rel=safe_path(workspace,action["path"]); result={"path":rel,"content":path.read_text(encoding="utf-8",errors="replace")[:50000]} if path.is_file() and path.suffix.lower() in READABLE else {"error":"not readable"}
-            elif name=="write_file":
-                path,rel=safe_path(workspace,action["path"])
-                if rel in PROTECTED or rel.startswith(PROTECTED_PREFIXES) or path.suffix.lower() not in WRITABLE: raise ValueError("protected/unwritable path")
-                path.parent.mkdir(parents=True,exist_ok=True); path.write_text(action["content"],encoding="utf-8",newline="\n"); result={"written":rel,"sha256":digest(path)}
-            elif name=="run_smoke":
-                code,log,timed=command([str(args.godot.resolve()),"--headless","--path",str(workspace),"--script","res://"+task["harness"]["smoke_adapter"]],90); result={"exit_code":code,"output":log,"timed_out":timed}
-            elif name=="observe":
-                if observations>=int(task["harness"]["observation_budget"]): raise ValueError("observation budget exhausted")
-                observations+=1; pending_image=artifacts/f"observation_{observations}.png"; result=capture(workspace,task,args.godot.resolve(),pending_image,action["scenario"])
-                if result["exit_code"]!=0 or not result["image_exists"]: pending_image=None
-            elif name=="submit": submitted=True; summary=action["summary"][:2000]; result={"accepted":True}
-            else: raise ValueError("unknown action")
-        except Exception as exc: result={"error":str(exc)[:500]}
-        event["tool_result"]=result; trajectory.open("a",encoding="utf-8").write(json.dumps(event,ensure_ascii=False)+"\n")
-        if submitted: break
-        prompt=PROTOCOL+"\nController result:\n"+json.dumps(result,ensure_ascii=False)
-    patch_code, patch_text, _=command(["git","diff","--no-ext-diff"],30,workspace); (output/"final.patch").write_text(patch_text,encoding="utf-8")
-    eval_dir=output/"evaluation"; eval_dir.mkdir(); evaluator=task_dir/task["harness"]["private_evaluator"]; code,elog,timed=command([sys.executable,str(evaluator),"--candidate",str(workspace),"--godot",str(args.godot.resolve()),"--output",str(eval_dir)],300)
-    evaluation=json.loads((eval_dir/"evaluation.json").read_text(encoding="utf-8")) if (eval_dir/"evaluation.json").is_file() else None
-    version=command([str(executable),"--version"],15)[1].strip(); manifest={"schema_version":2,"experiment_suite_id":args.suite_id,"task_id":task["task_id"],"provider":args.provider,"model":model,"authentication":auth,"mode":"codex_cli_controller_actions","codex_cli_version":version,"codex_executable_sha256":digest(executable),"valid_api":valid,"submitted":submitted,"observations":observations,"elapsed_seconds":round(time.monotonic()-started,3),"thread_id":thread,"summary":summary,"evaluation":evaluation,"evaluator_exit_code":code,"evaluator_timed_out":timed}
-    (output/"run.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
-    if home.exists(): shutil.rmtree(home,ignore_errors=True)
-    print(json.dumps({"valid_api":valid,"submitted":submitted,"score":evaluation.get("total") if evaluation else None,"task_success":evaluation.get("task_success") if evaluation else None})); return 0
+    pending_image = None
+    try:
+        model, auth, env, extra = provider_config(args.provider, dotenv(args.env_file), home, proxy.base_url if proxy else None)
+        # External providers use only this run-local config; ignoring it would
+        # silently route the request to the default OpenAI provider.
+        executable = native_codex(args.codex_exe)
+        schema = ROOT / "harness" / "controller_action.schema.json"
+        common = ["--json", "--ignore-rules", "--output-schema", str(schema), "--disable", "plugins", "--disable", "apps", "--disable", "multi_agent", "--disable", "browser_use", "--disable", "computer_use", "--disable", "shell_tool", "--disable", "skill_search", "--disable", "hooks", "-c", 'web_search="disabled"']
+        prompt = PROTOCOL + "\nTASK:\n" + (workspace / "TASK.md").read_text(encoding="utf-8")
+        for relative in files(workspace):
+            path = workspace / relative
+            if path.suffix.lower() in READABLE and relative != "TASK.md":
+                prompt += f"\n--- {relative} ---\n" + path.read_text(encoding="utf-8", errors="replace")[:30000]
+        initial = [workspace / value.replace("public/", "") for value in task["harness"].get("preload_images", [])]
+        for step in range(1, int(task["harness"]["action_budget"]) + 1):
+            if time.monotonic() - started > int(task["harness"]["time_budget_seconds"]):
+                terminal_status = "model_run_timeout"
+                summary = "run timeout"
+                break
+            if step == 1:
+                initial_images = [str(value) for value in initial if value.is_file()]
+                image_args = ["--image", *initial_images] if initial_images else []
+                cmd = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, *image_args, "-C", str(workspace), "-"]
+            else:
+                cmd = [str(executable), "exec", "resume", *common, *(["--image", str(pending_image)] if pending_image else []), str(thread), "-"]
+            code, raw, timed = command(cmd, 240, workspace, env, prompt)
+            (eventdir / f"turn_{step:02d}.jsonl").write_text(sanitized_codex_events(raw), encoding="utf-8")
+            new_thread, message, usage = extract(raw)
+            thread = thread or new_thread
+            event = {"step": step, "exit_code": code, "timed_out": timed, "usage": usage}
+            if code or not thread or not message:
+                infrastructure, reason = transport_failure(raw, code, timed, thread)
+                event["failure_class"] = reason
+                terminal_status = reason
+                summary = reason
+                if infrastructure:
+                    result_status = "invalid_infrastructure"
+                    invalid_reason = reason
+                trajectory.open("a", encoding="utf-8").write(json.dumps(event) + "\n")
+                break
+            pending_image = None
+            try:
+                action = json_action(message)
+                event["action"] = action
+                action_count += 1
+                name = action["action"]
+                if name == "list_files":
+                    result = {"files": files(workspace)}
+                elif name == "read_file":
+                    path, rel = safe_path(workspace, action["path"])
+                    result = {"path": rel, "content": path.read_text(encoding="utf-8", errors="replace")[:50000]} if path.is_file() and path.suffix.lower() in READABLE else {"error": "not readable"}
+                elif name == "write_file":
+                    path, rel = safe_path(workspace, action["path"])
+                    if rel in PROTECTED or rel.startswith(PROTECTED_PREFIXES) or path.suffix.lower() not in WRITABLE:
+                        raise ValueError("protected/unwritable path")
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text(action["content"], encoding="utf-8", newline="\n")
+                    result = {"written": rel, "sha256": digest(path)}
+                elif name == "run_smoke":
+                    code, log, timed = command([str(args.godot.resolve()), "--headless", "--path", str(workspace), "--script", "res://" + task["harness"]["smoke_adapter"]], 90)
+                    result = {"exit_code": code, "output": log, "timed_out": timed}
+                elif name == "observe":
+                    if observations >= int(task["harness"]["observation_budget"]):
+                        raise ValueError("observation budget exhausted")
+                    observations += 1
+                    pending_image = artifacts / f"observation_{observations}.png"
+                    result = capture(workspace, task, args.godot.resolve(), pending_image, action["scenario"])
+                    if result["exit_code"] == 0 and result["image_exists"]:
+                        successful_observations += 1
+                    else:
+                        pending_image = None
+                elif name == "submit":
+                    submitted = True
+                    terminal_status = "submitted"
+                    summary = action["summary"][:2000]
+                    result = {"accepted": True}
+                else:
+                    raise ValueError("unknown action")
+            except Exception as exc:
+                result = {"error": str(exc)[:500]}
+            event["tool_result"] = result
+            trajectory.open("a", encoding="utf-8").write(json.dumps(event, ensure_ascii=False) + "\n")
+            if submitted:
+                break
+            prompt = PROTOCOL + "\nController result:\n" + json.dumps(result, ensure_ascii=False)
+
+        _, patch_text, _ = command(["git", "diff", "--no-ext-diff"], 30, workspace)
+        (output / "final.patch").write_text(patch_text, encoding="utf-8")
+        eval_dir = output / "evaluation"
+        eval_dir.mkdir()
+        evaluator = task_dir / task["harness"]["private_evaluator"]
+        eval_code, _, eval_timed = command([sys.executable, str(evaluator), "--candidate", str(workspace), "--godot", str(args.godot.resolve()), "--output", str(eval_dir)], 300)
+        evaluation_path = eval_dir / "evaluation.json"
+        evaluation = json.loads(evaluation_path.read_text(encoding="utf-8")) if evaluation_path.is_file() else None
+        if evaluation is None:
+            result_status = "invalid_infrastructure"
+            invalid_reason = invalid_reason or "private_evaluator_produced_no_result"
+        codex_version = command([str(executable), "--version"], 15)[1].strip()
+        godot_version = command([str(args.godot.resolve()), "--version"], 30)[1].strip()
+        adapter_receipt = proxy.receipt() if proxy else None
+        if adapter_receipt:
+            (output / "adapter_receipt.json").write_text(json.dumps(adapter_receipt, indent=2) + "\n", encoding="utf-8")
+        manifest = {
+            "schema_version": 3,
+            "experiment_suite_id": args.suite_id,
+            "task_id": task["task_id"],
+            "provider": args.provider,
+            "model": model,
+            "authentication": auth,
+            "mode": "codex_cli_controller_actions",
+            "transport_adapter": seed_responses_proxy.ADAPTER_NAME if proxy else None,
+            "adapter_sha256": digest(Path(seed_responses_proxy.__file__)) if proxy else None,
+            "normalization_counts": adapter_receipt["normalization_counts"] if adapter_receipt else {},
+            "canary_receipt": public_canary_receipt(args.canary_receipt),
+            "result_status": result_status,
+            "invalid_reason": invalid_reason,
+            "terminal_status": terminal_status,
+            "codex_cli_version": codex_version,
+            "codex_executable_sha256": digest(executable),
+            "godot_version": godot_version,
+            "godot_executable_sha256": digest(args.godot.resolve()),
+            "input_hashes": {
+                "task_manifest_sha256": digest(task_json),
+                "task_prompt_sha256": digest(task_dir / task["harness"]["prompt"]),
+                "controller_schema_sha256": digest(schema),
+                "runner_sha256": digest(Path(__file__)),
+            },
+            "valid_api": result_status == "valid_canonical",
+            "submitted": submitted,
+            "actions": action_count,
+            "observations": observations,
+            "successful_fresh_observations": successful_observations,
+            "elapsed_seconds": round(time.monotonic() - started, 3),
+            "thread_id": thread,
+            "summary": {
+                "bytes": len(summary.encode("utf-8")),
+                "sha256": hashlib.sha256(summary.encode("utf-8")).hexdigest(),
+            },
+            "evaluation": evaluation,
+            "evaluator_exit_code": eval_code,
+            "evaluator_timed_out": eval_timed,
+        }
+        (output / "run.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        print(json.dumps({"result_status": result_status, "submitted": submitted, "score": evaluation.get("total") if evaluation else None, "task_success": evaluation.get("task_success") if evaluation else None}))
+        return 0 if result_status == "valid_canonical" else 2
+    finally:
+        if proxy:
+            proxy.close()
+        if home.exists():
+            shutil.rmtree(home, ignore_errors=True)
 if __name__=="__main__": raise SystemExit(main())

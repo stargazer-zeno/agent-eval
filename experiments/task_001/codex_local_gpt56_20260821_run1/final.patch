@@ -1,8 +1,0 @@
---- a/resources/profile_alpha.tres
-+++ b/resources/profile_alpha.tres
-@@ -8,4 +8,4 @@
- tracker_label = "Objective"
- panel_color = Color(0.298, 0.902, 0.631, 1)
- icon = ExtResource("2_icon")
--art_forward_offset = 3.141592653589793
-+art_forward_offset = 0.0
