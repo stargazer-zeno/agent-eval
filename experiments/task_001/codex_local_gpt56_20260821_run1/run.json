@@ -4,6 +4,7 @@
   "model": "gpt-5.6-sol",
   "task_id": "gamevisualfix_task_001",
   "mode": "codex_cli_controller_actions",
+  "repository_commit_at_start": "15b07124ab2005f3afac429ba3a7fb10c1ea1039",
   "codex_cli_version": "codex-cli 0.149.0-alpha.4",
   "model_metadata": "official_codex_catalog",
   "authentication": "chatgpt_login",
