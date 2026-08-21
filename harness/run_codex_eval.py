@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Canonical task-manifest Codex CLI controller evaluation for GameVisualFix v2."""
+from __future__ import annotations
+
+import argparse, hashlib, json, os, re, shutil, subprocess, sys, time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+READABLE = {".gd", ".tscn", ".tres", ".godot", ".md", ".json", ".cfg", ".txt"}
+WRITABLE = {".gd", ".tscn", ".tres", ".cfg", ".txt"}
+PROTECTED = {"TASK.md", "project.godot"}
+PROTECTED_PREFIXES = ("evidence/", "tests/", "tools/")
+
+PROTOCOL = """Return exactly one JSON controller action as your final answer. Required keys: action, path, content, scenario, summary. Actions are list_files, read_file, write_file, run_smoke, observe, submit. Never call shell, web, plugins, tools, or direct file-writing APIs. Read relevant public files before editing. Do not modify TASK.md, project.godot, evidence, tests, tools, or binary assets. Request a fresh post-patch observation before submit.\n"""
+
+def digest(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for block in iter(lambda: f.read(1024 * 1024), b""): h.update(block)
+    return h.hexdigest().upper()
+
+def dotenv(path: Path) -> dict[str, str]:
+    values = {}
+    for raw in path.read_text(encoding="utf-8-sig").splitlines():
+        if "=" in raw and not raw.lstrip().startswith("#"):
+            key, value = raw.split("=", 1); values[key.strip()] = value.strip().strip('"').strip("'")
+    return values
+
+def safe_env() -> dict[str, str]:
+    blocked = re.compile(r"(KEY|TOKEN|SECRET|PASSWORD|CREDENTIAL|AUTH)", re.I)
+    return {k: v for k, v in os.environ.items() if not blocked.search(k)}
+
+def native_codex(explicit: Path | None) -> Path:
+    if explicit: return explicit.resolve()
+    if os.name == "nt":
+        path = Path(os.environ.get("APPDATA", "")) / "npm/node_modules/@openai/codex/node_modules/@openai/codex-win32-x64/vendor/x86_64-pc-windows-msvc/bin/codex.exe"
+        if path.is_file(): return path.resolve()
+    found = shutil.which("codex")
+    if not found: raise SystemExit("Codex executable unavailable")
+    return Path(found).resolve()
+
+def files(workspace: Path) -> list[str]:
+    return sorted(p.relative_to(workspace).as_posix() for p in workspace.rglob("*") if p.is_file() and ".godot" not in p.parts and not p.name.endswith((".uid", ".import")))
+
+def safe_path(workspace: Path, name: str) -> tuple[Path, str]:
+    candidate = (workspace / name.replace("\\", "/").lstrip("/")).resolve()
+    if workspace.resolve() not in candidate.parents and candidate != workspace.resolve(): raise ValueError("path escapes workspace")
+    return candidate, candidate.relative_to(workspace.resolve()).as_posix()
+
+def command(command: list[str], timeout: int, cwd: Path | None = None, env: dict | None = None, stdin: str | None = None) -> tuple[int, str, bool]:
+    startup = subprocess.STARTUPINFO() if os.name == "nt" else None
+    if startup: startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW; startup.wShowWindow = 0
+    try:
+        run = subprocess.run(command, cwd=cwd, env=env, input=stdin, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout, startupinfo=startup)
+        return run.returncode, (run.stdout + run.stderr)[-12000:], False
+    except subprocess.TimeoutExpired as exc:
+        return 124, str(exc.stdout or "")[-12000:], True
+
+def extract(raw: str) -> tuple[str | None, str | None, dict]:
+    thread = message = None; usage = {}
+    for line in raw.splitlines():
+        try: event = json.loads(line)
+        except json.JSONDecodeError: continue
+        if event.get("type") == "thread.started": thread = event.get("thread_id")
+        item = event.get("item") if isinstance(event.get("item"), dict) else {}
+        if event.get("type") == "item.completed" and item.get("type") == "agent_message": message = item.get("text")
+        if event.get("type") == "turn.completed" and isinstance(event.get("usage"), dict): usage = event["usage"]
+    return thread, message, usage
+
+def json_action(text: str) -> dict:
+    match = re.search(r"\{.*\}", text.strip(), re.S)
+    if not match: raise ValueError("no JSON action")
+    action = json.loads(match.group(0))
+    required = {"action", "path", "content", "scenario", "summary"}
+    if not isinstance(action, dict) or set(action) != required: raise ValueError("invalid action schema")
+    return action
+
+def capture(workspace: Path, task: dict, godot: Path, output: Path, scenario: str) -> dict:
+    allowed = task["harness"]["allowed_scenarios"]
+    if scenario and scenario not in allowed: raise ValueError("scenario is not public")
+    output.parent.mkdir(parents=True, exist_ok=True)
+    script = workspace / task["harness"]["observation_adapter"]
+    code, log, timed = command([str(godot), "--headless", "--path", str(workspace), "--import"], 90)
+    if code: return {"phase":"import","exit_code":code,"output":log,"timed_out":timed}
+    selected = scenario or task["harness"]["default_scenario"]
+    code, log, timed = command([str(godot), "--path", str(workspace), "--display-driver", "windows", "--rendering-driver", "opengl3", "--rendering-method", "gl_compatibility", "--audio-driver", "Dummy", "--position", "12000,12000", "--script", "res://" + str(script.relative_to(workspace)).replace("\\", "/"), "--", "--output", str(output.resolve()), "--scenario", selected], 120)
+    return {"phase":"capture","exit_code":code,"output":log,"timed_out":timed,"image_exists":output.is_file(),"image_sha256":digest(output) if output.is_file() else None,"scenario":selected}
+
+def provider_config(provider: str, secrets: dict[str, str], home: Path) -> tuple[str, str, dict[str, str], list[str]]:
+    env = safe_env(); args: list[str] = []
+    if provider == "local_codex": return "gpt-5.6-sol", "chatgpt_login", env, ["--model", "gpt-5.6-sol", "-c", "model_reasoning_effort=ultra"]
+    if provider == "seed_evolving": key, model, name, base = "Seed_Agent_Plan_key", "doubao-seed-evolving", "volcengine-agent-plan", "https://ark.cn-beijing.volces.com/api/plan/v3"
+    elif provider == "qwen38": key, model, name, base = "QWEN_API_KEY", "qwen3.8-max", "qwen38", secrets.get("QWEN_BASE_URL", "")
+    else: raise SystemExit("provider must be local_codex, seed_evolving, or qwen38")
+    if not secrets.get(key) or not base: raise SystemExit(f"{key} or provider base URL is unavailable")
+    home.mkdir(parents=True); env[key] = secrets[key]; env["CODEX_HOME"] = str(home)
+    summaries = "model_supports_reasoning_summaries = true\n" if provider == "seed_evolving" else ""
+    config = f'''model = "{model}"\nmodel_provider = "{name}"\n{summaries}approval_policy = "never"\nsandbox_mode = "read-only"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{base}"\nenv_key = "{key}"\nwire_api = "responses"\nrequest_max_retries = 2\nstream_max_retries = 2\nstream_idle_timeout_ms = 180000\n'''
+    (home / "config.toml").write_text(config, encoding="utf-8", newline="\n")
+    extra = ["--model", model] + (["-c", "model_reasoning_effort=high"] if provider == "qwen38" else [])
+    return model, provider, env, extra
+
+def main() -> int:
+    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); args = p.parse_args()
+    task_dir = ROOT / "benchmark" / args.task_id; task = json.loads((task_dir / "task.json").read_text(encoding="utf-8"))
+    # Task 001 predates v2's nested manifest. Preserve its frozen metadata and
+    # supply the v2 dispatch contract here rather than rewriting the pilot spec.
+    if "harness" not in task:
+        task["harness"] = {"public_root":"public", "prompt":"public/TASK.md", "initial_visual":"public/evidence/initial_bug.png", "preload_images":["public/evidence/initial_bug.png", "public/assets/objective_arrow.png", "public/assets/threat_arrow.png"], "smoke_adapter":"tests/smoke.gd", "observation_adapter":"tools/capture.gd", "default_scenario":"BASELINE", "allowed_scenarios":["BASELINE","E","N","W","S","NE"], "private_evaluator":"private/evaluate.py", "action_budget":18, "observation_budget":3, "time_budget_seconds":1500}
+    public = task_dir / task["harness"]["public_root"]
+    output = args.output.resolve()
+    if output.exists(): raise SystemExit("output must not already exist")
+    output.mkdir(parents=True); workspace, artifacts, rawdir = output / "workspace", output / "artifacts", output / "codex_raw"; artifacts.mkdir(); rawdir.mkdir()
+    shutil.copytree(public, workspace, ignore=lambda _, names: {n for n in names if n in {".godot", ".git"} or n.endswith((".uid", ".import"))})
+    code, _, _ = command(["git", "init", "-b", "main"], 30, workspace); command(["git", "add", "-A"], 30, workspace); command(["git", "commit", "-m", "baseline", "--no-gpg-sign"], 30, workspace)
+    home = output / "control" / "codex_home"; model, auth, env, extra = provider_config(args.provider, dotenv(args.env_file), home)
+    # External providers are configured in the run-local CODEX_HOME. Do not use
+    # --ignore-user-config here: that flag also ignores this isolated provider
+    # config and silently falls back to api.openai.com.
+    executable = native_codex(args.codex_exe); schema = ROOT / "harness" / "controller_action.schema.json"; common = ["--json", "--ignore-rules", "--output-schema", str(schema), "--disable", "plugins", "--disable", "apps", "-c", 'web_search="disabled"']
+    prompt = PROTOCOL + "\nTASK:\n" + (workspace / "TASK.md").read_text(encoding="utf-8")
+    for relative in files(workspace):
+        path = workspace / relative
+        if path.suffix.lower() in READABLE and relative != "TASK.md": prompt += f"\n--- {relative} ---\n" + path.read_text(encoding="utf-8", errors="replace")[:30000]
+    initial = [workspace / x.replace("public/", "") for x in task["harness"].get("preload_images", [])]
+    started, thread, observations, submitted, valid, summary = time.monotonic(), None, 0, False, True, ""
+    trajectory = output / "trajectory.jsonl"
+    for step in range(1, int(task["harness"]["action_budget"]) + 1):
+        if time.monotonic() - started > int(task["harness"]["time_budget_seconds"]): valid=False; summary="run timeout"; break
+        if step == 1: cmd = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, *sum((["--image", str(x)] for x in initial if x.is_file()), []), "-C", str(workspace), "-"]
+        else: cmd = [str(executable), "exec", "resume", *common, *(["--image", str(pending_image)] if pending_image else []), str(thread), "-"]
+        code, raw, timed = command(cmd, 240, workspace, env, prompt); (rawdir / f"turn_{step:02d}.jsonl").write_text(raw, encoding="utf-8")
+        new_thread, message, usage = extract(raw); thread = thread or new_thread; event={"step":step,"exit_code":code,"timed_out":timed,"usage":usage,"model_text":message}
+        if code or not thread or not message: valid=False; summary="Codex/provider transport failure"; event["failure_class"]="provider_or_codex_transport"; trajectory.open("a",encoding="utf-8").write(json.dumps(event)+"\n"); break
+        pending_image=None
+        try:
+            action=json_action(message); event["action"]=action; name=action["action"]
+            if name=="list_files": result={"files":files(workspace)}
+            elif name=="read_file":
+                path,rel=safe_path(workspace,action["path"]); result={"path":rel,"content":path.read_text(encoding="utf-8",errors="replace")[:50000]} if path.is_file() and path.suffix.lower() in READABLE else {"error":"not readable"}
+            elif name=="write_file":
+                path,rel=safe_path(workspace,action["path"])
+                if rel in PROTECTED or rel.startswith(PROTECTED_PREFIXES) or path.suffix.lower() not in WRITABLE: raise ValueError("protected/unwritable path")
+                path.parent.mkdir(parents=True,exist_ok=True); path.write_text(action["content"],encoding="utf-8",newline="\n"); result={"written":rel,"sha256":digest(path)}
+            elif name=="run_smoke":
+                code,log,timed=command([str(args.godot.resolve()),"--headless","--path",str(workspace),"--script","res://"+task["harness"]["smoke_adapter"]],90); result={"exit_code":code,"output":log,"timed_out":timed}
+            elif name=="observe":
+                if observations>=int(task["harness"]["observation_budget"]): raise ValueError("observation budget exhausted")
+                observations+=1; pending_image=artifacts/f"observation_{observations}.png"; result=capture(workspace,task,args.godot.resolve(),pending_image,action["scenario"])
+                if result["exit_code"]!=0 or not result["image_exists"]: pending_image=None
+            elif name=="submit": submitted=True; summary=action["summary"][:2000]; result={"accepted":True}
+            else: raise ValueError("unknown action")
+        except Exception as exc: result={"error":str(exc)[:500]}
+        event["tool_result"]=result; trajectory.open("a",encoding="utf-8").write(json.dumps(event,ensure_ascii=False)+"\n")
+        if submitted: break
+        prompt=PROTOCOL+"\nController result:\n"+json.dumps(result,ensure_ascii=False)
+    patch_code, patch_text, _=command(["git","diff","--no-ext-diff"],30,workspace); (output/"final.patch").write_text(patch_text,encoding="utf-8")
+    eval_dir=output/"evaluation"; eval_dir.mkdir(); evaluator=task_dir/task["harness"]["private_evaluator"]; code,elog,timed=command([sys.executable,str(evaluator),"--candidate",str(workspace),"--godot",str(args.godot.resolve()),"--output",str(eval_dir)],300)
+    evaluation=json.loads((eval_dir/"evaluation.json").read_text(encoding="utf-8")) if (eval_dir/"evaluation.json").is_file() else None
+    version=command([str(executable),"--version"],15)[1].strip(); manifest={"schema_version":2,"experiment_suite_id":"gamevisualfix_v2_3x3","task_id":task["task_id"],"provider":args.provider,"model":model,"authentication":auth,"mode":"codex_cli_controller_actions","codex_cli_version":version,"codex_executable_sha256":digest(executable),"valid_api":valid,"submitted":submitted,"observations":observations,"elapsed_seconds":round(time.monotonic()-started,3),"thread_id":thread,"summary":summary,"evaluation":evaluation,"evaluator_exit_code":code,"evaluator_timed_out":timed}
+    (output/"run.json").write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    if home.exists(): shutil.rmtree(home,ignore_errors=True)
+    print(json.dumps({"valid_api":valid,"submitted":submitted,"score":evaluation.get("total") if evaluation else None,"task_success":evaluation.get("task_success") if evaluation else None})); return 0
+if __name__=="__main__": raise SystemExit(main())

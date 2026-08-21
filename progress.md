@@ -548,3 +548,30 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 增加 `harness/run_codex_eval.py`，从 `task.json` dispatch Task 001/002/003 的 public package、Prompt、initial image、capture 与 private evaluator。
 - 统一 Provider 配置/Canary 后按预注册顺序执行九次 single-attempt canonical run。
+
+## 2026-08-21 — GameVisualFix v2 unified Codex Runner Gate
+
+### 当前阶段
+
+**统一 `run_codex_eval.py` 与 Provider canary 已通过；准备按预注册顺序启动 Task 001 的 Qwen3.8-Max canonical attempt。**
+
+### 已完成内容
+
+- 新增 manifest-dispatch Codex CLI Controller runner，支持 Task 001/002/003 与 `local_codex`、`seed_evolving`、`qwen38` 三个 Provider。
+- 固定 npm native Codex CLI 0.149.0，使用 read-only sandbox、Controller allowlist、显式 thread resume、3 次 observation 上限、18 actions 与 task-local private evaluator。
+- 无任务 canary 已验证三 Provider 的 32×32 PNG 感知、严格 JSON action schema、initial thread 与 resume；每次运行使用 run-local `CODEX_HOME`，结束后删除 provider session/config。
+
+### 关键结论
+
+- `--ignore-user-config` 会连同 run-local `CODEX_HOME` provider config 一起忽略并使 CLI 回退到 OpenAI；统一 Runner 不使用该冲突 flag，而保留 `--ignore-rules`、read-only sandbox、禁用 plugins/apps 与 sanitized environment。
+- Qwen3.8-Max 对小于 11px 的图像拒绝请求，因此 canary 使用 32×32 无任务图像；Qwen 与 Seed 均已在当前 `.env` 配置下成功 Responses + resume。
+
+### 当前风险
+
+- Qwen CLI 会将未内置的 `qwen3.8-max` 以 fallback model metadata 运行；run manifest 会记录这一 Provider 限制，不能掩盖为官方 native Codex metadata。
+- 旧 `harness/tests/self_test.ps1` 位于既有 PowerShell harness 分支；当前 PowerShell session 无 `powershell` executable alias，未把它作为统一 Python Runner 的 release gate。
+
+### 下一阶段输入
+
+- 从全新 workspace 使用 `run_codex_eval.py --task-id task_001 --provider qwen38` 运行唯一 canonical attempt；仅独立可复现的 Controller/CLI/provider/capture/evaluator基础设施故障允许保留 invalid 后重跑。
+- 随后依序运行 Seed、Local Codex；Task 002 和 Task 003 使用同样 runner 与 frozen budgets。
