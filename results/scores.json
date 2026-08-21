@@ -40,6 +40,29 @@
       "patch_sha256": "E3B0C44298FC1C149AFBF4C8996FB92427AE41E4649B934CA495991B7852B855"
     },
     {
+      "run_id": "codex_local_gpt56_20260821_run1",
+      "provider": "codex_login_controller",
+      "model": "gpt-5.6-sol",
+      "valid_model_result": true,
+      "comparison_eligible": false,
+      "attempt_role": "canonical_local_controller",
+      "failure_class": null,
+      "submitted": true,
+      "action_count": 4,
+      "fresh_screenshot_files": 1,
+      "reported_total_tokens_sum": 67498,
+      "elapsed_seconds": 63.078,
+      "functional": 45.0,
+      "visual": 35.0,
+      "regression": 20.0,
+      "total": 100.0,
+      "task_success": true,
+      "diagnostic_baseline_total": null,
+      "trajectory_chain_head": "A2F4897D33FAB2FD1CDE8E75BE66CDCA0839C2F065E8FD34109872A35BC875EC",
+      "run_manifest_sha256": "DF71997B771128048C0F3493E671160FF60AE285A3CDACA522A6B3688AADDA95",
+      "patch_sha256": "BCD5B14B298C433089245B05DBF1CC445093D80F9B7FBAB439862FCE6FB0EFDC"
+    },
+    {
       "run_id": "codex_login_20260821_run1",
       "provider": "codex_login",
       "model": "gpt-5.6-sol",
@@ -202,9 +225,9 @@
     }
   ],
   "summary": {
-    "configured_providers": 6,
-    "valid_model_results": 2,
+    "configured_providers": 7,
+    "valid_model_results": 3,
     "comparison_eligible_valid_results": 1,
-    "successful_tasks": 1
+    "successful_tasks": 2
   }
 }
