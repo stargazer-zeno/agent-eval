@@ -601,3 +601,30 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 提交 Harness feature-gate 修复，从全新 output/workspace 启动 Qwen Task 001 的唯一 rerun；之后继续预注册顺序。
+
+## 2026-08-21 — v2 automatic stop: Qwen Provider/CLI event stream
+
+### 当前阶段
+
+**自动流程已停止。Qwen3.8-Max / Task 001 连续两次为 `invalid_infrastructure`，未形成 canonical model score；Task 001 Seed/Local 与 Task 002/003 全部模型运行均未启动。**
+
+### 已完成内容
+
+- 保存两次 Qwen fresh workspace 的 `run.json`、规范化 controller trajectory、最终 patch 与 hidden evaluator 输出；raw provider event stream 不归档到 Git，避免保留模型内部 reasoning/event 文本。
+- 首次 invalid 的 non-controller feature exposure 已修复并提交；第二次 fresh rerun 收到合法 JSON `read_file` action，但外部 Responses event 未提供 thread ID。
+- 创建 `results/v2_infrastructure_log.md`，明确旧 Qwen 结果保留、没有 v2 分数以及自动停止原因。
+
+### 关键结论
+
+- Provider canary 成功不保证完整 prompt/event 流提供可 resume 的 Codex thread ID；这一差异必须作为 Harness/provider availability，而不是模型能力结果报告。
+- 在不使用 `--last`、不伪造 thread ID、且不重跑超过规则上限的前提下，无法安全执行后续 controller turn，因此不能将未提交的 evaluator baseline 记为 Qwen 分数。
+
+### 当前风险
+
+- v2 有三个已验证任务和统一 Harness，但尚无有效 canonical matrix；不得生成 Task Success Rate、模型排名或替换旧 Qwen3-VL-Plus 结果。
+- 继续运行 Seed/Local 会形成不完整的预注册矩阵，且违反当前计划在连续两次基础设施 invalid 后的停止规则。
+
+### 下一阶段输入
+
+- 需要一个明确批准的 protocol revision：允许经过验证的 Qwen session-ID adapter / Provider event normalizer，或变更为没有 resume 的单-turn controller contract；修复后应新建 v2.1 suite ID 并重新预注册全矩阵。
+- 未获得该批准前，只可展示 Task 001/002/003 的 validation、canary 与 infrastructure log，不可展示 v2 模型分数。

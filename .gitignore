@@ -34,6 +34,7 @@ dist/
 
 # Run-local mutable model workspaces (patches and manifests are archived separately)
 experiments/**/workspace/
+experiments/**/codex_raw/
 
 # Editor and operating-system metadata
 .idea/
