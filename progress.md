@@ -521,3 +521,30 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 
 - 冻结 `run_codex_eval.py` 的 task-manifest dispatch，确保 Task 001/002 使用同一 Controller schema、预算、CLI pin 和 artifact contract。
 - 随后实现并在模型接触前完成 Task 003 的 clean-copy Gate。
+
+## 2026-08-21 — GameVisualFix v2 Task 003 Gate
+
+### 当前阶段
+
+**Task 003 已完成并通过 Gate；接下来实现统一 task-manifest Codex Runner，然后做 Provider canary 与 canonical matrix。**
+
+### 已完成内容
+
+- 新建独立 Echo Dash public/private Godot 任务，以 8-frame contact sheet 呈现 reversal 周围的 trail phase 错误。
+- 实现 6 条 hidden replay × 30/60 fixed tick 的 12-case 像素 Oracle；任务不依赖视频、wall-clock 或 VLM judge。
+- Bug Seed (`before`) 连续三次 0/100，Reference Patch (`after`) 连续三次 100/100；public Seed 已还原为 Bug 状态。
+
+### 关键结论
+
+- 任务的视觉区别集中在 reversal frame：trail 应在 Player 运动方向后方；bug 会短暂使用 previous facing 并出现在前方。
+- 静止 interrupt frame 内紫色 trail 被 Player 覆盖属于正确视觉状态，evaluator 已显式处理而不把它误判为隐藏 trail。
+
+### 当前风险
+
+- Task 003 是最小化 fixed-replay 实现，尚未覆盖真实对象池、碰撞与完整 Dash 状态机；报告中必须如实称为 synthetic temporal visual repair task。
+- 目前还没有 v2 canonical model run，因此不能比较模型能力或替换旧 Qwen 结果。
+
+### 下一阶段输入
+
+- 增加 `harness/run_codex_eval.py`，从 `task.json` dispatch Task 001/002/003 的 public package、Prompt、initial image、capture 与 private evaluator。
+- 统一 Provider 配置/Canary 后按预注册顺序执行九次 single-attempt canonical run。
