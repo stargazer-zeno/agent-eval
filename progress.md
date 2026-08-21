@@ -680,3 +680,29 @@ Rev.1 严格-headless blocker 继续保留；本阶段基于用户明确批准�
 ### 下一阶段输入
 
 - 使用 `harness/run_codex_eval.py` 与新的 output/workspace 运行 Seed Task 001 rerun；只在它有效完成后继续 Task 001 的 Local Codex 和后续任务。
+
+## 2026-08-21 — v2 Task 001 execution outcome
+
+### 当前阶段
+
+**Task 001 已完成 Local Codex canonical run；Seed Evolving 因两次独立 workspace 的 transport invalid 被停止，准备继续 Local Codex 的 Task 002。**
+
+### 已完成内容
+
+- Seed Task 001 run1 与 run2 均保留。两次都在 API/CLI 传输层结束，缺少可用 `thread.started` 和 controller action；两者均为 `valid_api=false`、未提交，hidden evaluator 的 baseline 仅作为诊断 artifact，不计入分数。
+- Local Codex Task 001 run1 从全新 public workspace 产生 7 个 Controller actions：读取 tracker/profile、最小化写入 Objective profile、public smoke、fresh `BASELINE` observation、submit。
+- Local Codex run1 的 private evaluator 为 Functional 45/45、Visual 35/35、Regression 20/20，总分 100/100，`task_success=true`；耗时 106.032 秒，使用 1 次 fresh observation。
+
+### 关键结论
+
+- Task 001 的本地 Codex 成功由隐藏多位置/分辨率 Oracle 验证，而不是固定 diff；trajectory 的公开 action 记录支持“定位正确 profile 后进行最小根因修复”的解释。
+- 即使多图参数形状已修正且 no-task 多图 canary 成功，Seed 的完整任务流仍只返回不符合 Codex 0.149 流式协议的 text delta。它是 Provider availability blocker，不能解释为 Seed 的能力失败。
+
+### 当前风险
+
+- 受限 suite 目前只有一个可计分 Local Codex run；Seed 不会继续 Task 002/003，以遵守连续两次 infrastructure invalid 的停止规则。
+- Local Codex 的单个 Easy 成功不构成跨难度或模型比较；仍需运行冻结的 Medium/Hard 任务并如实报告可用性缺口。
+
+### 下一阶段输入
+
+- 固定同一 Runner、CLI、预算与隐藏评价器，运行 Local Codex Task 002 的唯一 canonical attempt；Task 003 仅在 Task 002 artifact 完整归档后启动。
