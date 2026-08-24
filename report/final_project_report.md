@@ -1,93 +1,104 @@
-# GameVisualFix 项目最终汇报
+# GameVisualFix v3：Seed 游戏修复能力评测汇报
 
 日期：2026-08-24
-交付版本：`gamevisualfix_v3_seed_fulltrace_partialfix_3x1`
+实验套件：`gamevisualfix_v3_seed_fulltrace_partialfix_3x1`
 
-## 1. 执行摘要
+## 1. 先说结论
 
-本次最终示例已替换为 GameVisualFix v3 的三道高难度 Godot 任务与 `doubao-seed-evolving` 的完整轨迹复跑结果。实验使用 Codex CLI Controller Action Harness；每题只接受一次传输层修复后的 canonical attempt，隐藏评价器从干净状态独立重放。
+这轮我们不再只考“模型会不会改一行代码”，而是让模型一边看游戏画面、一边读项目文件、一边修改代码，再通过新的画面确认自己是否真的修对。
 
-结果显示，Seed 在三题中完成 1 题：T004 的跨图 glyph–landmark 绑定失败，T005 的长程 checkpoint 恢复链在延迟 HUD hint 依赖处失败，T006 的动态 phase/pool 生命周期修复成功。Task Success Rate 为 **1/3（33.3%）**，平均总分为 **65.0/100**。这不是模型排名或统计显著性结论，而是一次可审计的能力边界 case study。
+Seed（`doubao-seed-evolving`）在 3 道题中成功 1 题：
 
-## 2. 研究问题与任务范围
+| 任务 | 白话结果 | Functional | Visual | Regression | 总分 | 是否完成 |
+| --- | --- | ---: | ---: | ---: | ---: | --- |
+| T004 Glyph Atlas | 修了画面旋转逻辑，但没把每个小地图图标和真实地标重新配对 | 25 | 0 | 20 | 45 | 否 |
+| T005 Checkpoint Mosaic | 修好了存档链路前半段，但最后忘了早期画面里的关键线索 | 30 | 0 | 20 | 50 | 否 |
+| T006 Mirrorstorm | 修好了 Boss 特效在不同阶段“串帧、朝向错位”的问题 | 45 | 35 | 20 | 100 | 是 |
 
-v3 的问题不再是“模型能否修一个单点视觉 Bug”，而是测试视觉证据、仓库定位、连续工具操作与运行时状态是否能形成可靠闭环：
+三题成功率为 **1/3（33.3%）**，平均分 **65.0/100**。这是一组单模型、单次运行的案例实验，用来定位能力边界；不能据此给模型做通用排名。
 
-1. 跨图细粒度对应、空间变换与代码修改能否一致；
-2. 模型能否保存早期视觉证据，并在后续状态中完成延迟依赖；
-3. 面对运行时 phase 变化时，模型能否定位 sample 生命周期、修复多文件逻辑并验证回归。
+三个分项的意思很简单：
 
-三题均为 Godot 4.7.1 项目。Agent 只能经 Controller 输出 `list_files`、`read_file`、`write_file`、`run_smoke`、`observe`、`submit` 六类 JSON action；没有直接 shell、网络、私有评测器或 Oracle 访问权限。每题预算为 30 个 action、8 次 fresh observation、40 分钟。
+- **Functional**：游戏逻辑和任务功能是否做对。
+- **Visual**：实际游戏画面是否真的正确。
+- **Regression**：修 Bug 时有没有把原来正常的玩法、界面或资源弄坏。
 
-## 3. 可展示数据集：三道 v3 原型任务
+## 2. 这三道题分别在考什么
 
-| Task | 名称 | 主要能力边界 | 视觉输入与关键状态 | 自动评价 |
-| --- | --- | --- | --- | --- |
-| T004 | Glyph Atlas — Multi-View Landmark Registration | 跨图 glyph 对应、相机旋转与镜像空间推理 | 初始 world/minimap 双图；`ROTATE_37`、`PORTAL_MIRROR`、`WIDE_VIEW` | 6 rotations × 2 parity × 3 viewports 的 identity、位置、朝向 Oracle |
-| T005 | Checkpoint Mosaic — Delayed Save-Migration Chain | 视觉记忆、持久状态、存档迁移、延迟 HUD 依赖 | Lobby seal 图；`LOBBY → RESTORED_MIDPOINT → POST_ELEVATOR → FINAL_RESTORE` 状态机 | 三个 checkpoint gate、old/new save、重载、位置与 asset hash |
-| T006 | Mirrorstorm — Phase-Changing Telegraph Recovery | 时序视觉、不可变 sample、phase 变化与 pool recovery | 带帧号 contact sheet；`CALM → MIRRORED_ENRAGED → INTERRUPTED_RESUME` | 30/60 tick replay、镜像 parity、epoch、pool lifecycle 像素/状态 Oracle |
+### T004：在大地图和小地图里“给图标认主”
 
-每题的隐藏评分都固定为 Functional 45、Visual 35、Regression 20。`task_success=true` 必须三类 mandatory tests 全部通过；总分不能补偿任何一类失败。评测器同时拒绝隐藏 UI、替换图片、固定角度、关闭镜像、跳过状态机等 shortcut patch。
+玩家在左侧世界地图里能看到 8 个蓝色地标，右侧小地图里有 8 个黄色图标。图标没有文字，只能看形状和位置来判断“哪个黄图标对应哪个蓝地标”。当相机旋转、进入镜像 portal、或窗口大小变化时，小地图也必须保持对应关系。
 
-## 4. 实验设置与完整轨迹
+![T004 世界地标总览](images/v3/t004_world_overview.png)
 
-模型为 `doubao-seed-evolving`，通过仅绑定 `127.0.0.1` 的 Seed Responses SSE compatibility proxy 接入 Codex CLI。所有任务在模型接触前已冻结 Prompt、公开文件树、截图、预算、Evaluator 与 Oracle 哈希；早期因上游缺失 terminal event 造成的 T004 运行保留为 `invalid_infrastructure`，不进入下表指标。代理修复只补足已完成 assistant item 缺失的终止事件，并显式传递 `partial=false`；没有改变任务、图像、预算、阈值、Oracle 或模型配置。
+上图要看的是：左边 8 个蓝色图案是现实中的地标；右边的小地图要用同一组图案关系表达它们。
 
-本交付包保留每个 canonical run 的：完整 agent JSONL、实际 assistant 文本、provider/Codex 返回的 reasoning summary（若有）、每轮 raw Codex JSON event、Controller tool receipt、截图、状态 ledger、final patch 与 evaluator 输出。它不合成或重建隐藏 chain-of-thought，也不包含 API key、Authorization header 或 `.env`。
+![T004 错误的小地图图标](images/v3/t004_broken_minimap.png)
 
-## 5. 实验结果
+上图要看的是：地标位置基本还在，但黄色图标的身份配错了，不能只靠“旋转一下地图”解决。
 
-机器可读汇总：[`results/v3_seed_fulltrace_replay_scores.json`](../results/v3_seed_fulltrace_replay_scores.json)。
+**模型做了什么：** 它读了坐标投影、图标注册和绑定配置，观察了旋转与镜像场景，随后只修改了 rotation/mirror 的执行顺序，并成功跑过公开 smoke test。
 
-| Task | Terminal | Actions | Fresh observations | Functional | Visual | Regression | Total | Task Success | 失败阶段 |
-| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |
-| T004 Glyph Atlas | submitted | 15 | 4 | 25 | 0 | 20 | 45 | 否 | cross-view glyph binding |
-| T005 Checkpoint Mosaic | model turn timeout | 27 | 8 | 30 | 0 | 20 | 50 | 否 | delayed HUD-hint dependency after route and migration |
-| T006 Mirrorstorm | submitted | 17 | 2 | 45 | 35 | 20 | 100 | 是 | — |
-| 平均 / 汇总 | — | 59 | 14 | 33.333 | 11.667 | 20.000 | 65.000 | 1/3 | — |
+**为什么仍失败：** 模型把问题过早判断成“坐标变换顺序错了”。但隐藏评测发现，8 个图标与地标的对应表仍然是错的。因此它修了一半：空间方向部分有改动，图标“认主”部分没有完成，Visual 得分为 0。
 
-三次 canonical attempt 总耗时为 2,758.640 秒。T005 的 `model turn timeout` 是有效模型结果：Agent 已耗用 27 个 action 与 8 次观察，未在预算内完成最终状态的修复与提交，因此不能重跑或按基础设施失败处理。
+### T005：修“老存档接力闯关”
 
-## 6. 案例与轨迹分析
+这是一个存档升级问题。玩家第一次在大厅看到 4 扇门和 4 个没有文字的 seal 图案；游戏会保存 checkpoint。之后玩家经过电梯、读取旧存档、回到最终恢复页面时，HUD 必须还能给出正确提示。
 
-### T004：局部空间修复掩盖了 identity mapping 缺失
+![T005 大厅初始画面](images/v3/t005_lobby_initial.png)
 
-T004 是跨图标记注册任务。Agent 读取 projection、registry、binding 和 capture 代码，先后观察 baseline、rotation 与 mirror 场景，然后仅将 `projection.gd` 中的 rotation/mirror 顺序改为 rotate-then-mirror。公开 smoke 通过，且它请求了 patch 后的新镜像观察，但隐藏 Evaluator 仍给出 Functional 25、Visual 0、Regression 20。
+上图要看的是：四扇门和它们的 seal 顺序是后续修复的关键线索。模型需要记住这个视觉顺序，不能只看代码里的匿名 slot 名称。
 
-原因是该补丁只覆盖空间 transform；8 个 glyph 与 landmark 的 binding permutation 仍错误。轨迹显示 Agent 把“identity 对应”与“位置变换”两项耦合问题过早归结为单一 projection 假设，未完成跨图 glyph codebook 的排除式匹配。这是可诊断的 `Perception/Localization → Editing → Verification` 断链，而不是渲染或评分器故障。
+![T005 最终恢复画面](images/v3/t005_final_restore.png)
 
-### T005：早期视觉线索未可靠跨状态保留
+上图要看的是：这是最终恢复阶段。它会检查之前保存、迁移和 HUD 提示是否仍能连成一条正确的链。
 
-T005 中，Lobby 的细粒度 seal 顺序是后续 `FINAL_RESTORE` HUD hint 的必要输入。Agent 能推进 route binding 与部分 v1→v2 migration，因此 Functional 获得 30 分、Regression 获得 20 分；但在多轮状态推进、截图和代码修改后，未能将 Lobby 证据与最终 restore state 正确联结。最终 Visual 为 0，且最后一轮模型调用超时。
+**模型做了什么：** 它能够推进 route binding 和部分 v1→v2 存档迁移，所以功能拿到 30 分、回归拿到 20 分。
 
-该案例将失败定位到 `Visual Evidence → State Tracking → Delayed Dependency`：问题不只是代码定位，而是视觉映射在长程执行中被保持、调用和验证的能力。
+**为什么仍失败：** 经过多次观察、改代码、推进游戏状态后，模型没有把大厅中看到的 seal 顺序正确带到最后的 HUD 提示。最后一轮调用在预算内超时，因此没有完成最终提交。这说明它在“看见线索 → 长时间记住 → 在后续状态里重新使用”这条链上存在缺口。
 
-### T006：一次性架构性修复成功
+### T006：修 Boss 特效“串帧、方向错位”
 
-T006 的 Agent 在 17 个 action、2 次 fresh observation 内完成 attack controller、不可变 sample、renderer/pool 的一致性修复，隐藏 evaluator 的 Functional、Visual、Regression 均通过。该成功说明该模型在可见 trace 与 contact sheet 辅助下，能处理一类跨文件的时序 sample 生命周期问题；因此不能把 v3 失败简单归因为“任务太难”或“模型不能处理动态视觉”。
+Boss 冲刺时会显示危险预警特效。正常情况下，特效应该跟随当时那一帧的玩家位置、朝向和场地镜像状态。Bug 出在特效没有保存这一帧的数据，而是在稍后又读取了已经变化的实时状态，所以反向冲刺、镜像阶段或被打断时会短暂画到错误位置。
 
-三题的完整证据在交付包 `experiments/v3_seed_fulltrace/` 下；每个 canonical run 的 `full_trajectory.jsonl` 是单 episode 附件式记录，`codex_raw/turn_*.jsonl` 保留逐轮原始 JSON event，`trajectory.jsonl` 与 `state_ledger.jsonl` 则提供便于审计的 action/状态 hash-chain。
+![T006 初始 8 帧特效画面](images/v3/t006_initial_contact_sheet.png)
 
-## 7. 结论、有效性与局限
+上图要看的是：连续 8 帧里，紫色预警特效相对玩家和 Boss 的位置、方向会变化；单看最后一帧不够，需要看这一串画面。
 
-- v3 的结果暴露了两个更稳定、可扩展的候选能力边界：跨图视觉 identity binding（T004）与有延迟引用的 stateful visual software engineering（T005）。
-- T005 最适合作为 Benchmark Family 主线：可程序化生成 route graph、seal codebook、migration variant 与状态长度，并维持严格自动评分。
-- T006 的成功是必要的反例，说明 suite 中仍保留模型可完成的真实工程任务，避免所有题目成为不可诊断的高难 Puzzle。
-- 每题仅有一次 Seed attempt；结果应解释为 case study，不应外推为总体能力排名、成本优劣或统计显著性结论。
-- 完整轨迹包含模型正文与 provider 返回的 reasoning summaries，因此只随本地 leader 交付包分发，不应直接提交到公共 Git 仓库或外部共享位置。
+![T006 修复后的运行观察](images/v3/t006_post_patch_observation.png)
 
-## 8. 交付内容与复现入口
+上图要看的是：模型修改后重新请求的运行画面。隐藏评测还会继续检查镜像、不同 tick 速率和中断恢复，不只看这一张图。
 
-`gameFix/` 交付目录包含：
+**模型做了什么：** 它跨 attack controller、不可变 sample、renderer 和对象池多个文件完成修改，并在 17 个 action、2 次 fresh observation 内提交。
 
-1. `benchmark/`：T004–T006 Godot 源文件、public/private evaluator、Oracle 和 task manifests；
-2. `harness/`：统一 Codex runner、Seed proxy、stateful controller、schema 与对应测试；
-3. `experiments/`：三次 canonical run、截图、补丁、评分、完整轨迹与早期 T004 传输层无效谱系；
-4. `results/`：机器可读结果和案例报告；
-5. `design/`：任务设计、完整轨迹导出协议与 transport diagnosis；
-6. 本报告的 Markdown 与 PDF 版本。
+**为什么成功：** 隐藏评测在功能、画面和回归三部分均通过。这个结果也很重要：它说明模型并非不能处理动态视觉问题，而是在某些需要跨图对应或长期保存视觉线索的任务上更容易失手。
 
-环境变量必须放在项目根目录被忽略的 `.env`；不得将 key、provider 原始授权头或登录态复制到交付包。典型复现命令如下（替换本机 Godot 路径，输出写到新的目录）：
+## 3. 实验怎么保证可信
+
+- 三题都是 Godot 4.7.1 项目；模型只能发 Controller action：查看文件、读取文件、写文件、跑 smoke、请求新截图或提交。
+- 模型看不到隐藏 evaluator、Oracle、参考补丁、主仓库和 `.env`；隐藏评测会从干净状态重新运行项目。
+- 每题最多 30 个 action、8 次 fresh observation、40 分钟。错误补丁、超时或未提交都是有效模型结果，不会因为分数不好重跑。
+- 每题只有一次最终有效的 canonical attempt。T004 早期的传输层无效记录没有混进上述分数。
+
+## 4. 如何查看完整实验轨迹
+
+交付包中已经将三份最终有效轨迹单独整理为：[`gameFix/results/trajectory/`](../gameFix/results/trajectory/)。文件名直接包含任务名、模型名和 `canonical`，便于 leader 快速打开。
+
+每份 `full_trajectory.jsonl` 都是一条完整的 Agent episode，记录：初始 prompt 和图片、模型每一轮实际回复、可用 action schema、Controller 调用和回执、以及 provider/Codex 返回的 reasoning summary（如服务返回）。它不包含合成的 chain-of-thought、API key、Authorization header 或 `.env`。
+
+原始实验目录仍完整保留，方便后续审计；交付包只把三次正式结果复制出来，不移动、不改写原文件。
+
+## 5. 对业务的启发
+
+1. T004 说明，仅让模型“看到了截图”还不够。跨图形状对应与代码中的绑定表需要一起推理，模型可能只修最显眼的坐标逻辑。
+2. T005 最值得扩展成数据集：它把视觉记忆、状态推进、存档兼容和最终 UI 验证串在一起，而且每一环都能自动评分。
+3. T006 的成功提供了一个健康对照：任务不是故意难到不可完成，强模型确实能解决一部分真实的多文件动态 Bug。
+
+## 6. 交付内容与复现
+
+`gameFix/` 包含三道任务的源文件、Harness、实验结果、完整 canonical 轨迹、截图和本 Markdown 报告。交付仅保留 Markdown；不再包含 PDF 报告。
+
+如需重跑，请在项目根目录配置被忽略的 `.env` 和本机 Godot 4.7.1，再执行：
 
 ```powershell
 python harness/run_provider_canary.py --provider seed_evolving --godot <godot.exe>
