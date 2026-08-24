@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+  "status": "frozen_pre_model",
+  "frozen_at_utc": "2026-08-24T00:00:00Z",
+  "engine": {
+    "name": "Godot",
+    "version": "4.7.1",
+    "renderer": "Windows hidden-window OpenGL Compatibility"
+  },
+  "provider_matrix": [
+    {"provider": "seed_evolving", "model": "doubao-seed-evolving", "attempts_per_task": 1}
+  ],
+  "budget_per_task": {"controller_actions": 30, "fresh_observations": 8, "wall_time_seconds": 2400},
+  "scoring": {
+    "functional": 45,
+    "visual": 35,
+    "regression": 20,
+    "task_success_requires_all_mandatory_groups": true
+  },
+  "frozen_commits": {
+    "design": "b3e5e3fd1651062fd36a1f18a6cce1e02d1ea6c7",
+    "stateful_harness": "5b8397f276e9f478a0275df7efa24f2ae944e57d",
+    "task_004": "4ba1df229bddfe1dcec5fc0e9b252330f7f56900",
+    "task_005": "74b1f9846237110ea867ace237d54217eba36c15",
+    "task_006": "c79d79999378bf49c0b1440c88bf0849a86c0ee1"
+  },
+  "tasks": [
+    {
+      "task_id": "gamevisualfix_task_004",
+      "manifest": "task_004/task.json",
+      "family": "cross_image_registration",
+      "hidden_cases": 36,
+      "gate": "pass",
+      "self_review": {"seed_difficulty": 5, "visual_necessity": 5, "tool_use": 4, "long_horizon": 4, "state_management": 4, "automatic_evaluation": 5, "scalability": 5, "novelty_value": 5}
+    },
+    {
+      "task_id": "gamevisualfix_task_005",
+      "manifest": "task_005/task.json",
+      "family": "stateful_visual_save_migration",
+      "hidden_cases": 12,
+      "gate": "pass",
+      "self_review": {"seed_difficulty": 5, "visual_necessity": 5, "tool_use": 5, "long_horizon": 5, "state_management": 5, "automatic_evaluation": 5, "scalability": 5, "novelty_value": 5}
+    },
+    {
+      "task_id": "gamevisualfix_task_006",
+      "manifest": "task_006/task.json",
+      "family": "dynamic_visual_recovery",
+      "hidden_cases": 12,
+      "gate": "pass",
+      "self_review": {"seed_difficulty": 5, "visual_necessity": 5, "tool_use": 5, "long_horizon": 5, "state_management": 5, "automatic_evaluation": 5, "scalability": 4, "novelty_value": 5}
+    }
+  ],
+  "result_policy": {
+    "canonical_order": ["task_004", "task_005", "task_006"],
+    "valid_model_failure_is_not_rerun": true,
+    "infrastructure_rerun_limit": 1,
+    "post_result_retuning_forbidden": true
+  }
+}
