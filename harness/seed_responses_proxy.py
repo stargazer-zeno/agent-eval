@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from typing import BinaryIO, Iterable, Iterator
 
 ADAPTER_NAME = "seed_responses_sse_normalizer"
-ADAPTER_VERSION = "1.0.0"
+ADAPTER_VERSION = "1.1.0"
 DEFAULT_UPSTREAM = "https://ark.cn-beijing.volces.com/api/plan/v3"
 TERMINAL_EVENTS = {
     "response.completed",
@@ -156,6 +156,23 @@ def encode_sse(event: dict) -> bytes:
         return b"data: [DONE]\n\n"
     payload = json.dumps(event, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
     return b"event: " + event["type"].encode("ascii") + b"\ndata: " + payload + b"\n\n"
+
+
+def agent_plan_request_body(body: bytes) -> bytes:
+    """Make the Seed Agent Plan streaming contract explicit without logging it.
+
+    The upstream may reject a reconnect request that omits ``partial``.  The
+    controller has no use for partial final responses, so an absent value is
+    forwarded as JSON ``false``.  Existing explicit values are preserved.
+    """
+    try:
+        payload = json.loads(body.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return body
+    if not isinstance(payload, dict) or "partial" in payload:
+        return body
+    payload["partial"] = False
+    return json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
 
 
 class StreamNormalizer:
@@ -476,6 +493,7 @@ class _ProxyHandler(http.server.BaseHTTPRequestHandler):
         except (ValueError, OSError):
             self.send_error(400)
             return
+        body = agent_plan_request_body(body)
         upstream_url = owner.upstream.rstrip("/") + "/" + self.path.lstrip("/")
         headers = {
             key: value for key, value in self.headers.items()

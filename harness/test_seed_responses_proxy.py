@@ -29,6 +29,17 @@ def completed() -> dict:
     return {"type": "response.completed", "sequence_number": 1, "response": {"id": "resp_test", "status": "completed", "usage": {"input_tokens": 3, "output_tokens": 2}}}
 
 
+class RequestBodyTests(unittest.TestCase):
+    def test_missing_partial_is_forwarded_as_false(self) -> None:
+        body = proxy.agent_plan_request_body(b'{"model":"doubao-seed-evolving","stream":true}')
+        self.assertEqual(json.loads(body), {"model": "doubao-seed-evolving", "stream": True, "partial": False})
+
+    def test_explicit_partial_and_non_json_are_unchanged(self) -> None:
+        explicit = b'{"partial":true}'
+        self.assertEqual(proxy.agent_plan_request_body(explicit), explicit)
+        self.assertEqual(proxy.agent_plan_request_body(b"not-json"), b"not-json")
+
+
 class NormalizerTests(unittest.TestCase):
     def test_compliant_stream_is_preserved_except_sequence(self) -> None:
         events = [
