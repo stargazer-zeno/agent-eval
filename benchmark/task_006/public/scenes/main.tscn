@@ -1,0 +1,9 @@
+[gd_scene format=3]
+
+[node name="MirrorstormFight" type="Node2D"]
+[node name="Boss" type="CharacterBody2D" parent="."]
+[node name="AttackController" type="Node" parent="."]
+[node name="TelegraphRenderer" type="Node2D" parent="."]
+[node name="TelegraphPool" type="Node" parent="."]
+[node name="Arena" type="Node2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="."]

@@ -1,0 +1,37 @@
+{
+  "task_id": "gamevisualfix_task_006",
+  "title": "Mirrorstorm - Phase-Changing Telegraph Recovery",
+  "difficulty": "hard",
+  "engine": {"version": "4.7.1", "renderer": "gl_compatibility"},
+  "harness": {
+    "public_root": "public",
+    "prompt": "public/TASK.md",
+    "initial_visual": "public/evidence/calm_cw_contact_sheet.png",
+    "preload_images": ["public/evidence/calm_cw_contact_sheet.png"],
+    "input_mode": "lazy_workspace",
+    "state_mode": "controller_persistent",
+    "controller_adapter": "controller/session.py",
+    "initial_state": "CALM",
+    "state_graph": {"CALM": ["MIRRORED_ENRAGED"], "MIRRORED_ENRAGED": ["INTERRUPTED_RESUME"], "INTERRUPTED_RESUME": []},
+    "smoke_adapter": "tests/smoke.gd",
+    "observation_adapter": "tools/capture.gd",
+    "default_scenario": "REPLAY_CURRENT",
+    "allowed_scenarios": ["REPLAY_CURRENT", "STEP_FIGHT"],
+    "private_evaluator": "private/evaluate.py",
+    "action_budget": 30,
+    "observation_budget": 8,
+    "time_budget_seconds": 2400
+  },
+  "scoring": {"functional": 45, "visual": 35, "regression": 20},
+  "hidden_cases": 12,
+  "generator_seed": 24082403,
+  "frozen_hashes": {
+    "prompt_sha256": "766c16c7b6c948cb71979618f201978a5157a7e42214ef3369e07bb1e06711e8",
+    "initial_visual_sha256": "76029b405b29c8cfe7427880c8a5b59845dec6e5eec895b785b115ed6751ea8f",
+    "trace_sha256": "83428b6f92920ef85c897528ff236111722acaee6e7fa0031726b632bccc76d8",
+    "public_tree_sha256": "cb77a5f987d95528614a939eaafc78068a1c6e026374b94189b505fc2e3855be",
+    "controller_sha256": "13ba44fe4da418b89535827190711fc9eac8fb08ea6d6bdffd1aef9124a7d95d",
+    "evaluator_sha256": "8bc9877d92b5c60585dccbe16cff94db55808fb5eaccdc2cacdee0c0f4c24c54",
+    "oracle_sha256": "de37278d47638e578cc932fb44349f5e599d629b012246c69ef0d9a2ba9e4032"
+  }
+}

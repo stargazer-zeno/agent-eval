@@ -1,0 +1,15 @@
+{
+  "required": {
+    "sample_after_commit": true,
+    "capture_position": true,
+    "capture_facing": true,
+    "capture_parity": true,
+    "capture_epoch": true,
+    "read_live_state": false,
+    "reject_stale_epoch": true,
+    "reset_on_reuse": true
+  },
+  "phases": ["CALM", "MIRRORED_ENRAGED", "INTERRUPTED_RESUME"],
+  "tick_rates": [30, 60],
+  "directions": [-1, 1]
+}

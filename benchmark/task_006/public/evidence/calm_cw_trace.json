@@ -1,0 +1,12 @@
+{
+  "replay": "CALM_CW",
+  "physics_ticks": 60,
+  "events": [
+    {"tick": 100, "signal": "attack_started"},
+    {"tick": 101, "signal": "movement_requested"},
+    {"tick": 102, "signal": "telegraph_requested"},
+    {"tick": 103, "signal": "damage_window"},
+    {"tick": 104, "signal": "direction_reversed"},
+    {"tick": 108, "signal": "attack_finished"}
+  ]
+}
