@@ -1,9 +1,12 @@
 # GameVisualFix v3 Seed 能力边界原型设计
 
-> Suite：`gamevisualfix_v3_seed_boundary_3x1`  
-> Engine：Godot 4.7.1 / Windows OpenGL Compatibility  
-> Provider：`doubao-seed-evolving` via Codex CLI + Seed Responses SSE normalizer  
-> 状态：在任何 v3 模型调用前冻结  
+> Suite：`gamevisualfix_v3_seed_boundary_3x1`
+>
+> Engine：Godot 4.7.1 / Windows OpenGL Compatibility
+>
+> Provider：`doubao-seed-evolving` via Codex CLI + Seed Responses SSE normalizer
+>
+> 状态：在任何 v3 模型调用前冻结
 > 统一预算：30 个 Controller actions、8 次 fresh observations、40 分钟
 
 ## 1. 设计动机与冻结边界

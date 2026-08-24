@@ -7,8 +7,10 @@ from pathlib import Path
 
 try:
     import seed_responses_proxy
+    import stateful_controller
 except ImportError:  # Importing as harness.run_codex_eval from repository root.
     from harness import seed_responses_proxy
+    from harness import stateful_controller
 
 ROOT = Path(__file__).resolve().parents[1]
 READABLE = {".gd", ".tscn", ".tres", ".godot", ".md", ".json", ".cfg", ".txt"}
@@ -164,7 +166,7 @@ def public_canary_receipt(path: Path | None) -> dict | None:
     }
 
 def main() -> int:
-    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--canary-receipt", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_1_seed_proxy_3x2"); args = p.parse_args()
+    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003","task_004","task_005","task_006"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--canary-receipt", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_1_seed_proxy_3x2"); args = p.parse_args()
     task_dir = ROOT / "benchmark" / args.task_id; task_json = task_dir / "task.json"; task = json.loads(task_json.read_text(encoding="utf-8"))
     # Task 001 predates v2's nested manifest. Preserve its frozen metadata and
     # supply the v2 dispatch contract here rather than rewriting the pilot spec.
@@ -190,6 +192,7 @@ def main() -> int:
     summary = ""
     trajectory = output / "trajectory.jsonl"
     pending_image = None
+    session = None
     try:
         model, auth, env, extra = provider_config(args.provider, dotenv(args.env_file), home, proxy.base_url if proxy else None)
         # External providers use only this run-local config; ignoring it would
@@ -198,10 +201,16 @@ def main() -> int:
         schema = ROOT / "harness" / "controller_action.schema.json"
         common = ["--json", "--ignore-rules", "--output-schema", str(schema), "--disable", "plugins", "--disable", "apps", "--disable", "multi_agent", "--disable", "browser_use", "--disable", "computer_use", "--disable", "shell_tool", "--disable", "skill_search", "--disable", "hooks", "-c", 'web_search="disabled"']
         prompt = PROTOCOL + "\nTASK:\n" + (workspace / "TASK.md").read_text(encoding="utf-8")
-        for relative in files(workspace):
-            path = workspace / relative
-            if path.suffix.lower() in READABLE and relative != "TASK.md":
-                prompt += f"\n--- {relative} ---\n" + path.read_text(encoding="utf-8", errors="replace")[:30000]
+        input_mode = task["harness"].get("input_mode", "public_text_snapshot")
+        if input_mode == "public_text_snapshot":
+            for relative in files(workspace):
+                path = workspace / relative
+                if path.suffix.lower() in READABLE and relative != "TASK.md":
+                    prompt += f"\n--- {relative} ---\n" + path.read_text(encoding="utf-8", errors="replace")[:30000]
+        elif input_mode != "lazy_workspace":
+            raise ValueError(f"unsupported input_mode: {input_mode}")
+        if task["harness"].get("state_mode") == "controller_persistent":
+            session = stateful_controller.StatefulObservation(task_dir, task, workspace, output / "control" / "state")
         initial = [workspace / value.replace("public/", "") for value in task["harness"].get("preload_images", [])]
         for step in range(1, int(task["harness"]["action_budget"]) + 1):
             if time.monotonic() - started > int(task["harness"]["time_budget_seconds"]):
@@ -255,7 +264,10 @@ def main() -> int:
                         raise ValueError("observation budget exhausted")
                     observations += 1
                     pending_image = artifacts / f"observation_{observations}.png"
-                    result = capture(workspace, task, args.godot.resolve(), pending_image, action["scenario"])
+                    if session is not None:
+                        result = session.observe(action["scenario"], pending_image, args.godot.resolve())
+                    else:
+                        result = capture(workspace, task, args.godot.resolve(), pending_image, action["scenario"])
                     if result["exit_code"] == 0 and result["image_exists"]:
                         successful_observations += 1
                     else:
@@ -291,6 +303,8 @@ def main() -> int:
         adapter_receipt = proxy.receipt() if proxy else None
         if adapter_receipt:
             (output / "adapter_receipt.json").write_text(json.dumps(adapter_receipt, indent=2) + "\n", encoding="utf-8")
+        if session is not None:
+            session.export_ledger(output / "state_ledger.jsonl")
         manifest = {
             "schema_version": 3,
             "experiment_suite_id": args.suite_id,
@@ -299,6 +313,8 @@ def main() -> int:
             "model": model,
             "authentication": auth,
             "mode": "codex_cli_controller_actions",
+            "input_mode": input_mode,
+            "state_mode": task["harness"].get("state_mode", "stateless"),
             "transport_adapter": seed_responses_proxy.ADAPTER_NAME if proxy else None,
             "adapter_sha256": digest(Path(seed_responses_proxy.__file__)) if proxy else None,
             "normalization_counts": adapter_receipt["normalization_counts"] if adapter_receipt else {},
@@ -315,6 +331,8 @@ def main() -> int:
                 "task_prompt_sha256": digest(task_dir / task["harness"]["prompt"]),
                 "controller_schema_sha256": digest(schema),
                 "runner_sha256": digest(Path(__file__)),
+                "public_tree_sha256": stateful_controller.tree_sha256(public),
+                "controller_adapter_sha256": digest(task_dir / task["harness"]["controller_adapter"]) if task["harness"].get("controller_adapter") else None,
             },
             "valid_api": result_status == "valid_canonical",
             "submitted": submitted,
