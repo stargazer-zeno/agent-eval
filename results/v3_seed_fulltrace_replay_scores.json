@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "experiment_suite_id": "gamevisualfix_v3_seed_fulltrace_partialfix_3x1",
+  "mode": "full_trace_replay",
+  "provider": "seed_evolving",
+  "model": "doubao-seed-evolving",
+  "task_count": 3,
+  "attempt_policy": "one post-transport-fix attempt per task; prior terminal-less streams retained locally as invalid infrastructure lineage",
+  "full_trace_policy": {
+    "local_only": true,
+    "format": "gamevisualfix_full_agent_trajectory_v1",
+    "records": [
+      "actual assistant text",
+      "provider/Codex-emitted reasoning summaries when present",
+      "controller tool calls and receipts",
+      "raw Codex JSON events"
+    ],
+    "does_not_record": [
+      "synthetic or reconstructed chain-of-thought",
+      "credentials",
+      "provider Authorization headers"
+    ]
+  },
+  "runs": [
+    {
+      "task_id": "gamevisualfix_task_004",
+      "local_run": "experiments/v3_seed_fulltrace/task_004/seed_evolving_20260824_terminalfix_run1",
+      "result_status": "valid_canonical",
+      "terminal_status": "submitted",
+      "actions": 15,
+      "fresh_observations": 4,
+      "elapsed_seconds": 805.218,
+      "scores": {"functional": 25, "visual": 0, "regression": 20, "total": 45, "task_success": false},
+      "trace": {"assistant_messages": 15, "reasoning_summaries": 15, "raw_turns": 15},
+      "failure_stage": "cross-view glyph binding"
+    },
+    {
+      "task_id": "gamevisualfix_task_005",
+      "local_run": "experiments/v3_seed_fulltrace/task_005/seed_evolving_20260824_terminalfix_run1",
+      "result_status": "valid_canonical",
+      "terminal_status": "model_turn_timeout",
+      "actions": 27,
+      "fresh_observations": 8,
+      "elapsed_seconds": 1743.375,
+      "scores": {"functional": 30, "visual": 0, "regression": 20, "total": 50, "task_success": false},
+      "trace": {"assistant_messages": 28, "reasoning_summaries": 27, "raw_turns": 28},
+      "failure_stage": "delayed HUD-hint dependency after route and migration"
+    },
+    {
+      "task_id": "gamevisualfix_task_006",
+      "local_run": "experiments/v3_seed_fulltrace/task_006/seed_evolving_20260824_terminalfix_run1",
+      "result_status": "valid_canonical",
+      "terminal_status": "submitted",
+      "actions": 17,
+      "fresh_observations": 2,
+      "elapsed_seconds": 210.047,
+      "scores": {"functional": 45, "visual": 35, "regression": 20, "total": 100, "task_success": true},
+      "trace": {"assistant_messages": 17, "reasoning_summaries": 17, "raw_turns": 17},
+      "failure_stage": null
+    }
+  ],
+  "aggregate": {
+    "task_success_rate": 0.333333,
+    "mean_scores": {"functional": 33.333, "visual": 11.667, "regression": 20.0, "total": 65.0},
+    "actions_total": 59,
+    "fresh_observations_total": 14,
+    "elapsed_seconds_total": 2758.64,
+    "assistant_messages_total": 60,
+    "reasoning_summaries_total": 59
+  },
+  "interpretation_limit": "This is a separate full-trace replay, not a replacement for the public de-identified v3 canonical matrix. Single attempts are descriptive only."
+}
