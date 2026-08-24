@@ -43,6 +43,7 @@ experiments/v3_seed_boundary/canary_seed_*/
 experiments/v3_seed_boundary/task_*/
 experiments/v3_seed_fulltrace/canary_*/
 experiments/v3_seed_fulltrace/task_*/
+/gameFix/
 
 # Editor and operating-system metadata
 .idea/
