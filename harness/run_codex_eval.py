@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Canonical task-manifest Codex CLI controller evaluation for GameVisualFix v2.1."""
+"""Canonical task-manifest Codex CLI controller evaluation for GameVisualFix."""
 from __future__ import annotations
 
 import argparse, hashlib, json, os, re, shutil, subprocess, sys, time
@@ -102,7 +102,16 @@ def provider_config(provider: str, secrets: dict[str, str], home: Path, base_ove
     if not secrets.get(key) or not base: raise SystemExit(f"{key} or provider base URL is unavailable")
     home.mkdir(parents=True); env[key] = secrets[key]; env["CODEX_HOME"] = str(home)
     summaries = "model_supports_reasoning_summaries = true\n" if provider == "seed_evolving" else ""
-    config = f'''model = "{model}"\nmodel_provider = "{name}"\n{summaries}approval_policy = "never"\nsandbox_mode = "read-only"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{base}"\nenv_key = "{key}"\nwire_api = "responses"\nrequest_max_retries = 2\nstream_max_retries = 2\nstream_idle_timeout_ms = 180000\n'''
+    # Seed can emit very large reasoning items.  Without an explicit custom-
+    # provider context limit, a long controller thread can cross the upstream
+    # window before Codex compacts it.  Keep reasoning policy unchanged, but
+    # compact early enough to preserve the declared 30-action task budget.
+    context = (
+        "model_context_window = 256000\n"
+        "model_auto_compact_token_limit = 180000\n"
+        if provider == "seed_evolving" else ""
+    )
+    config = f'''model = "{model}"\nmodel_provider = "{name}"\n{summaries}{context}approval_policy = "never"\nsandbox_mode = "read-only"\n[model_providers.{name}]\nname = "{name}"\nbase_url = "{base}"\nenv_key = "{key}"\nwire_api = "responses"\nrequest_max_retries = 2\nstream_max_retries = 2\nstream_idle_timeout_ms = 180000\n'''
     (home / "config.toml").write_text(config, encoding="utf-8", newline="\n")
     extra = ["--model", model] + (["-c", "model_reasoning_effort=high"] if provider == "qwen38" else [])
     return model, provider, env, extra
