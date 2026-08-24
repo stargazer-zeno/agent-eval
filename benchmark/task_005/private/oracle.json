@@ -1,0 +1,7 @@
+{
+  "route_order": [2, 0, 3, 1],
+  "migration_order": [3, 1, 0, 2],
+  "hint_order": [2, 0, 3, 1],
+  "phases": ["LOBBY", "RESTORED_MIDPOINT", "POST_ELEVATOR", "FINAL_RESTORE"],
+  "viewports": [[960, 540], [1280, 720], [1024, 768]]
+}

@@ -1,0 +1,36 @@
+{
+  "task_id": "gamevisualfix_task_005",
+  "title": "Checkpoint Mosaic - Delayed Save-Migration Chain",
+  "difficulty": "hard",
+  "engine": {"version": "4.7.1", "renderer": "gl_compatibility"},
+  "harness": {
+    "public_root": "public",
+    "prompt": "public/TASK.md",
+    "initial_visual": "public/evidence/lobby_initial.png",
+    "preload_images": ["public/evidence/lobby_initial.png"],
+    "input_mode": "lazy_workspace",
+    "state_mode": "controller_persistent",
+    "controller_adapter": "controller/session.py",
+    "initial_state": "LOBBY",
+    "state_graph": {"LOBBY": ["RESTORED_MIDPOINT"], "RESTORED_MIDPOINT": ["POST_ELEVATOR"], "POST_ELEVATOR": ["FINAL_RESTORE"], "FINAL_RESTORE": []},
+    "smoke_adapter": "tests/smoke.gd",
+    "observation_adapter": "tools/capture.gd",
+    "default_scenario": "REPLAY_CURRENT",
+    "allowed_scenarios": ["REPLAY_CURRENT", "ADVANCE"],
+    "private_evaluator": "private/evaluate.py",
+    "action_budget": 30,
+    "observation_budget": 8,
+    "time_budget_seconds": 2400
+  },
+  "scoring": {"functional": 45, "visual": 35, "regression": 20},
+  "hidden_cases": 12,
+  "generator_seed": 24082402,
+  "frozen_hashes": {
+    "prompt_sha256": "98f6e5ff4c5ff5f79ec3d3fca5b5f7bd43a1f1179bed7c2d3596f7a52367e8a9",
+    "initial_visual_sha256": "dd121cacaa62203400af1d37aaf962648dde315744374be15b0c232ca6ce29b6",
+    "public_tree_sha256": "677e41dca9357123163f5a4dd94a7f9055c4c43683e61471f00454dcdd8fc613",
+    "controller_sha256": "9ebd896d961eddd92b49195b2a14a145dacc81ef017f434c46abc5c0e22299b4",
+    "evaluator_sha256": "cc4160f24a618ca8e99f141822cdafd3ff051fc227d5d0fd567cd10a0fb6e786",
+    "oracle_sha256": "e1f5043832cc27c9738624df2ec867440be7daa494823a2fb576a37c92faeeba"
+  }
+}

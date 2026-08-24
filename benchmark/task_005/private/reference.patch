@@ -1,0 +1,32 @@
+diff --git a/resources/route_bindings.cfg b/resources/route_bindings.cfg
+--- a/resources/route_bindings.cfg
++++ b/resources/route_bindings.cfg
+@@ -1,3 +1,3 @@
+ [bindings]
+ ; Indices refer to anonymous seal assets in SealRegistry.
+-door_order="0,1,2,3"
++door_order="2,0,3,1"
+diff --git a/scripts/save/slot_migrator.gd b/scripts/save/slot_migrator.gd
+--- a/scripts/save/slot_migrator.gd
++++ b/scripts/save/slot_migrator.gd
+@@ -2,7 +2,7 @@ class_name SlotMigrator
+ extends RefCounted
+ 
+ # v1 stored route positions; v2 stores anonymous checkpoint slots.
+-const V1_TO_V2: Array[int] = [0, 1, 2, 3]
++const V1_TO_V2: Array[int] = [3, 1, 0, 2]
+ 
+ func migrate_slot(v1_route_position: int) -> int:
+     return V1_TO_V2[v1_route_position]
+diff --git a/scripts/hud/restore_hints.gd b/scripts/hud/restore_hints.gd
+--- a/scripts/hud/restore_hints.gd
++++ b/scripts/hud/restore_hints.gd
+@@ -2,7 +2,7 @@ class_name RestoreHints
+ extends RefCounted
+ 
+ # HUD entries are anonymous seal indices, ordered by restored route position.
+-const RESTORED_HINT_ORDER: Array[int] = [0, 1, 2, 3]
++const RESTORED_HINT_ORDER: Array[int] = [2, 0, 3, 1]
+ 
+ func hint_for_route_position(position: int) -> int:
+     return RESTORED_HINT_ORDER[position]

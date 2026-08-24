@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[node name="CheckpointMosaic" type="Node2D"]
+[node name="Player" type="CharacterBody2D" parent="."]
+[node name="LobbyDoors" type="Node2D" parent="."]
+[node name="CheckpointStore" type="Node" parent="."]
+[node name="RestoreHUD" type="CanvasLayer" parent="."]
+[node name="Elevator" type="Node2D" parent="."]

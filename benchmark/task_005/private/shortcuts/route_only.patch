@@ -1,0 +1,8 @@
+diff --git a/resources/route_bindings.cfg b/resources/route_bindings.cfg
+--- a/resources/route_bindings.cfg
++++ b/resources/route_bindings.cfg
+@@ -1,3 +1,3 @@
+ [bindings]
+ ; Indices refer to anonymous seal assets in SealRegistry.
+-door_order="0,1,2,3"
++door_order="2,0,3,1"
