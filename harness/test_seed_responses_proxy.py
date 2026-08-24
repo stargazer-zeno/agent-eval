@@ -41,6 +41,20 @@ class RequestBodyTests(unittest.TestCase):
 
 
 class NormalizerTests(unittest.TestCase):
+    def test_completed_assistant_without_terminal_gets_inferred_completion(self) -> None:
+        events = [
+            created(),
+            {"type": "response.output_item.done", "output_index": 0, "item": {"id": "msg_1", "type": "message", "status": "completed", "role": "assistant", "content": [{"type": "output_text", "text": "ok", "annotations": []}]}},
+        ]
+        result, receipt = normalized(events)
+        self.assertEqual(result[-1]["type"], "response.completed")
+        self.assertEqual(result[-1]["response"]["status"], "completed")
+        self.assertEqual(receipt["normalization_counts"]["response.completed"], 1)
+
+    def test_incomplete_stream_without_completed_assistant_still_fails(self) -> None:
+        with self.assertRaises(proxy.NormalizationError):
+            normalized([created(), {"type": "response.output_text.delta", "item_id": "msg_1", "output_index": 0, "content_index": 0, "delta": "partial"}])
+
     def test_compliant_stream_is_preserved_except_sequence(self) -> None:
         events = [
             created(),

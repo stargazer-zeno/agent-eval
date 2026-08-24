@@ -4,7 +4,7 @@
 
 `gamevisualfix_v3_seed_fulltrace_3x1` is a separate replay suite. It reruns the frozen v3 Tasks 004–006 with `doubao-seed-evolving` through the same Codex Controller Harness, but records local complete dialogue-style episodes for inspection. It does not replace the public, de-identified v3 canonical matrix.
 
-The first Task 004 full-trace run and its one allowed rerun both ended before an action because the Seed upstream terminated a stream and then rejected Codex's retry for a missing `partial` field. They remain local `invalid_infrastructure` lineage. After a unit-tested proxy-only compatibility repair that forwards an absent `partial` as `false`, the actual three-task replay is frozen under the new suite ID `gamevisualfix_v3_seed_fulltrace_partialfix_3x1`. The repair changes neither task prompt nor visual input, evaluator, Oracle, thresholds, budget, or model settings.
+The first Task 004 full-trace run and its one allowed rerun both ended before an action because the Seed upstream emitted a completed assistant item but omitted `response.completed`; Codex then retried, and the upstream rejected that retry for a missing `partial` field. They remain local `invalid_infrastructure` lineage. After unit-tested proxy-only compatibility repairs that forward an absent `partial` as `false` and infer a terminal event only after an upstream-completed assistant item, the actual three-task replay is frozen under the new suite ID `gamevisualfix_v3_seed_fulltrace_partialfix_3x1`. The repairs change neither task prompt nor visual input, evaluator, Oracle, thresholds, budget, or model settings; incomplete streams without a completed assistant item remain fail-closed.
 
 ## Record format
 

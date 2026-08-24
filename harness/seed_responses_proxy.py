@@ -15,7 +15,7 @@ from dataclasses import dataclass, field
 from typing import BinaryIO, Iterable, Iterator
 
 ADAPTER_NAME = "seed_responses_sse_normalizer"
-ADAPTER_VERSION = "1.1.0"
+ADAPTER_VERSION = "1.2.0"
 DEFAULT_UPSTREAM = "https://ark.cn-beijing.volces.com/api/plan/v3"
 TERMINAL_EVENTS = {
     "response.completed",
@@ -181,6 +181,7 @@ class StreamNormalizer:
         self.sequence = 0
         self.items: dict[int, ItemState] = {}
         self.seen_terminal = False
+        self.response: dict = {}
 
     def normalize(self, events: Iterable[dict]) -> Iterator[dict]:
         self.diagnostics.begin_stream()
@@ -191,7 +192,11 @@ class StreamNormalizer:
             event_type = event["type"]
             if event_type == "[DONE]":
                 if not self.seen_terminal:
-                    raise NormalizationError("DONE received before a terminal response event")
+                    implicit = self._implicit_completed()
+                    if implicit is None:
+                        raise NormalizationError("DONE received before a terminal response event")
+                    yield self._numbered(implicit, inserted=True)
+                    self.seen_terminal = True
                 yield event
                 continue
             if self.seen_terminal:
@@ -210,7 +215,11 @@ class StreamNormalizer:
             yield self._numbered(event, inserted=enriched)
 
         if not self.seen_terminal:
-            raise NormalizationError("stream ended without terminal response event")
+            implicit = self._implicit_completed()
+            if implicit is None:
+                raise NormalizationError("stream ended without terminal response event")
+            yield self._numbered(implicit, inserted=True)
+            self.seen_terminal = True
 
     @staticmethod
     def _canonicalize(event: dict) -> dict:
@@ -285,6 +294,11 @@ class StreamNormalizer:
 
     def _observe(self, event: dict) -> None:
         event_type = event["type"]
+        if event_type in {"response.created", "response.in_progress"}:
+            response = event.get("response")
+            if isinstance(response, dict):
+                self.response = dict(response)
+            return
         if event_type == "response.output_item.added":
             state = self._state_from_item_event(event)
             state.added = True
@@ -320,6 +334,22 @@ class StreamNormalizer:
             elif event_type == "response.reasoning_summary_part.done":
                 self._set_part_final(part, event)
                 part.done = True
+
+    def _implicit_completed(self) -> dict | None:
+        """Synthesize a terminal event only after a completed assistant item.
+
+        Some Seed streams close after ``response.output_item.done`` but omit
+        ``response.completed``.  Treating that complete item as a terminal
+        response avoids a false Codex reconnect.  A stream without a finished
+        assistant message remains an error.
+        """
+        if not any(state.kind == "message" and state.done for state in self.items.values()):
+            return None
+        response = dict(self.response)
+        response.setdefault("id", "seed-terminal-inferred")
+        response["status"] = "completed"
+        response.setdefault("output", [])
+        return {"type": "response.completed", "response": response}
 
     def _state_from_item_event(self, event: dict) -> ItemState:
         item = event.get("item")
