@@ -3,6 +3,6 @@
 {"type":"turn.started"}
 {"type":"error"}
 {"type":"error"}
-{"type":"item.completed","item_type":"reasoning","text_sha256":"43f3d33e3b2b46a9707ab5863a32506d5eeb17d77da07d6210084934c6f570d2"}
-{"type":"item.completed","item_type":"agent_message","text_sha256":"a65f002967797ca97176316fb5d75c04b4332a201395572a72ca52c22967d861"}
+{"type":"item.completed","item_type":"reasoning"}
+{"type":"item.completed","item_type":"agent_message"}
 {"type":"turn.completed","usage":{"input_tokens":23558,"cached_input_tokens":10040,"cache_write_input_tokens":0,"output_tokens":70,"reasoning_output_tokens":17}}

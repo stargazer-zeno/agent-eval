@@ -145,6 +145,7 @@ def copy_lifecycle(source: Path, destination: Path) -> None:
     for line in source.read_text(encoding="utf-8").splitlines():
         event = json.loads(line)
         event.pop("thread_id", None)
+        event.pop("text_sha256", None)
         lines.append(json.dumps(event, ensure_ascii=False, separators=(",", ":")))
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text("\n".join(lines) + ("\n" if lines else ""), encoding="utf-8")
