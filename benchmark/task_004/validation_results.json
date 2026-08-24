@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "task_id": "gamevisualfix_task_004",
+  "gate_status": "pass",
+  "model_exposure_before_freeze": false,
+  "bug_state_runs": [
+    {"functional": 5, "visual": 0, "regression": 20, "total": 25, "task_success": false},
+    {"functional": 5, "visual": 0, "regression": 20, "total": 25, "task_success": false},
+    {"functional": 5, "visual": 0, "regression": 20, "total": 25, "task_success": false}
+  ],
+  "reference_state_runs": [
+    {"functional": 45, "visual": 35, "regression": 20, "total": 100, "task_success": true},
+    {"functional": 45, "visual": 35, "regression": 20, "total": 100, "task_success": true},
+    {"functional": 45, "visual": 35, "regression": 20, "total": 100, "task_success": true}
+  ],
+  "stable_hashes": {
+    "bug_representative_png_sha256": "c4e507d75dfb381166a22b28d9ae3a45aaf7a39a15ef764a86ed2ef1264afebe",
+    "reference_representative_png_sha256": "e9fc5d02ef82b4191368df9e07c58c045dd3c70cd932a9ec67850e6549396247"
+  },
+  "shortcut_results": {
+    "mapping_only": {"total": 45, "task_success": false},
+    "transform_only": {"total": 45, "task_success": false},
+    "asset_replacement": {"total": 5, "task_success": false}
+  },
+  "equivalent_patch": {"byte_identical_to_reference": false, "total": 100, "task_success": true},
+  "hidden_case_count": 36,
+  "caption_necessity_gate": "pass",
+  "public_leak_audit": "pass"
+}

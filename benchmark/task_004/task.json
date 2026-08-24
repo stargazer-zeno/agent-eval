@@ -1,0 +1,33 @@
+{
+  "task_id": "gamevisualfix_task_004",
+  "title": "Glyph Atlas - Multi-View Landmark Registration",
+  "difficulty": "hard",
+  "engine": {"version": "4.7.1", "renderer": "gl_compatibility"},
+  "harness": {
+    "public_root": "public",
+    "prompt": "public/TASK.md",
+    "initial_visual": "public/evidence/world_overview.png",
+    "preload_images": ["public/evidence/world_overview.png", "public/evidence/broken_minimap.png"],
+    "input_mode": "lazy_workspace",
+    "state_mode": "stateless",
+    "smoke_adapter": "tests/smoke.gd",
+    "observation_adapter": "tools/capture.gd",
+    "default_scenario": "VERIFY_BASELINE",
+    "allowed_scenarios": ["ROTATE_37", "PORTAL_MIRROR", "WIDE_VIEW", "VERIFY_BASELINE"],
+    "private_evaluator": "private/evaluate.py",
+    "action_budget": 30,
+    "observation_budget": 8,
+    "time_budget_seconds": 2400
+  },
+  "scoring": {"functional": 45, "visual": 35, "regression": 20},
+  "hidden_cases": 36,
+  "generator_seed": 24082401,
+  "frozen_hashes": {
+    "prompt_sha256": "3af3c0d3a3d603a7a3de099f6027223374b17dc484b28c6cd1b231d198739cbe",
+    "world_overview_sha256": "c4e507d75dfb381166a22b28d9ae3a45aaf7a39a15ef764a86ed2ef1264afebe",
+    "broken_minimap_sha256": "e8dc830b33a34e1416d26800805d44a8dffae0a5fb1c2896f84e04575feaafe2",
+    "public_tree_sha256": "6023207671b49f267d447b7945db4939c838d01c429b776910cd2c495da9c98b",
+    "evaluator_sha256": "4d9b6b8fb749dbf9e6e3d547aea076c978ea8904d42f3be69fd39a2ba40f23de",
+    "oracle_sha256": "0bd86dfb986ff6cf3beaf16accbd5cfdb7eba95eb2d05f7236ed82d5b78b3e7c"
+  }
+}

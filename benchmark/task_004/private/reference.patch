@@ -1,0 +1,21 @@
+diff --git a/resources/landmark_bindings.cfg b/resources/landmark_bindings.cfg
+--- a/resources/landmark_bindings.cfg
++++ b/resources/landmark_bindings.cfg
+@@ -2 +2 @@
+-minimap_order="2,6,0,5,7,1,3,4"
++minimap_order="4,2,6,0,5,7,1,3"
+diff --git a/scripts/minimap/projection.gd b/scripts/minimap/projection.gd
+--- a/scripts/minimap/projection.gd
++++ b/scripts/minimap/projection.gd
+@@ -2,8 +2,7 @@ class_name MinimapProjection
+ extends RefCounted
+ 
+ func project(relative: Vector2, camera_angle: float, portal_mirrored: bool) -> Vector2:
+-    var transformed := relative
+-    if portal_mirrored:
+-        transformed.x = -transformed.x
+-    transformed = transformed.rotated(-camera_angle)
++    var transformed := relative.rotated(-camera_angle)
++    if portal_mirrored:
++        transformed.x = -transformed.x
+     return transformed
