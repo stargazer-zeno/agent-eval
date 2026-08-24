@@ -41,6 +41,8 @@ experiments/v2_1_canary/seed_evolving_20260821/
 experiments/v2_1_canary/seed_evolving_20260821_run2/
 experiments/v3_seed_boundary/canary_seed_*/
 experiments/v3_seed_boundary/task_*/
+experiments/v3_seed_fulltrace/canary_*/
+experiments/v3_seed_fulltrace/task_*/
 
 # Editor and operating-system metadata
 .idea/

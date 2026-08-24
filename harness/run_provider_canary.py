@@ -87,10 +87,14 @@ def main() -> int:
     parser.add_argument("--env-file", type=Path, default=core.ROOT / ".env")
     parser.add_argument("--codex-exe", type=Path)
     parser.add_argument("--multi-image", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--full-trace", action="store_true", help="Save a local attachment-style trace and raw Codex JSON events.")
     args = parser.parse_args()
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     images = make_images(output)
+    raw_eventdir = output / "codex_raw" if args.full_trace else None
+    if raw_eventdir:
+        raw_eventdir.mkdir()
     control = output / "control" / "codex_home"
     adapter = seed_responses_proxy.SeedResponsesProxy() if args.provider == "seed_evolving" else None
     if adapter:
@@ -99,6 +103,7 @@ def main() -> int:
     active_item_errors = 0
     thread = None
     valid = True
+    full_turns = []
     try:
         model, authentication, env, extra = core.provider_config(
             args.provider,
@@ -116,9 +121,19 @@ def main() -> int:
                 command = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, "--image", *[str(path) for path in images], "-C", str(output), "-"]
             else:
                 command = [str(executable), "exec", "resume", *common, "--image", str(images[index]), str(thread), "-"]
-            code, raw, timed_out = core.command(command, 240, output, env, prompt)
+            code, raw, timed_out = core.command(command, 240, output, env, prompt, max_output=None if args.full_trace else 12000)
+            if raw_eventdir:
+                (raw_eventdir / f"turn_{index + 1:02d}.jsonl").write_text(raw, encoding="utf-8")
             active_item_errors += raw.lower().count("without active item")
             receipt, new_thread, turn_valid = turn_receipt(raw, code, timed_out, expected)
+            if args.full_trace:
+                action = {"action": receipt["action"] or "", "path": "", "content": "", "scenario": "", "summary": ""}
+                full_turns.append({
+                    "step": index + 1,
+                    "response": core.full_response(raw),
+                    "action": action if receipt["action"] else None,
+                    "tool_result": {"canary_expected_action": expected, "turn_valid": turn_valid},
+                })
             turns.append(receipt)
             thread = thread or new_thread
             valid = valid and turn_valid and bool(thread)
@@ -142,7 +157,15 @@ def main() -> int:
             "transport_adapter": seed_responses_proxy.ADAPTER_NAME if adapter else None,
             "adapter_sha256": core.digest(Path(seed_responses_proxy.__file__)) if adapter else None,
             "adapter_receipt": adapter_receipt,
+            "full_trace": args.full_trace,
         }
+        if args.full_trace:
+            document = core.full_trace_document(
+                {"task_id": "seed_fulltrace_transport_canary"},
+                synthetic_prompt(expected_actions[0], 1), images, schema, model,
+                "gamevisualfix_v3_seed_fulltrace_3x1", full_turns,
+            )
+            (output / "full_trajectory.jsonl").write_text(json.dumps(document, ensure_ascii=False) + "\n", encoding="utf-8")
         (output / "canary.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(json.dumps({"provider": args.provider, "valid": report["valid"], "turns": len(turns), "active_item_errors": active_item_errors}))
         return 0 if report["valid"] else 2

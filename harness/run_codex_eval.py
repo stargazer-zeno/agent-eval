@@ -54,14 +54,16 @@ def safe_path(workspace: Path, name: str) -> tuple[Path, str]:
     if workspace.resolve() not in candidate.parents and candidate != workspace.resolve(): raise ValueError("path escapes workspace")
     return candidate, candidate.relative_to(workspace.resolve()).as_posix()
 
-def command(command: list[str], timeout: int, cwd: Path | None = None, env: dict | None = None, stdin: str | None = None) -> tuple[int, str, bool]:
+def command(command: list[str], timeout: int, cwd: Path | None = None, env: dict | None = None, stdin: str | None = None, max_output: int | None = 12000) -> tuple[int, str, bool]:
     startup = subprocess.STARTUPINFO() if os.name == "nt" else None
     if startup: startup.dwFlags |= subprocess.STARTF_USESHOWWINDOW; startup.wShowWindow = 0
     try:
         run = subprocess.run(command, cwd=cwd, env=env, input=stdin, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=timeout, startupinfo=startup)
-        return run.returncode, (run.stdout + run.stderr)[-12000:], False
+        output = run.stdout + run.stderr
+        return run.returncode, output if max_output is None else output[-max_output:], False
     except subprocess.TimeoutExpired as exc:
-        return 124, str(exc.stdout or "")[-12000:], True
+        output = str(exc.stdout or "")
+        return 124, output if max_output is None else output[-max_output:], True
 
 def extract(raw: str) -> tuple[str | None, str | None, dict]:
     thread = message = None; usage = {}
@@ -140,6 +142,116 @@ def sanitized_codex_events(raw: str) -> str:
     return "\n".join(output) + ("\n" if output else "")
 
 
+def _event_item_text(item: dict) -> str:
+    """Return only text explicitly exposed by a Codex JSON item."""
+    direct = item.get("text")
+    if isinstance(direct, str):
+        return direct
+    parts = item.get("content")
+    if not isinstance(parts, list):
+        parts = item.get("summary")
+    if not isinstance(parts, list):
+        return ""
+    return "\n".join(
+        value["text"] for value in parts
+        if isinstance(value, dict) and isinstance(value.get("text"), str)
+    )
+
+
+def full_response(raw: str) -> dict:
+    """Extract model-visible text and reasoning summaries from Codex --json.
+
+    This deliberately records only fields emitted by Codex.  It never invents
+    a chain-of-thought when a provider supplies no reasoning summary.
+    """
+    messages: list[str] = []
+    reasoning: list[str] = []
+    for line in raw.splitlines():
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        item = event.get("item") if isinstance(event.get("item"), dict) else None
+        if event.get("type") != "item.completed" or item is None:
+            continue
+        text = _event_item_text(item)
+        if not text:
+            continue
+        if item.get("type") == "agent_message":
+            messages.append(text)
+        elif item.get("type") in {"reasoning", "reasoning_summary"}:
+            reasoning.append(text)
+    return {
+        "assistant_text": messages[-1] if messages else "",
+        "reasoning_content": "\n\n".join(reasoning),
+        "reasoning_available": bool(reasoning),
+    }
+
+
+def controller_tool_schema(schema_path: Path) -> dict:
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    return {
+        "type": "function",
+        "function": {
+            "name": "controller_action",
+            "description": "Submit exactly one GameVisualFix Controller Action.",
+            "parameters": schema,
+        },
+    }
+
+
+def full_trace_document(task: dict, task_prompt: str, initial_images: list[Path], schema_path: Path, model: str, suite_id: str, turns: list[dict]) -> dict:
+    """Create one attachment-style complete Agent episode for local inspection."""
+    image_receipts = [{"path": path.name if path.parent.name == "evidence" else path.as_posix(), "sha256": digest(path)} for path in initial_images if path.is_file()]
+    prompt: list[dict] = [
+        {"role": "system", "content": [{"type": "text", "text": PROTOCOL}]},
+        {"role": "user", "content": [{"type": "text", "text": task_prompt}]},
+    ]
+    last_assistant: dict | None = None
+    for turn in turns:
+        response = turn["response"]
+        assistant = {
+            "role": "assistant",
+            "content": [{"type": "text", "text": response["assistant_text"]}],
+            "reasoning_content": response["reasoning_content"],
+            "reasoning_available": response["reasoning_available"],
+            "signature": None,
+            "tool_calls": [],
+        }
+        action = turn.get("action")
+        if isinstance(action, dict):
+            tool_call_id = f"controller-step-{turn['step']:02d}"
+            assistant["tool_calls"] = [{
+                "id": tool_call_id,
+                "type": "function",
+                "function": {"name": "controller_action", "arguments": json.dumps(action, ensure_ascii=False, separators=(",", ":"))},
+            }]
+            prompt.append(assistant)
+            prompt.append({
+                "role": "tool",
+                "tool_call_id": tool_call_id,
+                "content": [{"type": "text", "text": json.dumps(turn.get("tool_result", {}), ensure_ascii=False, sort_keys=True)}],
+            })
+        else:
+            prompt.append(assistant)
+        last_assistant = assistant
+    return {
+        "task_id": task["task_id"],
+        "prompt": prompt,
+        "tools": [controller_tool_schema(schema_path)],
+        "candidates": [[last_assistant]] if last_assistant else [],
+        "meta": {
+            "format": "gamevisualfix_full_agent_trajectory_v1",
+            "experiment_suite_id": suite_id,
+            "model": model,
+            "initial_images": image_receipts,
+            "candidate_semantics": "final actual assistant response; not a reference answer",
+            "reasoning_semantics": "only provider/Codex-emitted reasoning summaries; unavailable summaries are empty",
+            "raw_events": "stored only in the run-local ignored codex_raw directory",
+        },
+    }
+
+
 def transport_failure(raw: str, code: int, timed_out: bool, thread: str | None) -> tuple[bool, str]:
     """Separate reproducible transport failures from valid model failures."""
     if timed_out:
@@ -175,7 +287,7 @@ def public_canary_receipt(path: Path | None) -> dict | None:
     }
 
 def main() -> int:
-    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003","task_004","task_005","task_006"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--canary-receipt", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_1_seed_proxy_3x2"); args = p.parse_args()
+    p = argparse.ArgumentParser(); p.add_argument("--task-id", required=True, choices=["task_001","task_002","task_003","task_004","task_005","task_006"]); p.add_argument("--provider", required=True); p.add_argument("--godot", required=True, type=Path); p.add_argument("--output", required=True, type=Path); p.add_argument("--env-file", type=Path, default=ROOT / ".env"); p.add_argument("--codex-exe", type=Path); p.add_argument("--canary-receipt", type=Path); p.add_argument("--suite-id", default="gamevisualfix_v2_1_seed_proxy_3x2"); p.add_argument("--full-trace", action="store_true", help="Save a local attachment-style JSONL trace with actual returned text and reasoning summaries."); args = p.parse_args()
     task_dir = ROOT / "benchmark" / args.task_id; task_json = task_dir / "task.json"; task = json.loads(task_json.read_text(encoding="utf-8"))
     # Task 001 predates v2's nested manifest. Preserve its frozen metadata and
     # supply the v2 dispatch contract here rather than rewriting the pilot spec.
@@ -185,6 +297,9 @@ def main() -> int:
     output = args.output.resolve()
     if output.exists(): raise SystemExit("output must not already exist")
     output.mkdir(parents=True); workspace, artifacts, eventdir = output / "workspace", output / "artifacts", output / "codex_events"; artifacts.mkdir(); eventdir.mkdir()
+    raw_eventdir = output / "codex_raw" if args.full_trace else None
+    if raw_eventdir:
+        raw_eventdir.mkdir()
     shutil.copytree(public, workspace, ignore=lambda _, names: {n for n in names if n in {".godot", ".git"} or n.endswith((".uid", ".import"))})
     code, _, _ = command(["git", "init", "-b", "main"], 30, workspace); command(["git", "add", "-A"], 30, workspace); command(["git", "commit", "-m", "baseline", "--no-gpg-sign"], 30, workspace)
     home = output / "control" / "codex_home"
@@ -200,6 +315,7 @@ def main() -> int:
     terminal_status = "action_budget_exhausted"
     summary = ""
     trajectory = output / "trajectory.jsonl"
+    full_turns: list[dict] = []
     pending_image = None
     session = None
     try:
@@ -232,11 +348,14 @@ def main() -> int:
                 cmd = [str(executable), "exec", *common, "--sandbox", "read-only", *extra, *image_args, "-C", str(workspace), "-"]
             else:
                 cmd = [str(executable), "exec", "resume", *common, *(["--image", str(pending_image)] if pending_image else []), str(thread), "-"]
-            code, raw, timed = command(cmd, 240, workspace, env, prompt)
+            code, raw, timed = command(cmd, 240, workspace, env, prompt, max_output=None if args.full_trace else 12000)
+            if raw_eventdir:
+                (raw_eventdir / f"turn_{step:02d}.jsonl").write_text(raw, encoding="utf-8")
             (eventdir / f"turn_{step:02d}.jsonl").write_text(sanitized_codex_events(raw), encoding="utf-8")
             new_thread, message, usage = extract(raw)
             thread = thread or new_thread
             event = {"step": step, "exit_code": code, "timed_out": timed, "usage": usage}
+            trace_turn = {"step": step, "response": full_response(raw)} if args.full_trace else None
             if code or not thread or not message:
                 infrastructure, reason = transport_failure(raw, code, timed, thread)
                 event["failure_class"] = reason
@@ -246,6 +365,9 @@ def main() -> int:
                     result_status = "invalid_infrastructure"
                     invalid_reason = reason
                 trajectory.open("a", encoding="utf-8").write(json.dumps(event) + "\n")
+                if trace_turn is not None:
+                    trace_turn["tool_result"] = {"error": reason}
+                    full_turns.append(trace_turn)
                 break
             pending_image = None
             try:
@@ -292,6 +414,10 @@ def main() -> int:
                 result = {"error": str(exc)[:500]}
             event["tool_result"] = result
             trajectory.open("a", encoding="utf-8").write(json.dumps(event, ensure_ascii=False) + "\n")
+            if trace_turn is not None:
+                trace_turn["action"] = action if "action" in event else None
+                trace_turn["tool_result"] = result
+                full_turns.append(trace_turn)
             if submitted:
                 break
             prompt = PROTOCOL + "\nController result:\n" + json.dumps(result, ensure_ascii=False)
@@ -314,6 +440,10 @@ def main() -> int:
             (output / "adapter_receipt.json").write_text(json.dumps(adapter_receipt, indent=2) + "\n", encoding="utf-8")
         if session is not None:
             session.export_ledger(output / "state_ledger.jsonl")
+        if args.full_trace:
+            initial_paths = [workspace / value.replace("public/", "") for value in task["harness"].get("preload_images", [])]
+            full_document = full_trace_document(task, (workspace / "TASK.md").read_text(encoding="utf-8"), initial_paths, schema, model, args.suite_id, full_turns)
+            (output / "full_trajectory.jsonl").write_text(json.dumps(full_document, ensure_ascii=False) + "\n", encoding="utf-8")
         manifest = {
             "schema_version": 3,
             "experiment_suite_id": args.suite_id,
@@ -322,6 +452,7 @@ def main() -> int:
             "model": model,
             "authentication": auth,
             "mode": "codex_cli_controller_actions",
+            "full_trace": args.full_trace,
             "input_mode": input_mode,
             "state_mode": task["harness"].get("state_mode", "stateless"),
             "transport_adapter": seed_responses_proxy.ADAPTER_NAME if proxy else None,
