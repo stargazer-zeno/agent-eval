@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+  "dataset_index": "benchmark/dataset_v3.json",
+  "scores": "results/v3_seed_boundary_scores.json",
+  "attempts": [
+    {
+      "attempt_name": "task_004_invalid_infrastructure",
+      "canonical": false,
+      "task_id": "gamevisualfix_task_004",
+      "result_status": "invalid_infrastructure",
+      "invalid_reason": "provider_or_codex_transport",
+      "terminal_status": "provider_or_codex_transport",
+      "scores": {
+        "functional": 25,
+        "visual": 0,
+        "regression": 20,
+        "total": 45,
+        "task_success": false
+      },
+      "source_run_sha256": "f244b6eede0b36a8409b824de13c08e9af13347b654b22f55dd05dbe629068f6"
+    },
+    {
+      "attempt_name": "task_004_canonical",
+      "canonical": true,
+      "task_id": "gamevisualfix_task_004",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "model_turn_timeout",
+      "scores": {
+        "functional": 5,
+        "visual": 0,
+        "regression": 20,
+        "total": 25,
+        "task_success": false
+      },
+      "source_run_sha256": "cc90e075a952e1fa7d91a0d67e7b0ccb736c91db58511c4ac443903e2fa7d50e"
+    },
+    {
+      "attempt_name": "task_005_invalid_infrastructure",
+      "canonical": false,
+      "task_id": "gamevisualfix_task_005",
+      "result_status": "invalid_infrastructure",
+      "invalid_reason": "provider_or_codex_transport",
+      "terminal_status": "provider_or_codex_transport",
+      "scores": {
+        "functional": 0,
+        "visual": 0,
+        "regression": 20,
+        "total": 20,
+        "task_success": false
+      },
+      "source_run_sha256": "7a9ddfae84a8d4d00c53e78f60a4196fb399501d632e832b3c47e8c419f5bcbb"
+    },
+    {
+      "attempt_name": "task_005_canonical",
+      "canonical": true,
+      "task_id": "gamevisualfix_task_005",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "action_budget_exhausted",
+      "scores": {
+        "functional": 30,
+        "visual": 0,
+        "regression": 20,
+        "total": 50,
+        "task_success": false
+      },
+      "source_run_sha256": "c495e014a9c7c2d5fb1a856334664b917328eed0f7dc61f931467488bb7cd470"
+    },
+    {
+      "attempt_name": "task_006_canonical",
+      "canonical": true,
+      "task_id": "gamevisualfix_task_006",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "scores": {
+        "functional": 45,
+        "visual": 35,
+        "regression": 20,
+        "total": 100,
+        "task_success": true
+      },
+      "source_run_sha256": "d850f61af76fbdb0747f38b907222d7de3dc06d876f6bd122302f99988485139"
+    }
+  ]
+}

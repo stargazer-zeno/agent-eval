@@ -1,0 +1,90 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 12,
+  "errors": 11,
+  "upstream_event_counts": {
+    "[DONE]": 12,
+    "response.completed": 12,
+    "response.content_part.added": 12,
+    "response.content_part.done": 12,
+    "response.created": 12,
+    "response.in_progress": 12,
+    "response.output_item.added": 24,
+    "response.output_item.done": 24,
+    "response.output_text.delta": 633,
+    "response.output_text.done": 12,
+    "response.reasoning_summary_part.added": 12,
+    "response.reasoning_summary_part.done": 12,
+    "response.reasoning_summary_text.delta": 6821,
+    "response.reasoning_summary_text.done": 12
+  },
+  "output_event_counts": {
+    "response.completed": 12,
+    "response.content_part.added": 12,
+    "response.content_part.done": 12,
+    "response.created": 12,
+    "response.in_progress": 12,
+    "response.output_item.added": 24,
+    "response.output_item.done": 24,
+    "response.output_text.delta": 633,
+    "response.output_text.done": 12,
+    "response.reasoning_summary_part.added": 12,
+    "response.reasoning_summary_part.done": 12,
+    "response.reasoning_summary_text.delta": 6821,
+    "response.reasoning_summary_text.done": 12
+  },
+  "normalization_counts": {
+    "response.content_part.added": 12,
+    "response.content_part.done": 12,
+    "response.created": 12,
+    "response.in_progress": 12,
+    "response.output_item.added": 24,
+    "response.output_text.delta": 633,
+    "response.reasoning_summary_part.added": 12
+  },
+  "field_shapes": {
+    "response.completed": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.output,response.prompt_cache_key,response.service_tier,response.status,response.store,response.text,response.tools,response.usage": 12
+    },
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 12
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 12
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 12
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 12
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 12,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 12
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 12,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 12
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 633
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 12
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 12
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 12
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 6821
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 12
+    }
+  },
+  "structure_sha256": "6e0e0c4c89399aac79f4c472252e42501a1bdb2728f01c35f1fecb866c448c79"
+}

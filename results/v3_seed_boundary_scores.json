@@ -1,0 +1,711 @@
+{
+  "schema_version": 1,
+  "mode": "canonical_single_model",
+  "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+  "dataset_task_count": 3,
+  "model_count": 1,
+  "attempt_policy": "one valid canonical attempt per task; one fresh rerun only after infrastructure invalid",
+  "primary_metric": "task_success_rate",
+  "runs": [
+    {
+      "schema_version": 1,
+      "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+      "attempt_name": "task_004_canonical",
+      "canonical": true,
+      "task_id": "gamevisualfix_task_004",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "model_turn_timeout",
+      "submitted": false,
+      "actions": 11,
+      "observations": 4,
+      "successful_fresh_observations": 4,
+      "elapsed_seconds": 599.907,
+      "token_telemetry": {
+        "input_tokens": 929428,
+        "cached_input_tokens": 704776,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 35866,
+        "reasoning_output_tokens": 34120
+      },
+      "token_telemetry_semantics": "sum of provider-reported per-turn usage; descriptive, not a cross-provider budget",
+      "scores": {
+        "functional": 5,
+        "visual": 0,
+        "regression": 20,
+        "total": 25,
+        "task_success": false
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "68C4F9305732921FB7548B9423EF67A192B076071DADC1DD89F26EE09B6CA70D",
+        "task_prompt_sha256": "3AF3C0D3A3D603A7A3DE099F6027223374B17DC484B28C6CD1B231D198739CBE",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "A24948C54CD67B760AC27A2834785252082797876D3B18FF324B87F55A82E664",
+        "public_tree_sha256": "8179e0030db7e8f950bd538846cabb542e08db608b01894526a46b5cc6900312",
+        "controller_adapter_sha256": null
+      },
+      "canary_receipt": {
+        "path": "experiments/v3_seed_boundary/canary_seed_20260824_run3/canary.json",
+        "sha256": "06FC87C25393CAC359BDC064BC04BFDD23FC86DC6BE7DF2D755A10DBAD524B80",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 45,
+              "reasoning_output_tokens": 25
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 154,
+              "reasoning_output_tokens": 114
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 207,
+              "reasoning_output_tokens": 148
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "normalized_trajectory": {
+        "source_sha256": "5a4fd3dbd2b6ab0ccb572111437cc047c5c9038fc6eaaead0207b215e38575fc",
+        "normalized_sha256": "b208e6a56d86bb66652851257b678a36a4a354c1fdfec3b76f14a67231c0e8fa",
+        "events": 12,
+        "final_chain_hash": "c0b03efc2e254ce155520f450a00b4c6e5030710ec4cad0f14a1e28e645156ed",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "stage_labels": {
+        "perception": "observed",
+        "localization": "observed",
+        "editing": "not_observed",
+        "verification": "pre_patch_only",
+        "state_tracking": "not_applicable",
+        "recovery": "not_applicable",
+        "failure_stage": "editing"
+      },
+      "source_run_sha256": "cc90e075a952e1fa7d91a0d67e7b0ccb736c91db58511c4ac443903e2fa7d50e"
+    },
+    {
+      "schema_version": 1,
+      "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+      "attempt_name": "task_005_canonical",
+      "canonical": true,
+      "task_id": "gamevisualfix_task_005",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "action_budget_exhausted",
+      "submitted": false,
+      "actions": 29,
+      "observations": 5,
+      "successful_fresh_observations": 5,
+      "elapsed_seconds": 1271.782,
+      "token_telemetry": {
+        "input_tokens": 7240537,
+        "cached_input_tokens": 6325960,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 790708,
+        "reasoning_output_tokens": 769212
+      },
+      "token_telemetry_semantics": "sum of provider-reported per-turn usage; descriptive, not a cross-provider budget",
+      "scores": {
+        "functional": 30,
+        "visual": 0,
+        "regression": 20,
+        "total": 50,
+        "task_success": false
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "494D64E869C05C9E0C49E35C695E18360DBCA27C9D1EFAEB763D743522F77E52",
+        "task_prompt_sha256": "98F6E5FF4C5FF5F79EC3D3FCA5B5F7BD43A1F1179BED7C2D3596F7A52367E8A9",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "A24948C54CD67B760AC27A2834785252082797876D3B18FF324B87F55A82E664",
+        "public_tree_sha256": "e639b77ccb38861740d3839aeda5bd0835af9860a0a2938f95540e4b48be18ab",
+        "controller_adapter_sha256": "9EBD896D961EDDD92B49195B2A14A145DACC81EF017F434C46ABC5C0E22299B4"
+      },
+      "canary_receipt": {
+        "path": "experiments/v3_seed_boundary/canary_seed_20260824_run4/canary.json",
+        "sha256": "1FEB934F344414C83C692758D831DC95BF3C68B92363618788419DE0C4E74595",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 49,
+              "reasoning_output_tokens": 28
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 103,
+              "reasoning_output_tokens": 62
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 156,
+              "reasoning_output_tokens": 96
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "normalized_trajectory": {
+        "source_sha256": "bf75aa6217d18c66ad182f2c106d566aea3323c3b1ef938ab730553ad33ebf97",
+        "normalized_sha256": "4702d82cd1f8317ebe2a1e43654aa7037f44cf6e2fffb7567eb03bb0bb881694",
+        "events": 30,
+        "final_chain_hash": "02aa8ae1cc4ec9b24ca3b63ce9e551d80270d4c50e03c77ebdcbeb1fe137927f",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "stage_labels": {
+        "perception": "observed",
+        "localization": "observed",
+        "editing": "observed",
+        "verification": "observed_partial",
+        "state_tracking": "partial_midpoint_only",
+        "recovery": "observed",
+        "failure_stage": "state_tracking_delayed_dependency"
+      },
+      "source_run_sha256": "c495e014a9c7c2d5fb1a856334664b917328eed0f7dc61f931467488bb7cd470"
+    },
+    {
+      "schema_version": 1,
+      "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+      "attempt_name": "task_006_canonical",
+      "canonical": true,
+      "task_id": "gamevisualfix_task_006",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "valid_canonical",
+      "invalid_reason": null,
+      "terminal_status": "submitted",
+      "submitted": true,
+      "actions": 16,
+      "observations": 2,
+      "successful_fresh_observations": 2,
+      "elapsed_seconds": 115.813,
+      "token_telemetry": {
+        "input_tokens": 1591173,
+        "cached_input_tokens": 1432000,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 16149,
+        "reasoning_output_tokens": 8300
+      },
+      "token_telemetry_semantics": "sum of provider-reported per-turn usage; descriptive, not a cross-provider budget",
+      "scores": {
+        "functional": 45,
+        "visual": 35,
+        "regression": 20,
+        "total": 100,
+        "task_success": true
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "EC0AE107808A7CE77FCDD28A6D32DA53EDEFA5FDCE4240FA05831AEFCF2035E6",
+        "task_prompt_sha256": "766C16C7B6C948CB71979618F201978A5157A7E42214EF3369E07BB1E06711E8",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "A24948C54CD67B760AC27A2834785252082797876D3B18FF324B87F55A82E664",
+        "public_tree_sha256": "72592d9cbe6f2ce7fe448c733af1983fdd7678fc01999244cf3bd40f35c3a0dc",
+        "controller_adapter_sha256": "13BA44FE4DA418B89535827190711FC9EAC8FB08EA6D6BDFFD1AEF9124A7D95D"
+      },
+      "canary_receipt": {
+        "path": "experiments/v3_seed_boundary/canary_seed_20260824_run4/canary.json",
+        "sha256": "1FEB934F344414C83C692758D831DC95BF3C68B92363618788419DE0C4E74595",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 49,
+              "reasoning_output_tokens": 28
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 103,
+              "reasoning_output_tokens": 62
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 156,
+              "reasoning_output_tokens": 96
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "normalized_trajectory": {
+        "source_sha256": "94da855bc3c5426e9876f88ac0510ceea5720a2ee1fa42fab0c0ea2784dd1ece",
+        "normalized_sha256": "419b56755517d5dd37deb55c92839547d58fe76f2bbb24343f67d778d6161324",
+        "events": 16,
+        "final_chain_hash": "92f6bb06ae10dc9edd6e3a8842ab65a8e22f4ae17812b8ffbeb876567a4e53e0",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "stage_labels": {
+        "perception": "observed_initial_and_mirrored",
+        "localization": "observed",
+        "editing": "observed",
+        "verification": "observed_hidden_complete",
+        "state_tracking": "partial_no_interrupted_public_observation",
+        "recovery": "not_applicable_first_patch_success",
+        "failure_stage": null
+      },
+      "source_run_sha256": "d850f61af76fbdb0747f38b907222d7de3dc06d876f6bd122302f99988485139"
+    }
+  ],
+  "invalid_infrastructure_lineage": [
+    {
+      "schema_version": 1,
+      "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+      "attempt_name": "task_004_invalid_infrastructure",
+      "canonical": false,
+      "task_id": "gamevisualfix_task_004",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "invalid_infrastructure",
+      "invalid_reason": "provider_or_codex_transport",
+      "terminal_status": "provider_or_codex_transport",
+      "submitted": false,
+      "actions": 12,
+      "observations": 4,
+      "successful_fresh_observations": 4,
+      "elapsed_seconds": 740.375,
+      "token_telemetry": {
+        "input_tokens": 1129399,
+        "cached_input_tokens": 942864,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 80430,
+        "reasoning_output_tokens": 77411
+      },
+      "token_telemetry_semantics": "sum of provider-reported per-turn usage; descriptive, not a cross-provider budget",
+      "scores": {
+        "functional": 25,
+        "visual": 0,
+        "regression": 20,
+        "total": 45,
+        "task_success": false
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "68C4F9305732921FB7548B9423EF67A192B076071DADC1DD89F26EE09B6CA70D",
+        "task_prompt_sha256": "3AF3C0D3A3D603A7A3DE099F6027223374B17DC484B28C6CD1B231D198739CBE",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "978A99F1D156203460BD40F4F6E57B9536FA57CA80E25DDB3C2362DBDA2BFE93",
+        "public_tree_sha256": "8179e0030db7e8f950bd538846cabb542e08db608b01894526a46b5cc6900312",
+        "controller_adapter_sha256": null
+      },
+      "canary_receipt": {
+        "path": "experiments/v3_seed_boundary/canary_seed_20260824_run2/canary.json",
+        "sha256": "B41D84BA2EAD5612C1BF906434C49FD8E34B664962DEFA16E59DC88170445B39",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 50,
+              "reasoning_output_tokens": 30
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 44856,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 75,
+              "reasoning_output_tokens": 35
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 124528,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 118,
+              "reasoning_output_tokens": 59
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "normalized_trajectory": {
+        "source_sha256": "c5e2a6073b0cb88b6e582162cc1010f06e62a12c88660b1359a5ae654509bb3b",
+        "normalized_sha256": "0178bc303dd4aac641aa408d0e50d796cbd7a9cfc5bce9cd55c21d6fc5aad022",
+        "events": 13,
+        "final_chain_hash": "45e26a022e839341f89d4b782f0e6623a54c3b844550bda8c5bb701639e6b80d",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "stage_labels": null,
+      "source_run_sha256": "f244b6eede0b36a8409b824de13c08e9af13347b654b22f55dd05dbe629068f6"
+    },
+    {
+      "schema_version": 1,
+      "experiment_suite_id": "gamevisualfix_v3_seed_boundary_3x1",
+      "attempt_name": "task_005_invalid_infrastructure",
+      "canonical": false,
+      "task_id": "gamevisualfix_task_005",
+      "provider": "seed_evolving",
+      "model": "doubao-seed-evolving",
+      "result_status": "invalid_infrastructure",
+      "invalid_reason": "provider_or_codex_transport",
+      "terminal_status": "provider_or_codex_transport",
+      "submitted": false,
+      "actions": 0,
+      "observations": 0,
+      "successful_fresh_observations": 0,
+      "elapsed_seconds": 13.641,
+      "token_telemetry": {
+        "input_tokens": 0,
+        "cached_input_tokens": 0,
+        "cache_write_input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_output_tokens": 0
+      },
+      "token_telemetry_semantics": "sum of provider-reported per-turn usage; descriptive, not a cross-provider budget",
+      "scores": {
+        "functional": 0,
+        "visual": 0,
+        "regression": 20,
+        "total": 20,
+        "task_success": false
+      },
+      "input_hashes": {
+        "task_manifest_sha256": "494D64E869C05C9E0C49E35C695E18360DBCA27C9D1EFAEB763D743522F77E52",
+        "task_prompt_sha256": "98F6E5FF4C5FF5F79EC3D3FCA5B5F7BD43A1F1179BED7C2D3596F7A52367E8A9",
+        "controller_schema_sha256": "D978B30F20D0EE22763251C4626D3CFB0DB025FE12791DB979CA1DBE1680913A",
+        "runner_sha256": "A24948C54CD67B760AC27A2834785252082797876D3B18FF324B87F55A82E664",
+        "public_tree_sha256": "e639b77ccb38861740d3839aeda5bd0835af9860a0a2938f95540e4b48be18ab",
+        "controller_adapter_sha256": "9EBD896D961EDDD92B49195B2A14A145DACC81EF017F434C46ABC5C0E22299B4"
+      },
+      "canary_receipt": {
+        "path": "experiments/v3_seed_boundary/canary_seed_20260824_run3/canary.json",
+        "sha256": "06FC87C25393CAC359BDC064BC04BFDD23FC86DC6BE7DF2D755A10DBAD524B80",
+        "provider": "seed_evolving",
+        "model": "doubao-seed-evolving",
+        "valid": true,
+        "turns": [
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 45343,
+              "cached_input_tokens": 5944,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 45,
+              "reasoning_output_tokens": 25
+            },
+            "action": "list_files",
+            "message_sha256": "b7044f5a670d1c2b3cf9e7b6f057f1296b89fffe1e2b485498ea9deed7bf704f"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 125743,
+              "cached_input_tokens": 50800,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 154,
+              "reasoning_output_tokens": 114
+            },
+            "action": "observe",
+            "message_sha256": "b3918a9cf11ca76e2fafc2b965c98c36090d88a75a7427173d62673fe6182474"
+          },
+          {
+            "exit_code": 0,
+            "timed_out": false,
+            "event_counts": {
+              "item.completed": 3,
+              "thread.started": 1,
+              "turn.completed": 1,
+              "turn.started": 1
+            },
+            "usage": {
+              "input_tokens": 241199,
+              "cached_input_tokens": 130472,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 207,
+              "reasoning_output_tokens": 148
+            },
+            "action": "submit",
+            "message_sha256": "55a58ab017eec655d55a054fe7f2ec8ff9e999bb027a0f51765a273e09431267"
+          }
+        ],
+        "thread_started": true,
+        "active_item_errors": 0
+      },
+      "codex_cli_version": "codex-cli 0.149.0",
+      "codex_executable_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00",
+      "godot_version": "4.7.1.stable.official.a13da4feb",
+      "godot_executable_sha256": "323F9C4CC5DB674E98815CDD8E69DA007D5EFC779ABEDC8C0E42883B7FDEA12A",
+      "transport_adapter": "seed_responses_sse_normalizer",
+      "adapter_sha256": "C4C9DF5FD450FB22473299A0D07910CCFA0EBF3A2E1C117F361375812C398C6B",
+      "normalized_trajectory": {
+        "source_sha256": "518b68ab804536e3788dca10d88389d7a5984ce35d9c6251b66ba2edf3efd725",
+        "normalized_sha256": "a666675341aa98cd6cde870680871d08f20f489c12e6391c39e7610ea7369786",
+        "events": 1,
+        "final_chain_hash": "9dba0b22046c923fef4556628a6c0400b769fdd0a0c5762d56275cc827d7f85d",
+        "excludes": [
+          "provider_stream",
+          "reasoning",
+          "model_text",
+          "file_content",
+          "submit_summary_text"
+        ]
+      },
+      "stage_labels": null,
+      "source_run_sha256": "7a9ddfae84a8d4d00c53e78f60a4196fb399501d632e832b3c47e8c419f5bcbb"
+    }
+  ],
+  "aggregate": {
+    "provider": "seed_evolving",
+    "model": "doubao-seed-evolving",
+    "task_successes": 1,
+    "task_success_rate": 0.333333,
+    "mean_scores": {
+      "functional": 26.667,
+      "visual": 11.667,
+      "regression": 20.0,
+      "total": 58.333
+    },
+    "actions_total": 56,
+    "fresh_observations_total": 11,
+    "wall_time_seconds_total": 1987.502,
+    "token_telemetry": {
+      "input_tokens": 9761138,
+      "cached_input_tokens": 8462736,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 842723,
+      "reasoning_output_tokens": 811632
+    },
+    "token_telemetry_semantics": "sum of provider-reported per-turn usage; descriptive, not a cross-provider budget"
+  },
+  "interpretation_limits": [
+    "three synthetic tasks",
+    "one model and one valid attempt per task",
+    "no statistical significance or general model ranking",
+    "task_006 success indicates remaining ceiling in the public architecture contract"
+  ]
+}

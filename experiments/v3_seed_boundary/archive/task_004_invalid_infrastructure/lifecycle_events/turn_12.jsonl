@@ -1,0 +1,2 @@
+{"type":"item.completed","item_type":"agent_message","text_sha256":"3375b1a14660149973e2e82604ffadcd1e85a3ffa4c54993d9a04cc724b10fa9"}
+{"type":"turn.completed","usage":{"input_tokens":208023,"cached_input_tokens":174752,"cache_write_input_tokens":0,"output_tokens":31688,"reasoning_output_tokens":31050}}

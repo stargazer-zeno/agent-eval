@@ -1,0 +1,13 @@
+diff --git a/scripts/minimap/projection.gd b/scripts/minimap/projection.gd
+index 500c460..0565298 100644
+--- a/scripts/minimap/projection.gd
++++ b/scripts/minimap/projection.gd
+@@ -5,5 +5,7 @@ func project(relative: Vector2, camera_angle: float, portal_mirrored: bool) -> V
+     var transformed := relative
+     if portal_mirrored:
+         transformed.x = -transformed.x
+-    transformed = transformed.rotated(-camera_angle)
++        transformed = transformed.rotated(camera_angle)
++    else:
++        transformed = transformed.rotated(-camera_angle)
+     return transformed

@@ -1,0 +1,421 @@
+{
+  "schema_version": 1,
+  "task_id": "gamevisualfix_task_004",
+  "build_gate": true,
+  "functional": {
+    "score": 25,
+    "max": 45,
+    "mapping": false,
+    "transform": true
+  },
+  "visual": {
+    "score": 0,
+    "max": 35,
+    "passed": true
+  },
+  "regression": {
+    "score": 20,
+    "max": 20,
+    "passed": true
+  },
+  "total": 45,
+  "task_success": false,
+  "cases": [
+    {
+      "angle": -71,
+      "mirror": false,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -71,
+      "mirror": false,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -71,
+      "mirror": false,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -71,
+      "mirror": true,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -71,
+      "mirror": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -71,
+      "mirror": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -23,
+      "mirror": false,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -23,
+      "mirror": false,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -23,
+      "mirror": false,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -23,
+      "mirror": true,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -23,
+      "mirror": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": -23,
+      "mirror": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 0,
+      "mirror": false,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 0,
+      "mirror": false,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 0,
+      "mirror": false,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 0,
+      "mirror": true,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 0,
+      "mirror": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 0,
+      "mirror": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 19,
+      "mirror": false,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 19,
+      "mirror": false,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 19,
+      "mirror": false,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 19,
+      "mirror": true,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 19,
+      "mirror": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 19,
+      "mirror": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 53,
+      "mirror": false,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 53,
+      "mirror": false,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 53,
+      "mirror": false,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 53,
+      "mirror": true,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 53,
+      "mirror": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 53,
+      "mirror": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 127,
+      "mirror": false,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 127,
+      "mirror": false,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 127,
+      "mirror": false,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 127,
+      "mirror": true,
+      "viewport": [
+        960,
+        540
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 127,
+      "mirror": true,
+      "viewport": [
+        1280,
+        720
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    },
+    {
+      "angle": 127,
+      "mirror": true,
+      "viewport": [
+        1024,
+        600
+      ],
+      "mapping": false,
+      "transform": true,
+      "visual": true
+    }
+  ]
+}

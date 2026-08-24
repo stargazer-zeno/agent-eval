@@ -1,0 +1,91 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 32,
+  "errors": 2,
+  "upstream_event_counts": {
+    "[DONE]": 30,
+    "response.completed": 30,
+    "response.content_part.added": 30,
+    "response.content_part.done": 30,
+    "response.created": 32,
+    "response.in_progress": 32,
+    "response.output_item.added": 62,
+    "response.output_item.done": 60,
+    "response.output_text.delta": 1859,
+    "response.output_text.done": 30,
+    "response.reasoning_summary_part.added": 30,
+    "response.reasoning_summary_part.done": 30,
+    "response.reasoning_summary_text.delta": 14145,
+    "response.reasoning_summary_text.done": 30
+  },
+  "output_event_counts": {
+    "response.completed": 30,
+    "response.content_part.added": 30,
+    "response.content_part.done": 30,
+    "response.created": 32,
+    "response.in_progress": 32,
+    "response.output_item.added": 60,
+    "response.output_item.done": 60,
+    "response.output_text.delta": 1859,
+    "response.output_text.done": 30,
+    "response.reasoning_summary_part.added": 30,
+    "response.reasoning_summary_part.done": 30,
+    "response.reasoning_summary_text.delta": 14145,
+    "response.reasoning_summary_text.done": 30
+  },
+  "normalization_counts": {
+    "response.content_part.added": 30,
+    "response.content_part.done": 30,
+    "response.created": 32,
+    "response.in_progress": 32,
+    "response.output_item.added": 60,
+    "response.output_text.delta": 1859,
+    "response.reasoning_summary_part.added": 30
+  },
+  "field_shapes": {
+    "response.completed": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.output,response.prompt_cache_key,response.service_tier,response.status,response.store,response.text,response.tools,response.usage": 30
+    },
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 30
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 30
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 32
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 32
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.call_id,item.id,item.name,item.status,item.type": 2,
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 30,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 30
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 30,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 30
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 1859
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 30
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 30
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 30
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 14145
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 30
+    }
+  },
+  "structure_sha256": "df446fc223f9e0a57906d9f2c69f15b3b129ff23745f4812a04a5172fc22f765"
+}

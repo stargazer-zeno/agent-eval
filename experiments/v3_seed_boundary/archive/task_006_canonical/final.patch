@@ -1,0 +1,69 @@
+diff --git a/scripts/combat/attack_controller.gd b/scripts/combat/attack_controller.gd
+index 61db883..1ed08c1 100644
+--- a/scripts/combat/attack_controller.gd
++++ b/scripts/combat/attack_controller.gd
+@@ -1,9 +1,9 @@
+ class_name MirrorstormAttackController
+ extends RefCounted
+ 
+-const SAMPLE_AFTER_MOVEMENT_COMMIT := false
++const SAMPLE_AFTER_MOVEMENT_COMMIT := true
+ const DAMAGE_TICK_OFFSET := 3
+ const ATTACK_DURATION_TICKS := 8
+ 
+ func sample_tick(commit_tick: int) -> int:
+-    return commit_tick if SAMPLE_AFTER_MOVEMENT_COMMIT else commit_tick - 1
++	return commit_tick if SAMPLE_AFTER_MOVEMENT_COMMIT else commit_tick - 1
+diff --git a/scripts/combat/telegraph_sample.gd b/scripts/combat/telegraph_sample.gd
+index 03f5648..d28ce98 100644
+--- a/scripts/combat/telegraph_sample.gd
++++ b/scripts/combat/telegraph_sample.gd
+@@ -2,10 +2,10 @@ class_name TelegraphSample
+ extends RefCounted
+ 
+ # A queued sample must own every field that deferred rendering needs.
+-const CAPTURE_POSITION := false
+-const CAPTURE_FACING := false
+-const CAPTURE_PARITY := false
+-const CAPTURE_EPOCH := false
++const CAPTURE_POSITION := true
++const CAPTURE_FACING := true
++const CAPTURE_PARITY := true
++const CAPTURE_EPOCH := true
+ 
+ var tick_id: int
+ var epoch: int
+diff --git a/scripts/render/telegraph_pool.gd b/scripts/render/telegraph_pool.gd
+index 37341d6..8bf1262 100644
+--- a/scripts/render/telegraph_pool.gd
++++ b/scripts/render/telegraph_pool.gd
+@@ -1,10 +1,10 @@
+ class_name TelegraphPool
+ extends RefCounted
+ 
+-const REJECT_STALE_EPOCH := false
+-const RESET_ON_REUSE := false
++const REJECT_STALE_EPOCH := true
++const RESET_ON_REUSE := true
+ const MAX_POOL_SIZE := 12
+ const LIFETIME_TICKS := 3
+ 
+ func reusable(entry_epoch: int, current_epoch: int) -> bool:
+-    return RESET_ON_REUSE and (REJECT_STALE_EPOCH or entry_epoch == current_epoch)
++	return RESET_ON_REUSE and (REJECT_STALE_EPOCH or entry_epoch == current_epoch)
+diff --git a/scripts/render/telegraph_renderer.gd b/scripts/render/telegraph_renderer.gd
+index 6894db4..34f8499 100644
+--- a/scripts/render/telegraph_renderer.gd
++++ b/scripts/render/telegraph_renderer.gd
+@@ -1,9 +1,9 @@
+ class_name TelegraphRenderer
+ extends RefCounted
+ 
+-const READ_LIVE_ARENA_STATE := true
++const READ_LIVE_ARENA_STATE := false
+ const TELEGRAPH_VISIBLE := true
+ const ALPHA := 1.0
+ 
+ func uses_queued_sample() -> bool:
+-    return not READ_LIVE_ARENA_STATE
++	return not READ_LIVE_ARENA_STATE

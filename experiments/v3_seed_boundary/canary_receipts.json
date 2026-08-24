@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "receipts": [
+    {
+      "source": "experiments/v3_seed_boundary/canary_seed_20260824_run2/canary.json",
+      "sha256": "b41d84ba2ead5612c1bf906434c49fd8e34b664962defa16e59dc88170445b39",
+      "valid": true,
+      "turns": 3,
+      "active_item_errors": 0,
+      "codex_version": "codex-cli 0.149.0",
+      "codex_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00"
+    },
+    {
+      "source": "experiments/v3_seed_boundary/canary_seed_20260824_run3/canary.json",
+      "sha256": "06fc87c25393cac359bdc064bc04bfdd23fc86dc6be7df2d755a10dbad524b80",
+      "valid": true,
+      "turns": 3,
+      "active_item_errors": 0,
+      "codex_version": "codex-cli 0.149.0",
+      "codex_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00"
+    },
+    {
+      "source": "experiments/v3_seed_boundary/canary_seed_20260824_run4/canary.json",
+      "sha256": "1feb934f344414c83c692758d831dc95bf3c68b92363618788419de0c4e74595",
+      "valid": true,
+      "turns": 3,
+      "active_item_errors": 0,
+      "codex_version": "codex-cli 0.149.0",
+      "codex_sha256": "14B7E6B2356E82D1D9275579EAA588757B4E0A501B65DCC19FCCDF77BD83DC00"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source_sha256": "518b68ab804536e3788dca10d88389d7a5984ce35d9c6251b66ba2edf3efd725",
+  "normalized_sha256": "a666675341aa98cd6cde870680871d08f20f489c12e6391c39e7610ea7369786",
+  "events": 1,
+  "final_chain_hash": "9dba0b22046c923fef4556628a6c0400b769fdd0a0c5762d56275cc827d7f85d",
+  "excludes": [
+    "provider_stream",
+    "reasoning",
+    "model_text",
+    "file_content",
+    "submit_summary_text"
+  ]
+}

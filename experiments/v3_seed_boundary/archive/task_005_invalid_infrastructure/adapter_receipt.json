@@ -1,0 +1,85 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 2,
+  "errors": 2,
+  "upstream_event_counts": {
+    "response.content_part.added": 1,
+    "response.content_part.done": 1,
+    "response.created": 2,
+    "response.in_progress": 2,
+    "response.output_item.added": 4,
+    "response.output_item.done": 2,
+    "response.output_text.delta": 21,
+    "response.output_text.done": 1,
+    "response.reasoning_summary_part.added": 1,
+    "response.reasoning_summary_part.done": 1,
+    "response.reasoning_summary_text.delta": 17,
+    "response.reasoning_summary_text.done": 1
+  },
+  "output_event_counts": {
+    "response.content_part.added": 1,
+    "response.content_part.done": 1,
+    "response.created": 2,
+    "response.in_progress": 2,
+    "response.output_item.added": 2,
+    "response.output_item.done": 2,
+    "response.output_text.delta": 21,
+    "response.output_text.done": 1,
+    "response.reasoning_summary_part.added": 1,
+    "response.reasoning_summary_part.done": 1,
+    "response.reasoning_summary_text.delta": 17,
+    "response.reasoning_summary_text.done": 1
+  },
+  "normalization_counts": {
+    "response.content_part.added": 1,
+    "response.content_part.done": 1,
+    "response.created": 2,
+    "response.in_progress": 2,
+    "response.output_item.added": 2,
+    "response.output_text.delta": 21,
+    "response.reasoning_summary_part.added": 1
+  },
+  "field_shapes": {
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 1
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 1
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 2
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 2
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.call_id,item.id,item.name,item.status,item.type": 2,
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 1,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 1
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 1,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 1
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 21
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 1
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 1
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 1
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 17
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 1
+    }
+  },
+  "structure_sha256": "222351a8da2bd72bcd2ea827633d0911134f9717c048646cb348cbbf9898d7d9"
+}

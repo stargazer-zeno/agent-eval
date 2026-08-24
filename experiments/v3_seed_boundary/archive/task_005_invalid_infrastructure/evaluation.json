@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "task_id": "gamevisualfix_task_005",
+  "build_gate": true,
+  "functional": {
+    "score": 0,
+    "max": 45,
+    "checkpoint_gates": {
+      "route": false,
+      "migration": false,
+      "hint": false
+    }
+  },
+  "visual": {
+    "score": 0,
+    "max": 35,
+    "passed": false
+  },
+  "regression": {
+    "score": 20,
+    "max": 20,
+    "passed": true
+  },
+  "total": 20,
+  "task_success": false,
+  "cases": [
+    {
+      "phase": "LOBBY",
+      "viewport": [
+        960,
+        540
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "LOBBY",
+      "viewport": [
+        1280,
+        720
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "LOBBY",
+      "viewport": [
+        1024,
+        768
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "RESTORED_MIDPOINT",
+      "viewport": [
+        960,
+        540
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "RESTORED_MIDPOINT",
+      "viewport": [
+        1280,
+        720
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "RESTORED_MIDPOINT",
+      "viewport": [
+        1024,
+        768
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "POST_ELEVATOR",
+      "viewport": [
+        960,
+        540
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "POST_ELEVATOR",
+      "viewport": [
+        1280,
+        720
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "POST_ELEVATOR",
+      "viewport": [
+        1024,
+        768
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "FINAL_RESTORE",
+      "viewport": [
+        960,
+        540
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "FINAL_RESTORE",
+      "viewport": [
+        1280,
+        720
+      ],
+      "rendered": true,
+      "matched": false
+    },
+    {
+      "phase": "FINAL_RESTORE",
+      "viewport": [
+        1024,
+        768
+      ],
+      "rendered": true,
+      "matched": false
+    }
+  ]
+}

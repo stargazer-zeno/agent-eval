@@ -1,0 +1,91 @@
+{
+  "adapter": "seed_responses_sse_normalizer",
+  "version": "1.0.0",
+  "streams": 13,
+  "errors": 12,
+  "upstream_event_counts": {
+    "[DONE]": 11,
+    "response.completed": 11,
+    "response.content_part.added": 11,
+    "response.content_part.done": 11,
+    "response.created": 13,
+    "response.in_progress": 13,
+    "response.output_item.added": 24,
+    "response.output_item.done": 22,
+    "response.output_text.delta": 285,
+    "response.output_text.done": 11,
+    "response.reasoning_summary_part.added": 12,
+    "response.reasoning_summary_part.done": 11,
+    "response.reasoning_summary_text.delta": 4742,
+    "response.reasoning_summary_text.done": 11
+  },
+  "output_event_counts": {
+    "response.completed": 11,
+    "response.content_part.added": 11,
+    "response.content_part.done": 11,
+    "response.created": 13,
+    "response.in_progress": 13,
+    "response.output_item.added": 23,
+    "response.output_item.done": 22,
+    "response.output_text.delta": 285,
+    "response.output_text.done": 11,
+    "response.reasoning_summary_part.added": 12,
+    "response.reasoning_summary_part.done": 11,
+    "response.reasoning_summary_text.delta": 4742,
+    "response.reasoning_summary_text.done": 11
+  },
+  "normalization_counts": {
+    "response.content_part.added": 11,
+    "response.content_part.done": 11,
+    "response.created": 13,
+    "response.in_progress": 13,
+    "response.output_item.added": 23,
+    "response.output_text.delta": 285,
+    "response.reasoning_summary_part.added": 12
+  },
+  "field_shapes": {
+    "response.completed": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.output,response.prompt_cache_key,response.service_tier,response.status,response.store,response.text,response.tools,response.usage": 11
+    },
+    "response.content_part.added": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 11
+    },
+    "response.content_part.done": {
+      "content_index,item_id,output_index,part,sequence_number,type,part.text,part.type": 11
+    },
+    "response.created": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 13
+    },
+    "response.in_progress": {
+      "response,sequence_number,type,response.caching,response.created_at,response.id,response.instructions,response.max_output_tokens,response.model,response.object,response.prompt_cache_key,response.service_tier,response.store,response.text,response.tools": 13
+    },
+    "response.output_item.added": {
+      "item,output_index,sequence_number,type,item.call_id,item.id,item.name,item.status,item.type": 1,
+      "item,output_index,sequence_number,type,item.id,item.role,item.status,item.type": 11,
+      "item,output_index,sequence_number,type,item.id,item.status,item.type": 12
+    },
+    "response.output_item.done": {
+      "item,output_index,sequence_number,type,item.content,item.id,item.role,item.status,item.type": 11,
+      "item,output_index,sequence_number,type,item.encrypted_content,item.id,item.status,item.summary,item.type": 11
+    },
+    "response.output_text.delta": {
+      "content_index,item_id,output_index,sequence_number,type": 285
+    },
+    "response.output_text.done": {
+      "content_index,item_id,output_index,sequence_number,type": 11
+    },
+    "response.reasoning_summary_part.added": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.type": 12
+    },
+    "response.reasoning_summary_part.done": {
+      "item_id,output_index,part,sequence_number,summary_index,type,part.text,part.type": 11
+    },
+    "response.reasoning_summary_text.delta": {
+      "item_id,output_index,sequence_number,summary_index,type": 4742
+    },
+    "response.reasoning_summary_text.done": {
+      "item_id,output_index,sequence_number,summary_index,type": 11
+    }
+  },
+  "structure_sha256": "5a937c44d56a9e042ff6dd4c953093c61ead76a4c52498a7b688fe4a2addca2d"
+}

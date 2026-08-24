@@ -1,0 +1,6 @@
+{"type":"thread.started"}
+{"type":"item.completed","item_type":"error"}
+{"type":"turn.started"}
+{"type":"item.completed","item_type":"reasoning","text_sha256":"c874d93b01e06427408a2d08f2aa10b99fa8fb29f950a08a9f076ced1c9c58c9"}
+{"type":"item.completed","item_type":"agent_message","text_sha256":"00eaeb1649855bdc71514d90f47e3b3f2534b7f8383fc4adf02f2a8bbb717a22"}
+{"type":"turn.completed","usage":{"input_tokens":64101,"cached_input_tokens":47328,"cache_write_input_tokens":0,"output_tokens":504,"reasoning_output_tokens":369}}
